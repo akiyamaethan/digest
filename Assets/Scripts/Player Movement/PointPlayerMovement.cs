@@ -15,6 +15,7 @@ public class FishFollowMouse : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0f;
         rb.freezeRotation = true;
+        rb.AddForce(Vector2.up * 10f, ForceMode2D.Force);
     }
 
     void FixedUpdate()

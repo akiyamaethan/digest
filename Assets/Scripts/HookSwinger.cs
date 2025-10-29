@@ -5,8 +5,7 @@ public class HookSwing : MonoBehaviour
 {
     public Vector2 pivotPoint = new Vector2(0f, 22f);
     private int hits;
-    private bool caught = false;
-    private Rigidbody2D rb;
+
 
 
     [Header("Swing Settings")]
@@ -22,10 +21,13 @@ public class HookSwing : MonoBehaviour
     [SerializeField] private float bobStrength = 2f;
     private float bobTimer = 0f;
 
+    [Header("Player Settings")]
+    [SerializeField] private FishFollowMouse player;
+
     void Start()
     {
         randomOffset = Random.Range(0f, 100f);
-        rb = GetComponent<Rigidbody2D>();
+
     }
 
     void Update()
@@ -60,6 +62,10 @@ public class HookSwing : MonoBehaviour
         bobTimer = bobDuration;
         Debug.Log("hit: " + hits);
         hits++;
+        if (hits >= 3)
+        {
+            player.inputDisabled = true;
+        }
 
     }
 
