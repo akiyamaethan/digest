@@ -23,6 +23,13 @@ public class FishFollowMouse : MonoBehaviour
         // Direction toward the mouse
         Vector2 direction = (mousePos - rb.position).normalized;
 
+        if (direction.x < mousePos.x)
+        {
+            transform.localScale = new Vector3(5,5,5);
+        }
+        else
+            transform.localScale = new Vector3(5, -5, 5);
+
         // Apply velocity
         rb.linearVelocity = direction * speed;
 
