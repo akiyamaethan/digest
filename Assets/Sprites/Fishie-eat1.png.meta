@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 367a70fb158544543b713a28a4e92eaf
+guid: 2825bbe565e53544ba69a8689569cb55
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6640464690610726747
-    second: redcircle_0
+      213: -1526004340322296543
+    second: Fishie-eat1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: redcircle_0
+      name: Fishie-eat1_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 272
-        height: 259
+        x: 27
+        y: 87
+        width: 326
+        height: 226
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b576063147ba72c50800000000000000
-      internalID: 6640464690610726747
+      spriteID: 12d9269332b82dae0800000000000000
+      internalID: -1526004340322296543
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      redcircle_0: 6640464690610726747
+      Fishie-eat1_0: -1526004340322296543
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
