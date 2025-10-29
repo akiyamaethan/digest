@@ -22,7 +22,7 @@ public class FishFollowMouse : MonoBehaviour
     {
         if (inputDisabled)
         {
-            rb.linearVelocity = Vector2.zero;
+            rb.linearVelocity = Vector2.up * 2f;
             return;
         }
 
