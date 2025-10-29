@@ -1,8 +1,8 @@
 <!-- UNITY CODE ASSIST INSTRUCTIONS START -->
-- Project name: wtf
+- Project name: digest
 - Unity version: Unity 6000.2.8f1
 - Active game object:
-  - Name: Hook
+  - Name: Bait
   - Tag: Untagged
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

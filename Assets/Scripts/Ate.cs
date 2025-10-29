@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class Ate : MonoBehaviour
 {
+    [SerializeField] private bool debugMode = false;
     SpriteRenderer sprite;
     Texture2D originalTex;
     Texture2D dynamicTex;
     private int pixelsEaten = 0;
-    private static int TOTALPX = 2300000;
+    private static int TOTALPX = 40000;
     void Start()
     {
         sprite = GetComponent<SpriteRenderer>();
@@ -47,10 +48,15 @@ public class Ate : MonoBehaviour
 
                 if (collider.OverlapPoint(local))
                 {
-                    dynamicTex.SetPixel(x, y, new Color(0, 0, 0, 0) );
-                    pixelsEaten++;
-                    if (pixelsEaten % 100000 == 0)
-                        Debug.Log(pixelsEaten / 100000);
+                    if (dynamicTex.GetPixel(x, y).a > 0)
+                    {
+                        dynamicTex.SetPixel(x, y, new Color(0, 0, 0, 0));
+                        pixelsEaten++;
+                        if (pixelsEaten % 500 == 0 && debugMode)
+                        {
+                            Debug.Log(((float)pixelsEaten/TOTALPX) * 100+"%");
+                        }
+                    }    
                 }
             }
         }
