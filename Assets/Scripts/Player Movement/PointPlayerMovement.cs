@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class FishFollowMouse : MonoBehaviour
@@ -17,23 +18,19 @@ public class FishFollowMouse : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Convert mouse position to world space
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        // Direction toward the mouse
         Vector2 direction = (mousePos - rb.position).normalized;
 
-        if (direction.x < mousePos.x)
+
+        if (direction.x > 0)
         {
             transform.localScale = new Vector3(5,5,5);
         }
         else
             transform.localScale = new Vector3(5, -5, 5);
 
-        // Apply velocity
-        rb.linearVelocity = direction * speed;
 
-        // Smoothly rotate to face the direction of movement
+        rb.linearVelocity = direction * speed;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         rb.MoveRotation(Mathf.LerpAngle(rb.rotation, angle, rotationSpeed * Time.fixedDeltaTime));
         float distance = Vector2.Distance(rb.position, mousePos);
