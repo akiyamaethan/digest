@@ -4,6 +4,12 @@ using UnityEngine;
 public class Ate : MonoBehaviour
 {
     [SerializeField] private bool debugMode = false;
+    [SerializeField] private float startHunger = 50f;
+    [SerializeField] private float hungerGain = 5f;
+    [SerializeField] private float hungerDrain = 0.1f;
+    [SerializeField] private int hungerDrainInterval = 10;
+    [SerializeField] private HungerBar hungerBar;
+
     SpriteRenderer sprite;
     Texture2D originalTex;
     Texture2D dynamicTex;
@@ -11,6 +17,7 @@ public class Ate : MonoBehaviour
     private static int TOTALPX = 40000;
     void Start()
     {
+        
         sprite = GetComponent<SpriteRenderer>();
         originalTex = sprite.sprite.texture;
 
@@ -18,11 +25,21 @@ public class Ate : MonoBehaviour
         Graphics.CopyTexture(originalTex, dynamicTex);
 
         sprite.sprite = Sprite.Create(dynamicTex, new Rect(0,0, dynamicTex.width, dynamicTex.height), new Vector2(0.5f, 0.5f));
+        hungerBar.setHunger(startHunger);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (hungerDrainInterval == 10)
+        {
+            hungerDrainInterval = 0;
+            hungerBar.decrementHunger(hungerDrain);
+        }
+        else
+        {
+            hungerDrainInterval += 1;
+        }
         
     }
 
@@ -55,6 +72,7 @@ public class Ate : MonoBehaviour
                         if (pixelsEaten % 500 == 0 && debugMode)
                         {
                             Debug.Log(((float)pixelsEaten/TOTALPX) * 100+"%");
+                            hungerBar.incrementHunger(hungerGain);
                         }
                     }    
                 }

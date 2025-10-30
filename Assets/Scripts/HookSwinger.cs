@@ -58,7 +58,7 @@ public class HookSwing : MonoBehaviour
             caughtHookOffsetY += .08f;
             pos.y += caughtHookOffsetY;
         }
-        Debug.Log("pos: " + pos);
+        
         transform.position = pos;
         transform.rotation = Quaternion.Euler(0f, 0f, totalAngle + 90);
 
