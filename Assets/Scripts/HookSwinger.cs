@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using TMPro;
 
 public class HookSwing : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class HookSwing : MonoBehaviour
     private int hits;
     private bool caughtFish = false;
     private float caughtHookOffsetY = 0f;
+    public TMP_Text gameOver;
+    [SerializeField] private float caughtAnimationTimer = 4f;
 
 
 
@@ -56,8 +59,18 @@ public class HookSwing : MonoBehaviour
 
         if (caughtFish)
         {
-            caughtHookOffsetY += .003f;
+            caughtAnimationTimer -= Time.deltaTime;
+            Debug.Log(caughtAnimationTimer);
+            if (caughtAnimationTimer < 0f)
+            {
+                Time.timeScale = 0;
+                gameOver.gameObject.SetActive(true);
+            }
+                
+            
+            caughtHookOffsetY += .03f;
             pos.y += caughtHookOffsetY;
+            
         }
         
         transform.position = pos;

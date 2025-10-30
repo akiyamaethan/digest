@@ -2,7 +2,7 @@
 - Project name: digest
 - Unity version: Unity 6000.2.8f1
 - Active game object:
-  - Name: Bait
+  - Name: GameOver
   - Tag: Untagged
-  - Layer: Default
+  - Layer: UI
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
