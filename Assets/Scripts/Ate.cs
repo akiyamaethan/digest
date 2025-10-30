@@ -1,6 +1,7 @@
 using System.Xml.Schema;
 using UnityEngine;
 
+
 public class Ate : MonoBehaviour
 {
     [SerializeField] private bool debugMode = false;
@@ -13,13 +14,17 @@ public class Ate : MonoBehaviour
     SpriteRenderer sprite;
     Texture2D originalTex;
     Texture2D dynamicTex;
+    public ScoreBehavior scoreBehavior;
+
     private int pixelsEaten = 0;
     private static int TOTALPX = 40000;
+
     void Start()
     {
         
         sprite = GetComponent<SpriteRenderer>();
         originalTex = sprite.sprite.texture;
+        
 
         dynamicTex = new Texture2D(originalTex.width, originalTex.height, originalTex.format, false);
         Graphics.CopyTexture(originalTex, dynamicTex);
@@ -73,6 +78,7 @@ public class Ate : MonoBehaviour
                         {
                             Debug.Log(((float)pixelsEaten/TOTALPX) * 100+"%");
                             hungerBar.incrementHunger(hungerGain);
+                            scoreBehavior.UpdateScore(pixelsEaten/500);
                         }
                     }    
                 }

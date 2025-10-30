@@ -52,6 +52,7 @@ public class HookSwing : MonoBehaviour
             float bobOffsetY = Mathf.Sin((bobDuration - bobTimer) * Mathf.PI * 2f / bobDuration) * bobStrength;
             pos.y += bobOffsetY;
         }
+        
 
         if (caughtFish)
         {
