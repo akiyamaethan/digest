@@ -55,12 +55,12 @@ public class HookSwing : MonoBehaviour
 
         if (caughtFish)
         {
-            caughtHookOffsetY += .08f;
+            caughtHookOffsetY += .003f;
             pos.y += caughtHookOffsetY;
         }
         
         transform.position = pos;
-        transform.rotation = Quaternion.Euler(0f, 0f, totalAngle + 90);
+        transform.rotation = Quaternion.Euler(0f, 0f, totalAngle);
 
 
     }
