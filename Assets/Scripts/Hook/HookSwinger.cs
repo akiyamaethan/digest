@@ -13,6 +13,8 @@ public class HookSwing : MonoBehaviour
     
     private float caughtFishTimer = 4f;
     private float baitReelTimer = 4f;
+    private float immunityTimer = 0f;
+    private float immunityDuration = 1.5f;
 
     [Header("Swing Settings")]
     public float ropeLength = 20f;
@@ -33,7 +35,7 @@ public class HookSwing : MonoBehaviour
     {
         _player = player;
         _gameOver = gameOver;
-        float adjustment = UnityEngine.Random.Range(-1f, 1f);
+        float adjustment = UnityEngine.Random.Range(-2f, 2f);
         pivotPoint.x += adjustment;
     }
 
@@ -45,6 +47,10 @@ public class HookSwing : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (immunityTimer > 0f)
+        {
+            immunityTimer -= Time.fixedDeltaTime;
+        }
         float baseAngle = Mathf.Sin(Time.time * swingSpeed) * swingAngle;
         float noise = (Mathf.PerlinNoise(Time.time * noiseSpeed, randomOffset) - 0.5f) * noiseStrength;
         float totalAngle = baseAngle + noise;
@@ -99,21 +105,27 @@ public class HookSwing : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-        bobTimer = bobDuration;
-        _player.HP -= 1;
-        
-        if (_player.HP <= 0)
+        if (immunityTimer == 0f)
         {
-            _player.inputDisabled = true;
-            caughtFish = true;
+            _player.HP -= 1;
+            Debug.Log("HP: "+_player.HP);
+            immunityTimer = immunityDuration;
+
+            if (_player.HP <= 0)
+            {
+                _player.inputDisabled = true;
+                caughtFish = true;
+                Debug.Log("caught");
+            }
         }
-        
+        if (bobTimer == 0f) 
+            bobTimer = bobDuration;   
     }
 
     public void OnBaitEaten()
     {
         baitEaten = true;
+        Debug.Log("bait gobbled");
     }
 
 }
