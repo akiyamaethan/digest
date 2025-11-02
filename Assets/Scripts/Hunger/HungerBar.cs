@@ -4,12 +4,16 @@ using UnityEngine.UI;
 public class HungerBar : MonoBehaviour
 {
     public Slider slider;
+    public static HungerBar instance;
 
-    private void Start()
+    private void Awake()
     {
+        instance = this;
         slider = GetComponent<Slider>();
     }
-    public void incrementHunger(float arg)
+    
+
+    public void alterHunger(float arg)
     {
         slider.value += arg;
     }
@@ -18,8 +22,4 @@ public class HungerBar : MonoBehaviour
         slider.value = arg;
     }
 
-    public void decrementHunger(float arg)
-    {
-        slider.value -= arg;
-    }
 }

@@ -2,32 +2,37 @@
 using UnityEngine;
 using TMPro;
 
+
 public class HookSwing : MonoBehaviour
 {
-    public Vector2 pivotPoint = new Vector2(0f, 22f);
-    private int hits;
+    public Vector2 pivotPoint = new Vector2(0f, 22f); //can change x here in initialize to randomize pos
     private bool caughtFish = false;
     private float caughtHookOffsetY = 0f;
-    public TMP_Text gameOver;
-    [SerializeField] private float caughtAnimationTimer = 4f;
-
-
+    
+    private float caughtAnimationTimer = 4f;
 
     [Header("Swing Settings")]
-    [SerializeField] public float ropeLength = 20f;
-    [SerializeField] public float swingSpeed = 0.2f;
-    [SerializeField] public float swingAngle = 10f;
-    [SerializeField] public float noiseSpeed = 0.2f;
-    [SerializeField] public float noiseStrength = 14f;
+    public float ropeLength = 20f;
+    public float swingSpeed = 0.2f;
+    public float swingAngle = 10f;
+    public float noiseSpeed = 0.2f;
+    public float noiseStrength = 14f;
     private float randomOffset;
 
     [Header("Bob Settings")]
-    [SerializeField] private float bobDuration = 20f;
-    [SerializeField] private float bobStrength = 2f;
+    private float bobDuration = 20f;
+    private float bobStrength = 2f;
     private float bobTimer = 0f;
 
-    [Header("Player Settings")]
-    [SerializeField] private FishFollowMouse player;
+    private FishFollowMouse _player;
+    private TMP_Text _gameOver;
+    public void initialize(FishFollowMouse player, TMP_Text gameOver)
+    {
+        _player = player;
+        _gameOver = gameOver;
+        float adjustment = UnityEngine.Random.Range(-1f, 1f);
+        pivotPoint.x += adjustment;
+    }
 
     void Start()
     {
@@ -60,11 +65,10 @@ public class HookSwing : MonoBehaviour
         if (caughtFish)
         {
             caughtAnimationTimer -= Time.deltaTime;
-            Debug.Log(caughtAnimationTimer);
             if (caughtAnimationTimer < 0f)
             {
                 Time.timeScale = 0;
-                gameOver.gameObject.SetActive(true);
+                _gameOver.gameObject.SetActive(true);
             }
                 
             
@@ -82,11 +86,10 @@ public class HookSwing : MonoBehaviour
     {
         
         bobTimer = bobDuration;
-        Debug.Log("hit: " + hits);
-        hits++;
-        if (hits >= 3)
+        _player.HP -= 1;
+        if (_player.HP <= 0)
         {
-            player.inputDisabled = true;
+            _player.inputDisabled = true;
             caughtFish = true;
         }
 

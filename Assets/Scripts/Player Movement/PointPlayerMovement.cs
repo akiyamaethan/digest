@@ -6,7 +6,9 @@ public class FishFollowMouse : MonoBehaviour
 {
     [SerializeField] public float speed = 4f;
     [SerializeField] public float rotationSpeed = 20f;
+    [SerializeField] public float inputDeadZone = 1f;
     public bool inputDisabled = false;
+    public int HP = 3;
 
     private Rigidbody2D rb;
 
@@ -15,7 +17,6 @@ public class FishFollowMouse : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0f;
         rb.freezeRotation = true;
-        rb.AddForce(Vector2.up * 10f, ForceMode2D.Force);
     }
 
     void FixedUpdate()
@@ -50,7 +51,8 @@ public class FishFollowMouse : MonoBehaviour
         }
         rb.MoveRotation(Mathf.LerpAngle(rb.rotation, angle, rotationSpeed * Time.fixedDeltaTime));
         float distance = Vector2.Distance(rb.position, mousePos);
-        if (distance < 1.7f)
+        //Deadzone for mouse, fish wont move if mouse is on fish
+        if (distance < inputDeadZone)
         {
             rb.linearVelocity = Vector2.zero;
             return;

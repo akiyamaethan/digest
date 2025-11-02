@@ -5,19 +5,24 @@ using UnityEngine;
 public class Ate : MonoBehaviour
 {
     [SerializeField] private bool debugMode = false;
-    [SerializeField] private float startHunger = 50f;
     [SerializeField] private float hungerGain = 5f;
     [SerializeField] private float hungerDrain = 0.1f;
     [SerializeField] private int hungerDrainInterval = 10;
-    [SerializeField] private HungerBar hungerBar;
+    private HungerBar _hungerBar;
 
     SpriteRenderer sprite;
     Texture2D originalTex;
     Texture2D dynamicTex;
-    public ScoreBehavior scoreBehavior;
+    private ScoreBehavior _scoreBehavior;
 
     private int pixelsEaten = 0;
     private static int TOTALPX = 40000;
+
+    public void initialize(HungerBar hungerBar, ScoreBehavior scoreBehavior) // add starthunger later to fix it resetting between fishies
+    {
+        _hungerBar = hungerBar;
+        _scoreBehavior = scoreBehavior;
+    }
 
     void Start()
     {
@@ -30,7 +35,6 @@ public class Ate : MonoBehaviour
         Graphics.CopyTexture(originalTex, dynamicTex);
 
         sprite.sprite = Sprite.Create(dynamicTex, new Rect(0,0, dynamicTex.width, dynamicTex.height), new Vector2(0.5f, 0.5f));
-        hungerBar.setHunger(startHunger);
     }
 
     // Update is called once per frame
@@ -39,7 +43,7 @@ public class Ate : MonoBehaviour
         if (hungerDrainInterval == 10)
         {
             hungerDrainInterval = 0;
-            hungerBar.decrementHunger(hungerDrain);
+            HungerManager.instance.alterHunger(-hungerDrain);
         }
         else
         {
@@ -77,8 +81,10 @@ public class Ate : MonoBehaviour
                         if (pixelsEaten % 500 == 0 && debugMode)
                         {
                             Debug.Log(((float)pixelsEaten/TOTALPX) * 100+"%");
-                            hungerBar.incrementHunger(hungerGain);
-                            scoreBehavior.UpdateScore(pixelsEaten/500);
+                            Debug.Log($"ScoreManager: {ScoreManager.instance}, ScoreBehavior: {(ScoreBehavior.instance != null ? "OK" : "NULL")}");
+
+                            HungerManager.instance.alterHunger(hungerGain);
+                            ScoreManager.instance.updateScore(pixelsEaten/500);
                         }
                     }    
                 }
