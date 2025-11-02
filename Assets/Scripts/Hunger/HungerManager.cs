@@ -18,7 +18,16 @@ public class HungerManager : MonoBehaviour
     }
     public void alterHunger(float amount)
     {
-        hungerLevel += amount;
+        if (amount > 0)
+        {
+            if (hungerLevel <= 100f)
+            {
+                hungerLevel += amount;
+            }
+        }
+        else
+            if (hungerLevel >= 0f)
+                hungerLevel += amount;
         HungerBar.instance.setHunger(hungerLevel);
     }
 
@@ -26,6 +35,11 @@ public class HungerManager : MonoBehaviour
     {
         hungerLevel = amount;
         HungerBar.instance.setHunger(hungerLevel);
+    }
+
+    public float getHunger()
+    {
+        return hungerLevel;
     }
 
 }

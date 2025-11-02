@@ -5,7 +5,7 @@ using UnityEngine;
 public class Ate : MonoBehaviour
 {
     private bool debugMode = false;
-    private float hungerGain = 1f;
+    private float hungerGain = .5f;
     private float hungerDrain = 0.5f;
     private float hungerDrainInterval = .05f;
     private float hungerDrainTimer = 0;
@@ -44,6 +44,7 @@ public class Ate : MonoBehaviour
     {
         if (hungerDrainTimer >= hungerDrainInterval)
         {
+            
             hungerDrainTimer = 0f;
             if (HungerManager.instance != null)
             {

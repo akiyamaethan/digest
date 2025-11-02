@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HookManagerScript : MonoBehaviour
 {
@@ -7,12 +8,11 @@ public class HookManagerScript : MonoBehaviour
     public static HookManagerScript instance;
     public GameObject currentHook;
 
-
     public GameObject hookPrefab;
-   
-    //Hook swinger args
+  
     public FishFollowMouse player;
     public TMP_Text gameOver;
+    public GameObject reset;
 
     private void Awake()
     {
@@ -25,18 +25,15 @@ public class HookManagerScript : MonoBehaviour
     {
         GameObject initialHook = Instantiate(hookPrefab);
         HookSwing prefabHookScript = initialHook.GetComponent<HookSwing>();
-        prefabHookScript.initialize(player, gameOver);
+        prefabHookScript.initialize(player, gameOver, reset);
         HungerManager.instance.setHunger(100f);
         currentHook = initialHook;
-
     }
-
-    // Update is called once per frame
     public void spawnNewHook()
     {
         GameObject newHook = Instantiate(hookPrefab);
         HookSwing currentHookScript = newHook.GetComponent<HookSwing>();
-        currentHookScript.initialize(player, gameOver);
+        currentHookScript.initialize(player, gameOver, reset);
         currentHook = newHook;
     }
 

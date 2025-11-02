@@ -2,6 +2,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using UnityEngine.UI;
 
 
 public class HookSwing : MonoBehaviour
@@ -40,10 +41,12 @@ public class HookSwing : MonoBehaviour
 
     private FishFollowMouse _player;
     private TMP_Text _gameOver;
-    public void initialize(FishFollowMouse player, TMP_Text gameOver)
+    private GameObject _restart;
+    public void initialize(FishFollowMouse player, TMP_Text gameOver, GameObject restartButton)
     {
         _player = player;
         _gameOver = gameOver;
+        _restart = restartButton;
         float adjustment = UnityEngine.Random.Range(-2f, 2f);
         pivotPoint.x += adjustment;
     }
@@ -63,6 +66,9 @@ public class HookSwing : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (HungerManager.instance.getHunger() <= 0f)
+            gameOver();
+
         float baseAngle = Mathf.Sin(Time.time * swingSpeed) * swingAngle;
         float noise = (Mathf.PerlinNoise(Time.time * noiseSpeed, randomOffset) - 0.5f) * noiseStrength;
         float totalAngle = baseAngle + noise;
@@ -141,9 +147,11 @@ public class HookSwing : MonoBehaviour
     {
         Time.timeScale = 0;
         _gameOver.gameObject.SetActive(true);
+        _restart.gameObject.SetActive(true);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
         if (immunityTimer <= 0f)
         {
             _player.HP -= 1;
