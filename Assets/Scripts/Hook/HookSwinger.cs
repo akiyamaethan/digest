@@ -16,17 +16,26 @@ public class HookSwing : MonoBehaviour
     private float immunityTimer = 0f;
     private float immunityDuration = 1.5f;
 
+    [Header("Spawn Settings")]
+    private bool justSpawned = true;
+    private float spawnTimer = 0f;
+    private float spawnDuration = 2f;
+    public float initialRopeLength = 0f;
+    public float overshootRopeLength = 1f;
+    public float targetRopeLength = 20f;
+
     [Header("Swing Settings")]
     public float ropeLength = 20f;
-    public float swingSpeed = 0.2f;
+    
+    public float swingSpeed = 0.4f;
     public float swingAngle = 10f;
     public float noiseSpeed = 0.2f;
     public float noiseStrength = 14f;
     private float randomOffset;
 
     [Header("Bob Settings")]
-    private float bobDuration = 20f;
-    private float bobStrength = 2f;
+    private float bobDuration = 5f;
+    private float bobStrength = 1f;
     private float bobTimer = 0f;
 
     private FishFollowMouse _player;
@@ -39,27 +48,59 @@ public class HookSwing : MonoBehaviour
         pivotPoint.x += adjustment;
     }
 
-    void Start()
+    void Awake()
     {
         randomOffset = Random.Range(0f, 100f);
-
+        ropeLength = initialRopeLength;
+        float baseAngle = Mathf.Sin(Time.time * swingSpeed) * swingAngle;
+        float noise = (Mathf.PerlinNoise(Time.time * noiseSpeed, randomOffset) - 0.5f) * noiseStrength;
+        float totalAngle = baseAngle + noise;
+        Vector2 offset = new Vector2(Mathf.Sin(totalAngle * Mathf.Deg2Rad), -Mathf.Cos(totalAngle * Mathf.Deg2Rad)) * ropeLength;
+        Vector2 pos = pivotPoint + offset;
+        transform.position = pos;
+        transform.rotation = Quaternion.Euler(0f, 0f, totalAngle);
     }
 
     void FixedUpdate()
     {
+        float baseAngle = Mathf.Sin(Time.time * swingSpeed) * swingAngle;
+        float noise = (Mathf.PerlinNoise(Time.time * noiseSpeed, randomOffset) - 0.5f) * noiseStrength;
+        float totalAngle = baseAngle + noise;
+
+        if (justSpawned)
+        {
+            spawnTimer += Time.fixedDeltaTime;
+            float t = Mathf.Clamp01(spawnTimer / spawnDuration);
+            float dropCurve = Mathf.Sin(t * Mathf.PI);
+            
+
+             if (t<0.5)
+            {
+                ropeLength = Mathf.Lerp(initialRopeLength, targetRopeLength + overshootRopeLength, t * 2f);
+            }
+            else
+            {
+                ropeLength = Mathf.Lerp(targetRopeLength + overshootRopeLength, targetRopeLength, (float)(t - 0.5) * 2f);
+            }
+
+            if (t >= 1f)
+            {
+                justSpawned = false;
+                ropeLength = 20f;
+            }
+
+        }
         if (immunityTimer > 0f)
         {
             immunityTimer -= Time.fixedDeltaTime;
         }
-        float baseAngle = Mathf.Sin(Time.time * swingSpeed) * swingAngle;
-        float noise = (Mathf.PerlinNoise(Time.time * noiseSpeed, randomOffset) - 0.5f) * noiseStrength;
-        float totalAngle = baseAngle + noise;
+      
 
         Vector2 offset = new Vector2(Mathf.Sin(totalAngle * Mathf.Deg2Rad), -Mathf.Cos(totalAngle * Mathf.Deg2Rad)) * ropeLength;
         Vector2 pos = pivotPoint + offset;
 
         // bobbing
-        if (bobTimer > 0f && !caughtFish && !baitEaten)
+        if (!justSpawned && bobTimer > 0f && !caughtFish && !baitEaten)
         {
             bobTimer -= Time.fixedDeltaTime;
             float bobOffsetY = Mathf.Sin((bobDuration - bobTimer) * Mathf.PI * 2f / bobDuration) * bobStrength;
@@ -69,9 +110,9 @@ public class HookSwing : MonoBehaviour
         if (caughtFish || baitEaten)
         {
             caughtHookOffsetY += .03f;
+            pos.y += caughtHookOffsetY;
             if (caughtFish)
             {
-                pos.y += caughtHookOffsetY;
                 caughtFishTimer -= Time.fixedDeltaTime;
                 if (caughtFishTimer <= 0f)
                 {
@@ -79,11 +120,8 @@ public class HookSwing : MonoBehaviour
                     gameOver();
                 }
             }
-
-            // baitEaten motion
             if (baitEaten)
             {
-                pos.y += caughtHookOffsetY;
                 baitReelTimer -= Time.fixedDeltaTime;
                 if (baitReelTimer <= 0f)
                 {
@@ -93,6 +131,7 @@ public class HookSwing : MonoBehaviour
                 }
             }
         }
+        
         transform.position = pos;
         transform.rotation = Quaternion.Euler(0f, 0f, totalAngle);
     }

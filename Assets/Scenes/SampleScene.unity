@@ -1196,7 +1196,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreBehavior
   scoreValue: {fileID: 2046419998}
-  instance: {fileID: 0}
 --- !u!1 &2112607343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1283,6 +1282,7 @@ GameObject:
   - component: {fileID: 2137311075}
   - component: {fileID: 2137311076}
   - component: {fileID: 2137311077}
+  - component: {fileID: 2137311078}
   m_Layer: 0
   m_Name: HookManager
   m_TagString: Untagged
@@ -1317,6 +1317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e13f54e126dce41974da477a441cf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HookManagerScript
+  currentHook: {fileID: 0}
   hookPrefab: {fileID: 5660168211349237512, guid: cdbdf21edeb90ab48a53dd016abd9946, type: 3}
   player: {fileID: 1236883160}
   gameOver: {fileID: 2029182377}
@@ -1332,6 +1333,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9c3505ace3c8694e807a7ff7ee5d3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HungerManager
+--- !u!114 &2137311078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2137311074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3d75aacba3db5c48a42d7af971c5999, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScoreManager
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
