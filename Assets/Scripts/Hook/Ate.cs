@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Ate : MonoBehaviour
 {
-    [SerializeField] private bool debugMode = false;
-    [SerializeField] private float hungerGain = 5f;
-    [SerializeField] private float hungerDrain = 0.1f;
-    [SerializeField] private int hungerDrainInterval = 10;
+    private bool debugMode = false;
+    private float hungerGain = 1f;
+    private float hungerDrain = 0.5f;
+    private float hungerDrainInterval = .05f;
+    private float hungerDrainTimer = 0;
+
     private HungerBar _hungerBar;
 
     SpriteRenderer sprite;
@@ -16,7 +18,7 @@ public class Ate : MonoBehaviour
     private ScoreBehavior _scoreBehavior;
 
     private int pixelsEaten = 0;
-    //private static int TOTALPX = 40000;
+    private static int TOTALPX = 40000;
 
     public void initialize(HungerBar hungerBar, ScoreBehavior scoreBehavior) // add starthunger later to fix it resetting between fishies
     {
@@ -38,16 +40,23 @@ public class Ate : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (hungerDrainInterval == 10)
+        if (hungerDrainTimer >= hungerDrainInterval)
         {
-            hungerDrainInterval = 0;
-            HungerManager.instance.alterHunger(-hungerDrain);
+            hungerDrainTimer = 0f;
+            if (HungerManager.instance != null)
+            {
+                HungerManager.instance.alterHunger(-hungerDrain);
+            }
+            else
+            {
+                Debug.LogWarning("HungerManager instance missing — hunger not updated!");
+            }
         }
         else
         {
-            hungerDrainInterval += 1;
+            hungerDrainTimer += Time.fixedDeltaTime;
         }
         
     }
@@ -78,9 +87,10 @@ public class Ate : MonoBehaviour
                     {
                         dynamicTex.SetPixel(x, y, new Color(0, 0, 0, 0));
                         pixelsEaten++;
-                        if (pixelsEaten % 500 == 0 && debugMode)
+                        if (pixelsEaten % 500 == 0)
                         {
-                            //Debug.Log(((float)pixelsEaten/TOTALPX) * 100+"%");
+                            if (debugMode)
+                                Debug.Log(((float)pixelsEaten/TOTALPX) * 100+"%");
                             
                             HungerManager.instance.alterHunger(hungerGain);
                             ScoreManager.instance.updateScore(1);

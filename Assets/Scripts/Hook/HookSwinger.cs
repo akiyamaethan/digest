@@ -144,7 +144,7 @@ public class HookSwing : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (immunityTimer == 0f)
+        if (immunityTimer <= 0f)
         {
             _player.HP -= 1;
             Debug.Log("HP: "+_player.HP);

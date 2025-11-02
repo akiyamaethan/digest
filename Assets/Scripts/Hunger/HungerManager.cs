@@ -3,6 +3,7 @@ using UnityEngine;
 public class HungerManager : MonoBehaviour
 {
     public static HungerManager instance;
+    public float hungerLevel;
 
     private void Awake()
     {
@@ -17,12 +18,14 @@ public class HungerManager : MonoBehaviour
     }
     public void alterHunger(float amount)
     {
-        HungerBar.instance.alterHunger(amount);
+        hungerLevel += amount;
+        HungerBar.instance.setHunger(hungerLevel);
     }
 
     public void setHunger(float amount)
     {
-        HungerBar.instance.setHunger(amount);
+        hungerLevel = amount;
+        HungerBar.instance.setHunger(hungerLevel);
     }
 
 }

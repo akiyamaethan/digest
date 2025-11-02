@@ -26,7 +26,7 @@ public class HookManagerScript : MonoBehaviour
         GameObject initialHook = Instantiate(hookPrefab);
         HookSwing prefabHookScript = initialHook.GetComponent<HookSwing>();
         prefabHookScript.initialize(player, gameOver);
-        HungerManager.instance.setHunger(50f);
+        HungerManager.instance.setHunger(100f);
         currentHook = initialHook;
 
     }

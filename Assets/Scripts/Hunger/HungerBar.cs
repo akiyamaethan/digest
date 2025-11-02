@@ -11,12 +11,6 @@ public class HungerBar : MonoBehaviour
         instance = this;
         slider = GetComponent<Slider>();
     }
-    
-
-    public void alterHunger(float arg)
-    {
-        slider.value += arg;
-    }
     public void setHunger(float arg)
     {
         slider.value = arg;
