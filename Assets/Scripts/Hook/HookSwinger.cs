@@ -13,7 +13,6 @@ public class HookSwing : MonoBehaviour
     
     private float caughtFishTimer = 4f;
     private float baitReelTimer = 4f;
-    private float reelSpeed = 10f;
 
     [Header("Swing Settings")]
     public float ropeLength = 20f;

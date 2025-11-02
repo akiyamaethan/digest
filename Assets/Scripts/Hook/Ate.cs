@@ -83,7 +83,7 @@ public class Ate : MonoBehaviour
                             //Debug.Log(((float)pixelsEaten/TOTALPX) * 100+"%");
                             
                             HungerManager.instance.alterHunger(hungerGain);
-                            ScoreManager.instance.updateScore(pixelsEaten/500);
+                            ScoreManager.instance.updateScore(1);
                           
                         }
                         if (pixelsEaten % 30000 == 0)
