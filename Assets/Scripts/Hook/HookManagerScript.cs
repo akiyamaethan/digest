@@ -12,6 +12,8 @@ public class HookManagerScript : MonoBehaviour
   
     public FishFollowMouse player;
     public TMP_Text gameOver;
+    public TMP_Text youStarved;
+    public TMP_Text youGotCaught;
     public GameObject reset;
 
     private void Awake()
@@ -25,15 +27,16 @@ public class HookManagerScript : MonoBehaviour
     {
         GameObject initialHook = Instantiate(hookPrefab);
         HookSwing prefabHookScript = initialHook.GetComponent<HookSwing>();
-        prefabHookScript.initialize(player, gameOver, reset);
+        prefabHookScript.initialize(player, gameOver, youStarved, youGotCaught, reset);
         HungerManager.instance.setHunger(100f);
+        HPManager.instance.updateHP(3);
         currentHook = initialHook;
     }
     public void spawnNewHook()
     {
         GameObject newHook = Instantiate(hookPrefab);
         HookSwing currentHookScript = newHook.GetComponent<HookSwing>();
-        currentHookScript.initialize(player, gameOver, reset);
+        currentHookScript.initialize(player, gameOver, youStarved, youGotCaught, reset);
         currentHook = newHook;
     }
 

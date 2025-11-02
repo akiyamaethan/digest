@@ -17,11 +17,11 @@ public class ScoreBehavior : MonoBehaviour
     void Start()
     {
         scoreValue = GetComponent<TMP_Text>();
-        scoreValue.text = "0";
+        scoreValue.text = "Score: 0";
     }
 
     public void updateScore(int score)
     {
-        scoreValue.text = score.ToString();
+        scoreValue.text = "Score: " + score.ToString();
     }
 }

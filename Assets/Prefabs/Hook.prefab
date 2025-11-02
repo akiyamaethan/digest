@@ -190,13 +190,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6c87638b48eafd4c99c26bb7926665e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ate
-  debugMode: 1
-  startHunger: 50
-  hungerGain: 5
-  hungerDrain: 0.5
-  hungerDrainInterval: 10
-  hungerBar: {fileID: 0}
-  scoreBehavior: {fileID: 0}
 --- !u!1 &3951713763353946495
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,16 +387,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HookSwinger
   pivotPoint: {x: 0, y: 22}
-  gameOver: {fileID: 0}
-  caughtAnimationTimer: 2
+  baitEaten: 0
+  initialRopeLength: 0
+  overshootRopeLength: 1
+  targetRopeLength: 20
   ropeLength: 20
   swingSpeed: 0.2
   swingAngle: 10
   noiseSpeed: 0.2
   noiseStrength: 14
-  bobDuration: 2
-  bobStrength: 1
-  player: {fileID: 0}
 --- !u!60 &3522841419971712006
 PolygonCollider2D:
   m_ObjectHideFlags: 0

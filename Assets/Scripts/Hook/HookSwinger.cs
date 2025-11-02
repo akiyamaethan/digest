@@ -35,18 +35,22 @@ public class HookSwing : MonoBehaviour
     private float randomOffset;
 
     [Header("Bob Settings")]
-    private float bobDuration = 5f;
-    private float bobStrength = 1f;
+    private float bobDuration = 1.5f;
+    private float bobStrength = .5f;
     private float bobTimer = 0f;
 
     private FishFollowMouse _player;
     private TMP_Text _gameOver;
+    private TMP_Text _youStarved;
+    private TMP_Text _youGotCaught;
     private GameObject _restart;
-    public void initialize(FishFollowMouse player, TMP_Text gameOver, GameObject restartButton)
+    public void initialize(FishFollowMouse player, TMP_Text gameOver, TMP_Text youStarved, TMP_Text youGotCaught, GameObject restartButton)
     {
         _player = player;
         _gameOver = gameOver;
         _restart = restartButton;
+        _youStarved = youStarved;
+        _youGotCaught = youGotCaught;
         float adjustment = UnityEngine.Random.Range(-2f, 2f);
         pivotPoint.x += adjustment;
     }
@@ -122,7 +126,7 @@ public class HookSwing : MonoBehaviour
                 caughtFishTimer -= Time.fixedDeltaTime;
                 if (caughtFishTimer <= 0f)
                 {
-                    caughtFish = false;
+                    ///caughtFish = false;
                     gameOver();
                 }
             }
@@ -147,14 +151,20 @@ public class HookSwing : MonoBehaviour
     {
         Time.timeScale = 0;
         _gameOver.gameObject.SetActive(true);
+        if (caughtFish)
+            _youGotCaught.gameObject.SetActive(true);
+        else
+            _youStarved.gameObject.SetActive(true);
         _restart.gameObject.SetActive(true);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
+        if (baitEaten || caughtFish) 
+            return;
         if (immunityTimer <= 0f)
         {
             _player.HP -= 1;
+            HPManager.instance.updateHP(_player.HP);
             Debug.Log("HP: "+_player.HP);
             immunityTimer = immunityDuration;
 
@@ -165,7 +175,7 @@ public class HookSwing : MonoBehaviour
                 Debug.Log("caught");
             }
         }
-        if (bobTimer == 0f) 
+        if (bobTimer <= 0f) 
             bobTimer = bobDuration;   
     }
 
