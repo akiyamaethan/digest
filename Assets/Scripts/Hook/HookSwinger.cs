@@ -126,7 +126,6 @@ public class HookSwing : MonoBehaviour
                 caughtFishTimer -= Time.fixedDeltaTime;
                 if (caughtFishTimer <= 0f)
                 {
-                    ///caughtFish = false;
                     gameOver();
                 }
             }
