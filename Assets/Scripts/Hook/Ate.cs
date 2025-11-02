@@ -16,7 +16,7 @@ public class Ate : MonoBehaviour
     private ScoreBehavior _scoreBehavior;
 
     private int pixelsEaten = 0;
-    private static int TOTALPX = 40000;
+    //private static int TOTALPX = 40000;
 
     public void initialize(HungerBar hungerBar, ScoreBehavior scoreBehavior) // add starthunger later to fix it resetting between fishies
     {
@@ -80,16 +80,23 @@ public class Ate : MonoBehaviour
                         pixelsEaten++;
                         if (pixelsEaten % 500 == 0 && debugMode)
                         {
-                            Debug.Log(((float)pixelsEaten/TOTALPX) * 100+"%");
-                            Debug.Log($"ScoreManager: {ScoreManager.instance}, ScoreBehavior: {(ScoreBehavior.instance != null ? "OK" : "NULL")}");
-
+                            //Debug.Log(((float)pixelsEaten/TOTALPX) * 100+"%");
+                            
                             HungerManager.instance.alterHunger(hungerGain);
                             ScoreManager.instance.updateScore(pixelsEaten/500);
+                          
                         }
+                        if (pixelsEaten % 30000 == 0)
+                        {
+                            transform.parent.GetComponent<HookSwing>()?.OnBaitEaten();
+                        }
+                            
                     }    
                 }
             }
         }
         dynamicTex.Apply();
     }
+
+
 }

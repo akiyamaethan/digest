@@ -5,6 +5,7 @@ public class HookManagerScript : MonoBehaviour
 {
 
     public static HookManagerScript instance;
+    public GameObject currentHook;
 
 
     public GameObject hookPrefab;
@@ -26,12 +27,23 @@ public class HookManagerScript : MonoBehaviour
         HookSwing prefabHookScript = initialHook.GetComponent<HookSwing>();
         prefabHookScript.initialize(player, gameOver);
         HungerManager.instance.setHunger(50f);
+        currentHook = initialHook;
 
     }
 
     // Update is called once per frame
-    void Update()
+    public void spawnNewHook()
     {
-        
+        GameObject newHook = Instantiate(hookPrefab);
+        HookSwing currentHookScript = newHook.GetComponent<HookSwing>();
+        currentHookScript.initialize(player, gameOver);
+        currentHook = newHook;
     }
+
+    public void setEaten()
+    {
+        HookSwing currentHookScript = currentHook.GetComponent<HookSwing>();
+        currentHookScript.baitEaten = true;
+    }
+
 }
