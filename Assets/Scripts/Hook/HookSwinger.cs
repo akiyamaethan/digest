@@ -160,16 +160,17 @@ public class HookSwing : MonoBehaviour
             _player.HP -= 1;
             HPManager.instance.updateHP(_player.HP);
             Debug.Log("HP: "+_player.HP);
-
-            immunityTimer = immunityDuration;
-            StartCoroutine(BlinkDuringImmunity());
-
             if (_player.HP <= 0)
             {
                 _player.inputDisabled = true;
                 caughtFish = true;
                 Debug.Log("caught");
             }
+            else
+                SoundManager.PlaySound(SoundName.SUS);
+
+                immunityTimer = immunityDuration;
+            StartCoroutine(BlinkDuringImmunity());
         }
     }
 
