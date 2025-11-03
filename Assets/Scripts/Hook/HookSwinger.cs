@@ -25,6 +25,7 @@ public class HookSwing : MonoBehaviour
     public float initialRopeLength = 0f;
     public float overshootRopeLength = 1f;
     public float targetRopeLength = 20f;
+    private bool spawnSoundPlayed = false;
 
     [Header("Swing Settings")]
     public float ropeLength = 20f;
@@ -92,6 +93,16 @@ public class HookSwing : MonoBehaviour
             }
             else
             {
+                if (!spawnSoundPlayed)
+                {
+                    spawnSoundPlayed = true;
+                    int soundToPlay = Random.Range(0, 2);
+                    Debug.Log(soundToPlay);
+                    if (soundToPlay  == 1)
+                        SoundManager.PlaySound(SoundName.SPLASH);
+                    else
+                        SoundManager.PlaySound(SoundName.SPLASH2);
+                }
                 ropeLength = Mathf.Lerp(targetRopeLength + overshootRopeLength, targetRopeLength, (float)(t - 0.5) * 2f);
             }
 
@@ -199,6 +210,7 @@ public class HookSwing : MonoBehaviour
     public void OnBaitEaten()
     {
         baitEaten = true;
+        SoundManager.PlaySound(SoundName.HUH);
         Debug.Log("bait gobbled");
     }
 

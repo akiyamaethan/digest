@@ -4,7 +4,10 @@ using UnityEngine.Rendering;
 
 public enum SoundName
 {
-    SUS
+    SUS,
+    HUH,
+    SPLASH,
+    SPLASH2
 }
 public class SoundManager : MonoBehaviour
 {
