@@ -16,6 +16,7 @@ public class HookSwing : MonoBehaviour
     private float baitReelTimer = 4f;
     private float immunityTimer = 0f;
     private float immunityDuration = 1.5f;
+    private SpriteRenderer playerSprite;
 
     [Header("Spawn Settings")]
     private bool justSpawned = true;
@@ -35,9 +36,9 @@ public class HookSwing : MonoBehaviour
     private float randomOffset;
 
     [Header("Bob Settings")]
-    private float bobDuration = 1.5f;
+    
     private float bobStrength = .5f;
-    private float bobTimer = 0f;
+    
 
     private FishFollowMouse _player;
     private TMP_Text _gameOver;
@@ -47,6 +48,7 @@ public class HookSwing : MonoBehaviour
     public void initialize(FishFollowMouse player, TMP_Text gameOver, TMP_Text youStarved, TMP_Text youGotCaught, GameObject restartButton)
     {
         _player = player;
+        playerSprite = _player.GetComponent<SpriteRenderer>();
         _gameOver = gameOver;
         _restart = restartButton;
         _youStarved = youStarved;
@@ -100,20 +102,14 @@ public class HookSwing : MonoBehaviour
             }
 
         }
-        if (immunityTimer > 0f)
-        {
-            immunityTimer -= Time.fixedDeltaTime;
-        }
-      
 
         Vector2 offset = new Vector2(Mathf.Sin(totalAngle * Mathf.Deg2Rad), -Mathf.Cos(totalAngle * Mathf.Deg2Rad)) * ropeLength;
         Vector2 pos = pivotPoint + offset;
-
-        // bobbing
-        if (!justSpawned && bobTimer > 0f && !caughtFish && !baitEaten)
+        //immune/bobbing adjustment
+        if (immunityTimer > 0f)
         {
-            bobTimer -= Time.fixedDeltaTime;
-            float bobOffsetY = Mathf.Sin((bobDuration - bobTimer) * Mathf.PI * 2f / bobDuration) * bobStrength;
+            immunityTimer -= Time.fixedDeltaTime;
+            float bobOffsetY = Mathf.Sin((immunityDuration - immunityTimer) * Mathf.PI * 2f / immunityDuration) * bobStrength;
             pos.y += bobOffsetY;
         }
 
@@ -140,7 +136,6 @@ public class HookSwing : MonoBehaviour
                 }
             }
         }
-        
         transform.position = pos;
         transform.rotation = Quaternion.Euler(0f, 0f, totalAngle);
     }
@@ -165,7 +160,9 @@ public class HookSwing : MonoBehaviour
             _player.HP -= 1;
             HPManager.instance.updateHP(_player.HP);
             Debug.Log("HP: "+_player.HP);
+
             immunityTimer = immunityDuration;
+            StartCoroutine(BlinkDuringImmunity());
 
             if (_player.HP <= 0)
             {
@@ -174,8 +171,28 @@ public class HookSwing : MonoBehaviour
                 Debug.Log("caught");
             }
         }
-        if (bobTimer <= 0f) 
-            bobTimer = bobDuration;   
+    }
+
+    private System.Collections.IEnumerator BlinkDuringImmunity()
+    {
+        float elapsed = 0f;
+        bool visible = true;
+
+        while (elapsed < immunityDuration)
+        {
+            visible = !visible;
+            if (playerSprite != null)
+                playerSprite.enabled = visible;
+
+            yield return new WaitForSeconds(0.1f); // blink speed
+            elapsed += 0.1f;
+        }
+
+        // make sure sprite is visible again
+        if (playerSprite != null)
+            playerSprite.enabled = true;
+
+        immunityTimer = 0f; // end immunity
     }
 
     public void OnBaitEaten()

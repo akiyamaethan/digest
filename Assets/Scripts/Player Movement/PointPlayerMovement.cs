@@ -41,6 +41,8 @@ public class FishFollowMouse : MonoBehaviour
 
         rb.linearVelocity = direction * speed;
         float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
+
+        //Sprite angle adjustment
         if (direction.x > 0)
         {
             angle -= 45;
@@ -49,8 +51,10 @@ public class FishFollowMouse : MonoBehaviour
         {
             angle += 45;
         }
+
         rb.MoveRotation(Mathf.LerpAngle(rb.rotation, angle, rotationSpeed * Time.fixedDeltaTime));
         float distance = Vector2.Distance(rb.position, mousePos);
+
         //Deadzone for mouse, fish wont move if mouse is on fish
         if (distance < inputDeadZone)
         {
