@@ -387,7 +387,7 @@ RectTransform:
   m_GameObject: {fileID: 434285928}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 125889314}
@@ -531,14 +531,14 @@ RectTransform:
   m_GameObject: {fileID: 504127182}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 544862377}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0000038146973, y: -50}
+  m_AnchoredPosition: {x: 0.0000038146973, y: 0}
   m_SizeDelta: {x: 165.9586, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &504127184
@@ -1284,14 +1284,14 @@ RectTransform:
   m_GameObject: {fileID: 1710372703}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 544862377}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0000038146973, y: -50}
+  m_AnchoredPosition: {x: -0.0000038146973, y: 0}
   m_SizeDelta: {x: 201.3686, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1710372705
@@ -1645,14 +1645,14 @@ RectTransform:
   m_GameObject: {fileID: 2029182375}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 6, y: 6, z: 6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 544862377}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 200}
   m_SizeDelta: {x: 133.1405, y: 34.3429}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2029182377
@@ -2028,13 +2028,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e13f54e126dce41974da477a441cf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HookManagerScript
-  currentHook: {fileID: 0}
   hookPrefab: {fileID: 5660168211349237512, guid: cdbdf21edeb90ab48a53dd016abd9946, type: 3}
   player: {fileID: 1236883160}
   gameOver: {fileID: 2029182377}
   youStarved: {fileID: 504127184}
   youGotCaught: {fileID: 1710372705}
   reset: {fileID: 434285928}
+  activeHooks: []
 --- !u!114 &2137311077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2086,6 +2086,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SoundManager
   soundList:
   - {fileID: 8300000, guid: c7596a4a470d19543ae93c1b0acace1a, type: 3}
+  - {fileID: 8300000, guid: 405ab5f42d43d2646af8df924d4ccedc, type: 3}
+  - {fileID: 8300000, guid: f02e474934701d94496c27929178bfcc, type: 3}
+  - {fileID: 8300000, guid: 79db994bd1b3af4419962a71953a8ece, type: 3}
 --- !u!82 &2137311081
 AudioSource:
   m_ObjectHideFlags: 0

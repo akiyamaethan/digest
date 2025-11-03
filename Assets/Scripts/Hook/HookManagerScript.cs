@@ -1,20 +1,20 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class HookManagerScript : MonoBehaviour
 {
 
     public static HookManagerScript instance;
-    public GameObject currentHook;
-
     public GameObject hookPrefab;
-  
     public FishFollowMouse player;
     public TMP_Text gameOver;
     public TMP_Text youStarved;
     public TMP_Text youGotCaught;
     public GameObject reset;
+
+    public List<GameObject> activeHooks = new List<GameObject>();
+    private int roundNumber = 0;
 
     private void Awake()
     {
@@ -25,25 +25,27 @@ public class HookManagerScript : MonoBehaviour
     }
     void Start()
     {
-        GameObject initialHook = Instantiate(hookPrefab);
-        HookSwing prefabHookScript = initialHook.GetComponent<HookSwing>();
-        prefabHookScript.initialize(player, gameOver, youStarved, youGotCaught, reset);
+        spawnNewHook();
         HungerManager.instance.setHunger(100f);
         HPManager.instance.updateHP(3);
-        currentHook = initialHook;
     }
     public void spawnNewHook()
     {
+        roundNumber++;
+
         GameObject newHook = Instantiate(hookPrefab);
         HookSwing currentHookScript = newHook.GetComponent<HookSwing>();
         currentHookScript.initialize(player, gameOver, youStarved, youGotCaught, reset);
-        currentHook = newHook;
+        activeHooks.Add(newHook);
     }
 
-    public void setEaten()
+    public void setEaten(GameObject hook)
     {
-        HookSwing currentHookScript = currentHook.GetComponent<HookSwing>();
-        currentHookScript.baitEaten = true;
+        if (hook == null)
+            return;
+        HookSwing currentHookScript = hook.GetComponent<HookSwing>();
+        if (currentHookScript != null)
+            currentHookScript.baitEaten = true;
     }
 
 }

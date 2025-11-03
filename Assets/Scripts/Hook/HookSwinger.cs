@@ -26,6 +26,7 @@ public class HookSwing : MonoBehaviour
     public float overshootRopeLength = 1f;
     public float targetRopeLength = 20f;
     private bool spawnSoundPlayed = false;
+    private float finalAngle = 0f;
 
     [Header("Swing Settings")]
     public float ropeLength = 20f;
@@ -80,14 +81,19 @@ public class HookSwing : MonoBehaviour
         float noise = (Mathf.PerlinNoise(Time.time * noiseSpeed, randomOffset) - 0.5f) * noiseStrength;
         float totalAngle = baseAngle + noise;
 
+        if (!(caughtFish || baitEaten))
+            finalAngle = totalAngle;
+        if (caughtFish)
+            totalAngle = finalAngle;
+
         if (justSpawned)
         {
             spawnTimer += Time.fixedDeltaTime;
             float t = Mathf.Clamp01(spawnTimer / spawnDuration);
             float dropCurve = Mathf.Sin(t * Mathf.PI);
-            
 
-             if (t<0.5)
+
+            if (t < 0.5)
             {
                 ropeLength = Mathf.Lerp(initialRopeLength, targetRopeLength + overshootRopeLength, t * 2f);
             }
@@ -98,7 +104,7 @@ public class HookSwing : MonoBehaviour
                     spawnSoundPlayed = true;
                     int soundToPlay = Random.Range(0, 2);
                     Debug.Log(soundToPlay);
-                    if (soundToPlay  == 1)
+                    if (soundToPlay == 1)
                         SoundManager.PlaySound(SoundName.SPLASH);
                     else
                         SoundManager.PlaySound(SoundName.SPLASH2);
@@ -148,7 +154,8 @@ public class HookSwing : MonoBehaviour
             }
         }
         transform.position = pos;
-        transform.rotation = Quaternion.Euler(0f, 0f, totalAngle);
+        if (!(caughtFish || baitEaten))
+            transform.rotation = Quaternion.Euler(0f, 0f, totalAngle);
     }
 
 
@@ -178,10 +185,11 @@ public class HookSwing : MonoBehaviour
                 Debug.Log("caught");
             }
             else
+            {
                 SoundManager.PlaySound(SoundName.SUS);
-
                 immunityTimer = immunityDuration;
-            StartCoroutine(BlinkDuringImmunity());
+                StartCoroutine(BlinkDuringImmunity());
+            }
         }
     }
 
