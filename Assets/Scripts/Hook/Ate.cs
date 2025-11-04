@@ -6,7 +6,7 @@ public class Ate : MonoBehaviour
 {
     private bool debugMode = false;
     private float hungerGain = .5f;
-    private float hungerDrain = 0.5f;
+    private float hungerDrain = 0.3f;
     private float hungerDrainInterval = .05f;
     private float hungerDrainTimer = 0;
 
@@ -18,7 +18,7 @@ public class Ate : MonoBehaviour
     private ScoreBehavior _scoreBehavior;
 
     private int pixelsEaten = 0;
-    private static int TOTALPX = 40000;
+    private static int TOTALPX = 1500;
 
     public void initialize(HungerBar hungerBar, ScoreBehavior scoreBehavior) // add starthunger later to fix it resetting between fishies
     {
@@ -77,6 +77,7 @@ public class Ate : MonoBehaviour
         {
             for (int x = xMin; x<xMax; x++)
             {
+
                 Vector2 local = new Vector2(
                     personalBounds.min.x + (x / (float)dynamicTex.width) * personalBounds.size.x,
                     personalBounds.min.y + (y / (float)dynamicTex.height) * personalBounds.size.y
@@ -88,16 +89,16 @@ public class Ate : MonoBehaviour
                     {
                         dynamicTex.SetPixel(x, y, new Color(0, 0, 0, 0));
                         pixelsEaten++;
-                        if (pixelsEaten % 500 == 0)
+                        if (pixelsEaten % 15 == 0)
                         {
                             if (debugMode)
-                                Debug.Log(((float)pixelsEaten/TOTALPX) * 100+"%");
+                                Debug.Log(pixelsEaten);
                             
                             HungerManager.instance.alterHunger(hungerGain);
                             ScoreManager.instance.updateScore(1);
                           
                         }
-                        if (pixelsEaten % 30000 == 0)
+                        if (pixelsEaten % 1200 == 0)
                         {
                             transform.parent.GetComponent<HookSwing>()?.OnBaitEaten();
                         }
