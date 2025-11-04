@@ -43,14 +43,7 @@ public class FishFollowMouse : MonoBehaviour
         float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
 
         //Sprite angle adjustment
-        if (direction.x > 0)
-        {
-            angle -= 45;
-        }
-        else
-        {
-            angle += 45;
-        }
+
 
         rb.MoveRotation(Mathf.LerpAngle(rb.rotation, angle, rotationSpeed * Time.fixedDeltaTime));
         float distance = Vector2.Distance(rb.position, mousePos);
