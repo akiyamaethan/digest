@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a3cafafca50ed9a4b93e10ae06455119
+guid: ea396859bf1ea7b499429d9b76ff1cb0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3976673310408513348
-    second: wormv2_0
+      213: 6548961358513499616
+    second: hook2 (2)_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: wormv2_0
+      name: hook2 (2)_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 29
-        width: 73
-        height: 77
+        x: 32
+        y: 36
+        width: 29
+        height: 61
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4471da67e4bff2730800000000000000
-      internalID: 3976673310408513348
+      spriteID: 0ede4fd58a592ea50800000000000000
+      internalID: 6548961358513499616
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      wormv2_0: 3976673310408513348
+      hook2 (2)_0: 6548961358513499616
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
