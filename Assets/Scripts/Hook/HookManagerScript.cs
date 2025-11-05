@@ -5,7 +5,7 @@ using System.Collections;
 
 public class HookManagerScript : MonoBehaviour
 {
-
+    public Canvas canvas;
     public static HookManagerScript instance;
     public GameObject hookPrefab;
     public FishFollowMouse player;
@@ -34,13 +34,10 @@ public class HookManagerScript : MonoBehaviour
 
     public void spawnNextHook()
     {
-        if (roundNumber < 2)
-        {
-            spawnNewHook();
-            return;
-        }
-        int coinToss = Random.Range(0, 2); //0 or 1
-        if (2 <= roundNumber && roundNumber < 15)
+ 
+        int coinToss = Random.Range(1, 4); //1 to 3
+        Debug.Log("coinflip: "+coinToss);
+        if (roundNumber < 15)
         {
             spawnNewHook();
             if (coinToss == 1)
@@ -50,8 +47,7 @@ public class HookManagerScript : MonoBehaviour
         if (15 <= roundNumber && roundNumber < 40)
         {
             spawnNewHook();
-            StartCoroutine(waitThenSpawn(2f));
-            if (coinToss == 1)
+            if (coinToss == 1 || coinToss == 2)
                 StartCoroutine(waitThenSpawn(2f));
             return;
         }
@@ -60,10 +56,11 @@ public class HookManagerScript : MonoBehaviour
     public void spawnNewHook()
     {
         roundNumber++;
+        Debug.Log("Round Number: " + roundNumber);
 
         GameObject newHook = Instantiate(hookPrefab);
         HookSwing currentHookScript = newHook.GetComponent<HookSwing>();
-        currentHookScript.initialize(player, gameOver, youStarved, youGotCaught, reset);
+        currentHookScript.initialize(player, gameOver, youStarved, youGotCaught, reset, canvas);
         activeHooks.Add(newHook);
     }
 

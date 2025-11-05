@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class HookSwing : MonoBehaviour
 {
+    public GameObject cautionUI;
+    
     public Vector2 pivotPoint = new Vector2(0f, 22f);
     private bool caughtFish = false;
     private float caughtHookOffsetY = 0f;
@@ -47,7 +49,9 @@ public class HookSwing : MonoBehaviour
     private TMP_Text _youStarved;
     private TMP_Text _youGotCaught;
     private GameObject _restart;
-    public void initialize(FishFollowMouse player, TMP_Text gameOver, TMP_Text youStarved, TMP_Text youGotCaught, GameObject restartButton)
+    private Canvas _mainCanvas;
+
+    public void initialize(FishFollowMouse player, TMP_Text gameOver, TMP_Text youStarved, TMP_Text youGotCaught, GameObject restartButton, Canvas mainCanvas)
     {
         _player = player;
         playerSprite = _player.GetComponent<SpriteRenderer>();
@@ -55,15 +59,17 @@ public class HookSwing : MonoBehaviour
         _restart = restartButton;
         _youStarved = youStarved;
         _youGotCaught = youGotCaught;
-        float adjustment = UnityEngine.Random.Range(-2f, 3f);
-        pivotPoint.x += adjustment;
-        pivotPoint.y += adjustment;
+        _mainCanvas = mainCanvas;
+        float adjustmentX = UnityEngine.Random.Range(-4f, 5f);
+        float adjustmentY = UnityEngine.Random.Range(-2f, 3f);
+        pivotPoint.x += adjustmentX;
+        pivotPoint.y += adjustmentY;
+
+        PositionAndWarn();
     }
 
-    void Awake()
+    private void PositionAndWarn() 
     {
-        randomOffset = Random.Range(0f, 100f);
-        ropeLength = initialRopeLength;
         float baseAngle = Mathf.Sin(Time.time * swingSpeed) * swingAngle;
         float noise = (Mathf.PerlinNoise(Time.time * noiseSpeed, randomOffset) - 0.5f) * noiseStrength;
         float totalAngle = baseAngle + noise;
@@ -71,6 +77,21 @@ public class HookSwing : MonoBehaviour
         Vector2 pos = pivotPoint + offset;
         transform.position = pos;
         transform.rotation = Quaternion.Euler(0f, 0f, totalAngle);
+
+            GameObject caution = Instantiate(cautionUI, _mainCanvas.transform);
+            WarningController cautionScript = caution.GetComponent<WarningController>();
+            cautionScript.initialize(transform);
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(pos);
+            Vector3 cautionPos = caution.transform.position;
+            cautionPos.x = screenPos.x;
+
+    }
+
+    void Awake()
+    {
+        randomOffset = Random.Range(0f, 100f);
+        ropeLength = initialRopeLength;
+        
     }
 
     void FixedUpdate()
@@ -104,7 +125,6 @@ public class HookSwing : MonoBehaviour
                 {
                     spawnSoundPlayed = true;
                     int soundToPlay = Random.Range(0, 2);
-                    Debug.Log(soundToPlay);
                     if (soundToPlay == 1)
                         SoundManager.PlaySound(SoundName.SPLASH);
                     else
