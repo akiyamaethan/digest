@@ -5,6 +5,7 @@ public class HPManager : MonoBehaviour
     public static HPManager instance;
     private int _HP = 0;
 
+
     private void Awake()
     {
         if (instance == null)
@@ -17,5 +18,10 @@ public class HPManager : MonoBehaviour
     {
         _HP = HP;
         HPBehavior.instance.updateHP(_HP);
+    }
+
+    public void blink()
+    {
+        HPBehavior.instance.blink();
     }
 }

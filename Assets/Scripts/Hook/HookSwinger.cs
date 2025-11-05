@@ -55,8 +55,9 @@ public class HookSwing : MonoBehaviour
         _restart = restartButton;
         _youStarved = youStarved;
         _youGotCaught = youGotCaught;
-        float adjustment = UnityEngine.Random.Range(-2f, 2f);
+        float adjustment = UnityEngine.Random.Range(-2f, 3f);
         pivotPoint.x += adjustment;
+        pivotPoint.y += adjustment;
     }
 
     void Awake()
@@ -148,7 +149,7 @@ public class HookSwing : MonoBehaviour
                 if (baitReelTimer <= 0f)
                 {
                     baitEaten = false;
-                    HookManagerScript.instance.spawnNewHook();
+                    HookManagerScript.instance.spawnNextHook();
                     Destroy(gameObject);
                 }
             }
@@ -189,6 +190,7 @@ public class HookSwing : MonoBehaviour
                 SoundManager.PlaySound(SoundName.SUS);
                 immunityTimer = immunityDuration;
                 StartCoroutine(BlinkDuringImmunity());
+                HPManager.instance.blink();
             }
         }
     }
@@ -197,6 +199,7 @@ public class HookSwing : MonoBehaviour
     {
         float elapsed = 0f;
         bool visible = true;
+
 
         while (elapsed < immunityDuration)
         {
