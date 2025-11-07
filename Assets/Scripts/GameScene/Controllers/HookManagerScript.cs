@@ -13,6 +13,7 @@ public class HookManagerScript : MonoBehaviour
     public TMP_Text youStarved;
     public TMP_Text youGotCaught;
     public GameObject reset;
+    public GameObject title;
 
     public List<GameObject> activeHooks = new List<GameObject>();
     private int roundNumber = 0;
@@ -60,7 +61,7 @@ public class HookManagerScript : MonoBehaviour
 
         GameObject newHook = Instantiate(hookPrefab);
         HookSwing currentHookScript = newHook.GetComponent<HookSwing>();
-        currentHookScript.initialize(player, gameOver, youStarved, youGotCaught, reset, canvas);
+        currentHookScript.initialize(player, gameOver, youStarved, youGotCaught, reset, canvas, title);
         activeHooks.Add(newHook);
     }
 

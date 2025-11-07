@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Ate : MonoBehaviour
 {
-    private bool debugMode = false;
     private float hungerGain = .6f;
     private float hungerDrain = 0.3f;
     private float hungerDrainInterval = .05f;
@@ -18,9 +17,8 @@ public class Ate : MonoBehaviour
     private ScoreBehavior _scoreBehavior;
 
     private int pixelsEaten = 0;
-    private static int TOTALPX = 1500;
 
-    public void initialize(HungerBar hungerBar, ScoreBehavior scoreBehavior) // add starthunger later to fix it resetting between fishies
+    public void initialize(HungerBar hungerBar, ScoreBehavior scoreBehavior)
     {
         _hungerBar = hungerBar;
         _scoreBehavior = scoreBehavior;
@@ -38,8 +36,6 @@ public class Ate : MonoBehaviour
 
         sprite.sprite = Sprite.Create(dynamicTex, new Rect(0,0, dynamicTex.width, dynamicTex.height), new Vector2(0.5f, 0.5f));
     }
-
-    // Update is called once per frame
     void FixedUpdate()
     {
         if (hungerDrainTimer >= hungerDrainInterval)
@@ -91,12 +87,8 @@ public class Ate : MonoBehaviour
                         pixelsEaten++;
                         if (pixelsEaten % 15 == 0)
                         {
-                            if (debugMode)
-                                Debug.Log(pixelsEaten);
-                            
                             HungerManager.instance.alterHunger(hungerGain);
                             ScoreManager.instance.updateScore(1);
-                          
                         }
                         if (pixelsEaten % 1200 == 0)
                         {

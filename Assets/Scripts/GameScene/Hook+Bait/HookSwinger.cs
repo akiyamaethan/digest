@@ -49,9 +49,10 @@ public class HookSwing : MonoBehaviour
     private TMP_Text _youStarved;
     private TMP_Text _youGotCaught;
     private GameObject _restart;
+    private GameObject _title;
     private Canvas _mainCanvas;
 
-    public void initialize(FishFollowMouse player, TMP_Text gameOver, TMP_Text youStarved, TMP_Text youGotCaught, GameObject restartButton, Canvas mainCanvas)
+    public void initialize(FishFollowMouse player, TMP_Text gameOver, TMP_Text youStarved, TMP_Text youGotCaught, GameObject restartButton, Canvas mainCanvas, GameObject title)
     {
         _player = player;
         playerSprite = _player.GetComponent<SpriteRenderer>();
@@ -60,6 +61,7 @@ public class HookSwing : MonoBehaviour
         _youStarved = youStarved;
         _youGotCaught = youGotCaught;
         _mainCanvas = mainCanvas;
+        _title = title;
         float adjustmentX = UnityEngine.Random.Range(-4f, 5f);
         float adjustmentY = UnityEngine.Random.Range(-2f, 3f);
         pivotPoint.x += adjustmentX;
@@ -189,6 +191,7 @@ public class HookSwing : MonoBehaviour
         else
             _youStarved.gameObject.SetActive(true);
         _restart.gameObject.SetActive(true);
+        _title.gameObject.SetActive(true);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -207,7 +210,7 @@ public class HookSwing : MonoBehaviour
             }
             else
             {
-                SoundManager.PlaySound(SoundName.SUS);
+                SoundManager.PlaySound(SoundName.SUS, .5f);
                 immunityTimer = immunityDuration;
                 StartCoroutine(BlinkDuringImmunity());
                 HPManager.instance.blink();
@@ -242,7 +245,6 @@ public class HookSwing : MonoBehaviour
     {
         baitEaten = true;
         SoundManager.PlaySound(SoundName.HUH);
-        Debug.Log("bait gobbled");
     }
 
 }
