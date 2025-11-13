@@ -1,29 +1,27 @@
-using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.InputSystem.Android.LowLevel;
+using UnityEngine.SceneManagement;
 
-public class SceneSwitch: MonoBehaviour
+public class SceneSwitch : MonoBehaviour
 {
     public void SwitchToGame()
     {
-        SceneManager.LoadScene("GameScene");
-        SceneManager.UnloadSceneAsync("TitleScreen");
-        SceneManager.UnloadSceneAsync("LoreScreen");
-        
+        SceneManager.LoadSceneAsync("GameScene", LoadSceneMode.Single);
     }
 
     public void SwitchToTitle()
     {
-        SceneManager.LoadScene("TitleScreen");
-        SceneManager.UnloadSceneAsync("GameScene");
-        SceneManager.UnloadSceneAsync("LoreScreen");
-        
+        PauseControl pauseControl = FindFirstObjectByType<PauseControl>();
+        if (pauseControl != null)
+        {
+            pauseControl.Unpause();
+        }
+        SceneManager.LoadSceneAsync("TitleScreen", LoadSceneMode.Single);
+        Destroy(GameObject.FindGameObjectWithTag("GameController"));
     }
 
     public void SwitchToLore()
     {
-        SceneManager.LoadScene("LoreScreen");
-        SceneManager.UnloadSceneAsync("TitleScreen");
-        SceneManager.UnloadSceneAsync("GameScene");
-        
+        SceneManager.LoadSceneAsync("LoreScreen", LoadSceneMode.Single);
     }
 }
