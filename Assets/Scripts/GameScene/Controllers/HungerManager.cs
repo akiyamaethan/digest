@@ -4,6 +4,9 @@ public class HungerManager : MonoBehaviour
 {
     public static HungerManager instance;
     public float hungerLevel;
+    private float hungerDrain = 0.3f;
+    private float hungerDrainInterval = .05f;
+    private float hungerDrainTimer = 0;
 
     private void Awake()
     {
@@ -15,6 +18,20 @@ public class HungerManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    void FixedUpdate()
+    {
+        if (hungerDrainTimer >= hungerDrainInterval)
+        {
+            hungerDrainTimer = 0f;
+            alterHunger(-hungerDrain);
+        }
+        else
+        {
+            hungerDrainTimer += Time.fixedDeltaTime;
+        }
+
     }
     public void alterHunger(float amount)
     {

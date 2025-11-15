@@ -1,32 +1,20 @@
-using System.Xml.Schema;
 using UnityEngine;
 
 
 public class Ate : MonoBehaviour
 {
     private float hungerGain = .6f;
-    private float hungerDrain = 0.3f;
-    private float hungerDrainInterval = .05f;
-    private float hungerDrainTimer = 0;
 
-    private HungerBar _hungerBar;
 
     SpriteRenderer sprite;
     Texture2D originalTex;
     Texture2D dynamicTex;
-    private ScoreBehavior _scoreBehavior;
+
 
     private int pixelsEaten = 0;
 
-    public void initialize(HungerBar hungerBar, ScoreBehavior scoreBehavior)
-    {
-        _hungerBar = hungerBar;
-        _scoreBehavior = scoreBehavior;
-    }
-
     void Start()
     {
-        
         sprite = GetComponent<SpriteRenderer>();
         originalTex = sprite.sprite.texture;
         
@@ -35,27 +23,6 @@ public class Ate : MonoBehaviour
         Graphics.CopyTexture(originalTex, dynamicTex);
 
         sprite.sprite = Sprite.Create(dynamicTex, new Rect(0,0, dynamicTex.width, dynamicTex.height), new Vector2(0.5f, 0.5f));
-    }
-    void FixedUpdate()
-    {
-        if (hungerDrainTimer >= hungerDrainInterval)
-        {
-            
-            hungerDrainTimer = 0f;
-            if (HungerManager.instance != null)
-            {
-                HungerManager.instance.alterHunger(-hungerDrain);
-            }
-            else
-            {
-                Debug.LogWarning("HungerManager instance missing — hunger not updated!");
-            }
-        }
-        else
-        {
-            hungerDrainTimer += Time.fixedDeltaTime;
-        }
-        
     }
 
     public void Cut(Collider2D collider)
