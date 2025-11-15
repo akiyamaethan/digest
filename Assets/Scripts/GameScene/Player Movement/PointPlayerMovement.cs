@@ -6,7 +6,7 @@ public class FishFollowMouse : MonoBehaviour
 {
     [SerializeField] public float speed = 4f;
     [SerializeField] public float rotationSpeed = 20f;
-    [SerializeField] public float inputDeadZone = 1f;
+    [SerializeField] public float inputDeadZone = 1.4f;
     public bool inputDisabled = false;
     public int HP = 3;
 
