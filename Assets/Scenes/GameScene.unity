@@ -119,6 +119,81 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &31645017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 31645018}
+  - component: {fileID: 31645020}
+  - component: {fileID: 31645019}
+  m_Layer: 5
+  m_Name: Heart Icon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &31645018
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31645017}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 544862377}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 120, y: -190}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &31645019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31645017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 5277642824841104978, guid: 3adb226ce0acf8b49b42acebbf2a390e, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &31645020
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31645017}
+  m_CullTransparentMesh: 1
 --- !u!1 &32674212
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,7 +206,7 @@ GameObject:
   - component: {fileID: 32674215}
   - component: {fileID: 32674214}
   m_Layer: 5
-  m_Name: Bar
+  m_Name: Hunger Bar Display
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -234,7 +309,7 @@ GameObject:
   - component: {fileID: 125889316}
   - component: {fileID: 125889315}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Reset Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -873,7 +948,7 @@ GameObject:
   - component: {fileID: 434285930}
   - component: {fileID: 434285933}
   m_Layer: 5
-  m_Name: reset
+  m_Name: Reset Game Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1017,7 +1092,7 @@ GameObject:
   - component: {fileID: 504127185}
   - component: {fileID: 504127184}
   m_Layer: 5
-  m_Name: youStarved
+  m_Name: You Starved Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1454,6 +1529,7 @@ RectTransform:
   - {fileID: 32674213}
   - {fileID: 2046419997}
   - {fileID: 1795955727}
+  - {fileID: 31645018}
   - {fileID: 2029182376}
   - {fileID: 434285929}
   - {fileID: 1658529667}
@@ -1564,7 +1640,7 @@ GameObject:
   - component: {fileID: 761018247}
   - component: {fileID: 761018246}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Return To Title Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1701,8 +1777,8 @@ GameObject:
   - component: {fileID: 1236883156}
   - component: {fileID: 1236883159}
   - component: {fileID: 1236883158}
-  - component: {fileID: 1236883160}
   - component: {fileID: 1236883161}
+  - component: {fileID: 1236883162}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1858,23 +1934,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 1.6670921, y: -0.13114065}
   m_Radius: 0.36298823
---- !u!114 &1236883160
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1236883152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95105ce55a2c2874aba5cdc420562583, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FishFollowMouse
-  speed: 4
-  rotationSpeed: 20
-  inputDeadZone: 1
-  inputDisabled: 0
-  HP: 3
 --- !u!95 &1236883161
 Animator:
   serializedVersion: 7
@@ -1897,6 +1956,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1236883162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236883152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95105ce55a2c2874aba5cdc420562583, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishFollowMouse
+  speed: 4
+  rotationSpeed: 20
+  inputDeadZone: 1.6
+  inputDisabled: 0
+  HP: 3
 --- !u!1 &1404923774
 GameObject:
   m_ObjectHideFlags: 0
@@ -1908,7 +1984,7 @@ GameObject:
   - component: {fileID: 1404923776}
   - component: {fileID: 1404923775}
   m_Layer: 0
-  m_Name: background_0
+  m_Name: BackgroundSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2132,7 +2208,7 @@ GameObject:
   - component: {fileID: 1603989347}
   - component: {fileID: 1603989346}
   m_Layer: 5
-  m_Name: Hunger
+  m_Name: Hunger Bar Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2270,7 +2346,7 @@ GameObject:
   - component: {fileID: 1658529669}
   - component: {fileID: 1658529668}
   m_Layer: 5
-  m_Name: title
+  m_Name: Return To Title Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2414,7 +2490,7 @@ GameObject:
   - component: {fileID: 1710372706}
   - component: {fileID: 1710372705}
   m_Layer: 5
-  m_Name: youGotCaught
+  m_Name: You Got Caught Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2626,7 +2702,7 @@ GameObject:
   - component: {fileID: 1795955728}
   - component: {fileID: 1795955730}
   m_Layer: 5
-  m_Name: hpValue
+  m_Name: HP Text Display
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2648,7 +2724,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 300, y: -200}
+  m_AnchoredPosition: {x: 360, y: -200}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1795955728
@@ -2671,7 +2747,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3c20f0c6c3a63b64ea6b6a13da2c1499, type: 2}
   m_sharedMaterial: {fileID: -4228256705221293500, guid: 3c20f0c6c3a63b64ea6b6a13da2c1499, type: 2}
@@ -3183,7 +3259,7 @@ GameObject:
   - component: {fileID: 2029182378}
   - component: {fileID: 2029182377}
   m_Layer: 5
-  m_Name: GameOver
+  m_Name: Game Over Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3321,7 +3397,7 @@ GameObject:
   - component: {fileID: 2046419998}
   - component: {fileID: 2046420000}
   m_Layer: 5
-  m_Name: scoreValue
+  m_Name: Score Text Display
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3343,7 +3419,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 300, y: -100}
+  m_AnchoredPosition: {x: 295, y: -130}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2046419998
@@ -3366,7 +3442,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: Score
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3c20f0c6c3a63b64ea6b6a13da2c1499, type: 2}
   m_sharedMaterial: {fileID: -4228256705221293500, guid: 3c20f0c6c3a63b64ea6b6a13da2c1499, type: 2}
@@ -3508,14 +3584,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5754717, g: 0.34832293, b: 0.26330546, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -7438443935150635120, guid: 9eaa1b17a5d8aa24a92e9c9a81f1ecb4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3585,7 +3661,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HookManagerScript
   canvas: {fileID: 544862376}
   hookPrefab: {fileID: 5660168211349237512, guid: cdbdf21edeb90ab48a53dd016abd9946, type: 3}
-  player: {fileID: 1236883160}
+  player: {fileID: 1236883162}
   gameOver: {fileID: 2029182377}
   youStarved: {fileID: 504127184}
   youGotCaught: {fileID: 1710372705}
@@ -3763,10 +3839,10 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 508144806}
   - {fileID: 544862377}
   - {fileID: 619394802}
-  - {fileID: 1236883154}
-  - {fileID: 508144806}
-  - {fileID: 2137311075}
   - {fileID: 1404923776}
+  - {fileID: 1236883154}
+  - {fileID: 2137311075}
   - {fileID: 349056855}

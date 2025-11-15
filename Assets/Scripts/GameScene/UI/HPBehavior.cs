@@ -15,12 +15,12 @@ public class HPBehavior : MonoBehaviour
     void Start()
     {
         hpValue = GetComponent<TMP_Text>();
-        hpValue.text = "HP: 0";
+        hpValue.text = "0";
     }
 
     public void updateHP(int hp)
     {
-        hpValue.text = "HP: " + hp.ToString();
+        hpValue.text = hp.ToString();
     }
 
     public void blink()
