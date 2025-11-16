@@ -44,7 +44,7 @@ public class HookSwing : MonoBehaviour
     private float bobStrength = .5f;
     
 
-    private FishFollowMouse _player;
+    private PointPlayerMovement _player;
     private TMP_Text _gameOver;
     private TMP_Text _youStarved;
     private TMP_Text _youGotCaught;
@@ -52,16 +52,16 @@ public class HookSwing : MonoBehaviour
     private GameObject _title;
     private Canvas _mainCanvas;
 
-    public void initialize(FishFollowMouse player, TMP_Text gameOver, TMP_Text youStarved, TMP_Text youGotCaught, GameObject restartButton, Canvas mainCanvas, GameObject title)
+    public void initialize(HookInitializationData data)
     {
-        _player = player;
+        _player = data.player;
         playerSprite = _player.GetComponent<SpriteRenderer>();
-        _gameOver = gameOver;
-        _restart = restartButton;
-        _youStarved = youStarved;
-        _youGotCaught = youGotCaught;
-        _mainCanvas = mainCanvas;
-        _title = title;
+        _gameOver = data.gameOver;
+        _restart = data.restartButton;
+        _youStarved = data.youStarved;
+        _youGotCaught = data.youGotCaught;
+        _mainCanvas = data.mainCanvas;
+        _title = data.title;
         float adjustmentX = UnityEngine.Random.Range(-4f, 5f);
         float adjustmentY = UnityEngine.Random.Range(-2f, 3f);
         pivotPoint.x += adjustmentX;

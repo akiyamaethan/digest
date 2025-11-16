@@ -3,7 +3,11 @@ using UnityEngine;
 
 public class Ate : MonoBehaviour
 {
-    private float hungerGain = .6f;
+    private const float HUNGER_GAIN = 0.6f;
+    private const int PIXELS_PER_HUNGER_GAIN = 15;
+    private const int PIXELS_TO_EAT_BAIT = 1200;
+
+    private float hungerGain = HUNGER_GAIN;
 
 
     SpriteRenderer sprite;
@@ -35,12 +39,17 @@ public class Ate : MonoBehaviour
         int xMax = (int)Mathf.Min(dynamicTex.width, (cutterBounds.max.x - personalBounds.min.x) / personalBounds.size.x * dynamicTex.width);
         int yMax = (int)Mathf.Min(dynamicTex.height, (cutterBounds.max.y - personalBounds.min.y) / personalBounds.size.y * dynamicTex.height);
 
+        IteratePixels(collider, personalBounds, xMin, yMin, xMax, yMax);
 
-        for (int y = yMin; y<yMax;y++)
+        dynamicTex.Apply();
+    }
+
+    private void IteratePixels(Collider2D collider, Bounds personalBounds, int xMin, int yMin, int xMax, int yMax)
+    {
+        for (int y = yMin; y < yMax; y++)
         {
-            for (int x = xMin; x<xMax; x++)
+            for (int x = xMin; x < xMax; x++)
             {
-
                 Vector2 local = new Vector2(
                     personalBounds.min.x + (x / (float)dynamicTex.width) * personalBounds.size.x,
                     personalBounds.min.y + (y / (float)dynamicTex.height) * personalBounds.size.y
@@ -52,21 +61,20 @@ public class Ate : MonoBehaviour
                     {
                         dynamicTex.SetPixel(x, y, new Color(0, 0, 0, 0));
                         pixelsEaten++;
-                        if (pixelsEaten % 15 == 0)
+                        if (pixelsEaten % PIXELS_PER_HUNGER_GAIN == 0)
                         {
-                            HungerManager.instance.alterHunger(hungerGain);
-                            ScoreManager.instance.updateScore(1);
+                            GameEvents.OnHungerGain(hungerGain);
+                            GameEvents.OnScoreGain(1);
                         }
-                        if (pixelsEaten % 1200 == 0)
+                        if (pixelsEaten % PIXELS_TO_EAT_BAIT == 0)
                         {
                             transform.parent.GetComponent<HookSwing>()?.OnBaitEaten();
                         }
-                            
-                    }    
+
+                    }
                 }
             }
         }
-        dynamicTex.Apply();
     }
 
 

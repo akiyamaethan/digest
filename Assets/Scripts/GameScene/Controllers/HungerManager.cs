@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class HungerManager : MonoBehaviour
 {
+    public HungerBar hungerBar;
     public static HungerManager instance;
     public float hungerLevel;
     private float hungerDrain = 0.3f;
@@ -18,6 +19,12 @@ public class HungerManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        GameEvents.onHungerGain += alterHunger;
+    }
+
+    private void OnDestroy()
+    {
+        GameEvents.onHungerGain -= alterHunger;
     }
 
     void FixedUpdate()
@@ -45,13 +52,13 @@ public class HungerManager : MonoBehaviour
         else
             if (hungerLevel >= 0f)
                 hungerLevel += amount;
-        HungerBar.instance.setHunger(hungerLevel);
+        hungerBar.setHunger(hungerLevel);
     }
 
     public void setHunger(float amount)
     {
         hungerLevel = amount;
-        HungerBar.instance.setHunger(hungerLevel);
+        hungerBar.setHunger(hungerLevel);
     }
 
     public float getHunger()

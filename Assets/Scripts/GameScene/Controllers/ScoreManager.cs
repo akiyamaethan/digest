@@ -11,6 +11,12 @@ public class ScoreManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
+        GameEvents.onScoreGain += updateScore;
+    }
+
+    private void OnDestroy()
+    {
+        GameEvents.onScoreGain -= updateScore;
     }
 
     public void updateScore(int score)

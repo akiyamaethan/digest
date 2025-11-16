@@ -5,17 +5,17 @@ using System.Collections;
 
 public class HookManagerScript : MonoBehaviour
 {
-    public Canvas canvas;
-    public static HookManagerScript instance;
-    public GameObject hookPrefab;
-    public FishFollowMouse player;
-    public TMP_Text gameOver;
-    public TMP_Text youStarved;
-    public TMP_Text youGotCaught;
-    public GameObject reset;
-    public GameObject title;
+    [SerializeField] private Canvas canvas;
+    [SerializeField] private GameObject hookPrefab;
+    [SerializeField] private PointPlayerMovement player;
+    [SerializeField] private TMP_Text gameOver;
+    [SerializeField] private TMP_Text youStarved;
+    [SerializeField] private TMP_Text youGotCaught;
+    [SerializeField] private GameObject reset;
+    [SerializeField] private GameObject title;
 
-    public List<GameObject> activeHooks = new List<GameObject>();
+    public static HookManagerScript instance { get; private set; }
+    public List<GameObject> activeHooks { get; private set; } = new List<GameObject>();
     private int roundNumber = 0;
 
     private void Awake()
@@ -33,23 +33,27 @@ public class HookManagerScript : MonoBehaviour
     }
 
 
+    private const int EASY_ROUND_MAX = 15;
+    private const int MEDIUM_ROUND_MAX = 40;
+    private const int EASY_ROUND_COIN_TOSS_MAX = 4;
+    private const int MEDIUM_ROUND_COIN_TOSS_MAX = 3;
+    private const float SPAWN_DELAY = 2f;
+
     public void spawnNextHook()
     {
- 
-        int coinToss = Random.Range(1, 4); //1 to 3
-        Debug.Log("coinflip: "+coinToss);
-        if (roundNumber < 15)
+        int coinToss = Random.Range(1, EASY_ROUND_COIN_TOSS_MAX);
+        if (roundNumber < EASY_ROUND_MAX)
         {
             spawnNewHook();
             if (coinToss == 1)
-                StartCoroutine(waitThenSpawn(2));
+                StartCoroutine(waitThenSpawn(SPAWN_DELAY));
             return;
         }
-        if (15 <= roundNumber && roundNumber < 40)
+        if (EASY_ROUND_MAX <= roundNumber && roundNumber < MEDIUM_ROUND_MAX)
         {
             spawnNewHook();
-            if (coinToss == 1 || coinToss == 2)
-                StartCoroutine(waitThenSpawn(2f));
+            if (coinToss < MEDIUM_ROUND_COIN_TOSS_MAX)
+                StartCoroutine(waitThenSpawn(SPAWN_DELAY));
             return;
         }
     }
@@ -61,7 +65,17 @@ public class HookManagerScript : MonoBehaviour
 
         GameObject newHook = Instantiate(hookPrefab);
         HookSwing currentHookScript = newHook.GetComponent<HookSwing>();
-        currentHookScript.initialize(player, gameOver, youStarved, youGotCaught, reset, canvas, title);
+        HookInitializationData data = new HookInitializationData
+        {
+            player = player,
+            gameOver = gameOver,
+            youStarved = youStarved,
+            youGotCaught = youGotCaught,
+            restartButton = reset,
+            mainCanvas = canvas,
+            title = title
+        };
+        currentHookScript.initialize(data);
         activeHooks.Add(newHook);
     }
 
