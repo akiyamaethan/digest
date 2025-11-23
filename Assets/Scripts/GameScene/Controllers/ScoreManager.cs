@@ -1,27 +1,31 @@
 using UnityEngine;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreManager : SingletonNoPersist<ScoreManager>
 {
-    public static ScoreManager instance;
     private int _score = 0;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (instance == null) 
-            instance = this;
-        else
-            Destroy(gameObject);
+        base.Awake();  // Handle singleton logic
         GameEvents.onScoreGain += updateScore;
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
         GameEvents.onScoreGain -= updateScore;
+        base.OnDestroy();  // Clean up singleton reference
     }
 
     public void updateScore(int score)
     {
         _score += score;
-        ScoreBehavior.instance.updateScore(_score);
+        if (ScoreBehavior.instance != null)
+        {
+            ScoreBehavior.instance.updateScore(_score);
+        }
+        else
+        {
+            Debug.LogWarning("[ScoreManager] ScoreBehavior instance not found!");
+        }
     }
 }

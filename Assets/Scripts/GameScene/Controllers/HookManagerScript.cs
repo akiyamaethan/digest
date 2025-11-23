@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public class HookManagerScript : MonoBehaviour
+public class HookManagerScript : SingletonNoPersist<HookManagerScript>
 {
     [SerializeField] private Canvas canvas;
     [SerializeField] private GameObject hookPrefab;
@@ -14,16 +14,12 @@ public class HookManagerScript : MonoBehaviour
     [SerializeField] private GameObject reset;
     [SerializeField] private GameObject title;
 
-    public static HookManagerScript instance { get; private set; }
     public List<GameObject> activeHooks { get; private set; } = new List<GameObject>();
     private int roundNumber = 0;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (instance == null)   
-            instance = this;
-        else
-            Destroy(gameObject);
+        base.Awake();  // Handle singleton logic
     }
     void Start()
     {

@@ -1,30 +1,23 @@
 using UnityEngine;
 
-public class HungerManager : MonoBehaviour
+public class HungerManager : SingletonNoPersist<HungerManager>
 {
     public HungerBar hungerBar;
-    public static HungerManager instance;
     public float hungerLevel;
     private float hungerDrain = 0.3f;
     private float hungerDrainInterval = .05f;
     private float hungerDrainTimer = 0;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        base.Awake();  // Handle singleton logic
         GameEvents.onHungerGain += alterHunger;
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
         GameEvents.onHungerGain -= alterHunger;
+        base.OnDestroy();  // Clean up singleton reference
     }
 
     void FixedUpdate()

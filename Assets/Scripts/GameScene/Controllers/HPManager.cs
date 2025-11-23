@@ -1,27 +1,36 @@
 using UnityEngine;
 
-public class HPManager : MonoBehaviour
+public class HPManager : SingletonNoPersist<HPManager>
 {
-    public static HPManager instance;
     private int _HP = 0;
 
-
-    private void Awake()
+    protected override void Awake()
     {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(gameObject);
+        base.Awake();  // Handle singleton logic
     }
 
     public void updateHP(int HP)
     {
         _HP = HP;
-        HPBehavior.instance.updateHP(_HP);
+        if (HPBehavior.instance != null)
+        {
+            HPBehavior.instance.updateHP(_HP);
+        }
+        else
+        {
+            Debug.LogWarning("[HPManager] HPBehavior instance not found!");
+        }
     }
 
     public void blink()
     {
-        HPBehavior.instance.blink();
+        if (HPBehavior.instance != null)
+        {
+            HPBehavior.instance.blink();
+        }
+        else
+        {
+            Debug.LogWarning("[HPManager] HPBehavior instance not found!");
+        }
     }
 }

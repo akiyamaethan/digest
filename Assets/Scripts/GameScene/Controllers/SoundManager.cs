@@ -8,19 +8,33 @@ public enum SoundName
     SPLASH,
     SPLASH2
 }
-public class SoundManager : MonoBehaviour
+public class SoundManager : SingletonNoPersist<SoundManager>
 {
-    public static SoundManager instance;
     private AudioSource audioSource;
     [SerializeField] private AudioClip[] soundList;
-    void Awake()
+
+    protected override void Awake()
     {
-        instance = this;
+        base.Awake();  // Handle singleton logic
         audioSource = GetComponent<AudioSource>();
     }
 
     public static void PlaySound(SoundName sound, float volume = 1f)
     {
-        instance.audioSource.PlayOneShot(instance.soundList[(int)sound], volume);
+        if (instance != null && instance.audioSource != null && instance.soundList != null)
+        {
+            if ((int)sound < instance.soundList.Length)
+            {
+                instance.audioSource.PlayOneShot(instance.soundList[(int)sound], volume);
+            }
+            else
+            {
+                Debug.LogWarning($"[SoundManager] Sound index {sound} is out of range!");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("[SoundManager] Instance or components not properly initialized!");
+        }
     }
 }

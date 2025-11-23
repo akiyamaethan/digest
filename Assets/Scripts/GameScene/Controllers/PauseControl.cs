@@ -20,7 +20,11 @@ public class PauseControl : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // Only allow pause toggle if not in game over state
+        // Check if GameStateManager exists, if not, allow pause anyway
+        bool canPause = (GameStateManager.instance == null) || !GameStateManager.IsGameOver;
+
+        if (Input.GetKeyDown(KeyCode.Escape) && canPause)
         {
             isPaused = !isPaused;
             if (isPaused)
@@ -37,12 +41,34 @@ public class PauseControl : MonoBehaviour
     public void Pause()
     {
         pauseMenu.SetActive(true);
-        Time.timeScale = 0f;
+        isPaused = true;
+
+        // Try to use GameStateManager if it exists, otherwise fall back to direct Time.timeScale
+        if (GameStateManager.instance != null)
+        {
+            GameStateManager.SetPaused();
+        }
+        else
+        {
+            Time.timeScale = 0f;
+            Debug.LogWarning("GameStateManager not found in scene - using direct Time.timeScale manipulation. Add GameStateManager to the scene for proper state management.");
+        }
     }
 
     public void Unpause()
     {
         pauseMenu.SetActive(false);
-        Time.timeScale = 1f;
+        isPaused = false;
+
+        // Try to use GameStateManager if it exists, otherwise fall back to direct Time.timeScale
+        if (GameStateManager.instance != null)
+        {
+            GameStateManager.Resume();
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            Debug.LogWarning("GameStateManager not found in scene - using direct Time.timeScale manipulation. Add GameStateManager to the scene for proper state management.");
+        }
     }
 }

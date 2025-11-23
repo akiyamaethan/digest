@@ -4,16 +4,15 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 
 
-public class ScoreBehavior : MonoBehaviour
+public class ScoreBehavior : SingletonNoPersist<ScoreBehavior>
 {
     public TMP_Text scoreValue;
-    public static ScoreBehavior instance;
 
-
-    private void Awake()
+    protected override void Awake()
     {
-        instance = this;
+        base.Awake();  // Handle singleton logic
     }
+
     void Start()
     {
         scoreValue = GetComponent<TMP_Text>();

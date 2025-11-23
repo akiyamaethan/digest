@@ -184,7 +184,16 @@ public class HookSwing : MonoBehaviour
 
     private void gameOver()
     {
-        Time.timeScale = 0;
+        // Use GameStateManager if available, otherwise fall back to direct Time.timeScale
+        if (GameStateManager.instance != null)
+        {
+            GameStateManager.SetGameOver();
+        }
+        else
+        {
+            Time.timeScale = 0f;
+        }
+
         _gameOver.gameObject.SetActive(true);
         if (caughtFish)
             _youGotCaught.gameObject.SetActive(true);

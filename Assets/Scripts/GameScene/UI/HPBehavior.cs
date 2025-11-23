@@ -1,17 +1,16 @@
 using TMPro;
 using UnityEngine;
 
-public class HPBehavior : MonoBehaviour
+public class HPBehavior : SingletonNoPersist<HPBehavior>
 {
     public TMP_Text hpValue;
-    public static HPBehavior instance;
     private float blinkDuration = 1.5f;
 
-
-    private void Awake()
+    protected override void Awake()
     {
-        instance = this;
+        base.Awake();  // Handle singleton logic
     }
+
     void Start()
     {
         hpValue = GetComponent<TMP_Text>();
