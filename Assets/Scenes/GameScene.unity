@@ -3667,7 +3667,6 @@ MonoBehaviour:
   youGotCaught: {fileID: 1710372705}
   reset: {fileID: 434285928}
   title: {fileID: 1658529666}
-  activeHooks: []
 --- !u!114 &2137311077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3680,6 +3679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9c3505ace3c8694e807a7ff7ee5d3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HungerManager
+  hungerBar: {fileID: 32674214}
   hungerLevel: 0
 --- !u!114 &2137311078
 MonoBehaviour:

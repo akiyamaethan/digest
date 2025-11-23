@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PointPlayerMovement : MonoBehaviour

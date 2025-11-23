@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem.Android.LowLevel;
 using UnityEngine.SceneManagement;
 
 public class SceneSwitch : MonoBehaviour
@@ -17,7 +16,11 @@ public class SceneSwitch : MonoBehaviour
             pauseControl.Unpause();
         }
         SceneManager.LoadSceneAsync("TitleScreen", LoadSceneMode.Single);
-        Destroy(GameObject.FindGameObjectWithTag("GameController"));
+        GameObject gameController = GameObject.FindGameObjectWithTag("GameController");
+        if (gameController != null)
+        {
+            Destroy(gameController);
+        }
     }
 
     public void SwitchToLore()
