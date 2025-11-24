@@ -3625,6 +3625,7 @@ GameObject:
   - component: {fileID: 2137311080}
   - component: {fileID: 2137311081}
   - component: {fileID: 2137311082}
+  - component: {fileID: 2137311083}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -3831,9 +3832,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b760d45e7f2594e4aa9fc6ef092435ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseControl
-  instance: {fileID: 0}
   isPaused: 0
   pauseMenu: {fileID: 312045573}
+--- !u!114 &2137311083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2137311074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6b7d03778620274ca4c3c3393816d0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameStateManager
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
