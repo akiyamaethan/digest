@@ -10,4 +10,5 @@ public struct HookInitializationData
     public GameObject restartButton;
     public Canvas mainCanvas;
     public GameObject title;
+    public GameObject gameOverHighScore;
 }

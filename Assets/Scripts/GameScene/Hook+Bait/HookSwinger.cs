@@ -51,6 +51,7 @@ public class HookSwing : MonoBehaviour
     private GameObject _restart;
     private GameObject _title;
     private Canvas _mainCanvas;
+    private GameObject _gameOverHighScore;
 
     public void initialize(HookInitializationData data)
     {
@@ -62,6 +63,7 @@ public class HookSwing : MonoBehaviour
         _youGotCaught = data.youGotCaught;
         _mainCanvas = data.mainCanvas;
         _title = data.title;
+        _gameOverHighScore = data.gameOverHighScore;
         float adjustmentX = UnityEngine.Random.Range(-4f, 5f);
         float adjustmentY = UnityEngine.Random.Range(-2f, 3f);
         pivotPoint.x += adjustmentX;
@@ -184,6 +186,9 @@ public class HookSwing : MonoBehaviour
 
     private void gameOver()
     {
+        // Check for new high score before setting game over state
+        ScoreManager.CheckAndUpdateHighScore();
+
         // Use GameStateManager if available, otherwise fall back to direct Time.timeScale
         if (GameStateManager.instance != null)
         {
@@ -201,6 +206,8 @@ public class HookSwing : MonoBehaviour
             _youStarved.gameObject.SetActive(true);
         _restart.gameObject.SetActive(true);
         _title.gameObject.SetActive(true);
+        if (_gameOverHighScore != null)
+            _gameOverHighScore.SetActive(true);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

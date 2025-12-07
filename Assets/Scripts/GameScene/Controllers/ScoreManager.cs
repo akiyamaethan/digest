@@ -4,6 +4,8 @@ public class ScoreManager : SingletonNoPersist<ScoreManager>
 {
     private int _score = 0;
 
+    public static int CurrentScore => instance != null ? instance._score : 0;
+
     protected override void Awake()
     {
         base.Awake();  // Handle singleton logic
@@ -27,5 +29,15 @@ public class ScoreManager : SingletonNoPersist<ScoreManager>
         {
             Debug.LogWarning("[ScoreManager] ScoreBehavior instance not found!");
         }
+    }
+
+    /// <summary>
+    /// Checks current score against high score and updates if higher.
+    /// Call this at game over.
+    /// </summary>
+    public static void CheckAndUpdateHighScore()
+    {
+        if (instance == null) return;
+        HighScoreManager.TrySetHighScore(instance._score);
     }
 }

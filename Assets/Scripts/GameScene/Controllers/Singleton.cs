@@ -11,6 +11,15 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     private static object _lock = new object();
     private static bool _applicationIsQuitting = false;
 
+#if UNITY_EDITOR
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStatics()
+    {
+        _instance = null;
+        _applicationIsQuitting = false;
+    }
+#endif
+
     public static T instance
     {
         get
@@ -64,7 +73,12 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     /// </summary>
     protected virtual void OnDestroy()
     {
-        _applicationIsQuitting = true;
+        // Only set quitting flag if the actual singleton instance is being destroyed
+        // Duplicates being destroyed on scene load should not trigger this
+        if (_instance == this)
+        {
+            _applicationIsQuitting = true;
+        }
     }
 
     protected virtual void Awake()

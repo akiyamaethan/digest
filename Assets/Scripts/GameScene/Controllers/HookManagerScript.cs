@@ -13,6 +13,7 @@ public class HookManagerScript : SingletonNoPersist<HookManagerScript>
     [SerializeField] private TMP_Text youGotCaught;
     [SerializeField] private GameObject reset;
     [SerializeField] private GameObject title;
+    [SerializeField] private GameObject gameOverHighScore;
 
     public List<GameObject> activeHooks { get; private set; } = new List<GameObject>();
     private int roundNumber = 0;
@@ -69,7 +70,8 @@ public class HookManagerScript : SingletonNoPersist<HookManagerScript>
             youGotCaught = youGotCaught,
             restartButton = reset,
             mainCanvas = canvas,
-            title = title
+            title = title,
+            gameOverHighScore = gameOverHighScore
         };
         currentHookScript.initialize(data);
         activeHooks.Add(newHook);
