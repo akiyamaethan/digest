@@ -16,7 +16,7 @@ public class PowerUpManager : MonoBehaviour
     void Update()
     {
         round = hookManager.getRoundNumber();
-        if (round % 3 == 0 && round != 0)
+        if (round % 6 == 0 && round != 0)
         {
             spawnNewHeartFish();
         }
@@ -32,7 +32,8 @@ public class PowerUpManager : MonoBehaviour
         GameObject newFish = Instantiate(heartFishPrefab);
         AutoSwim currentFishScript = newFish.GetComponent<AutoSwim>();
         int coinToss = Random.Range(0, 2);
-        int height = Random.Range(-4, 4);
+        float height = Random.Range(-2f, 2f); // (inclusive, exclusive)
+        Debug.Log("Spawning heart fish at height: " + height.ToString());
         if (coinToss == 0)
         {
             currentFishScript.initalize("left", height);
