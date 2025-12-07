@@ -26,7 +26,7 @@ public class HookManagerScript : SingletonNoPersist<HookManagerScript>
     {
         spawnNewHook();
         HungerManager.instance.setHunger(100f);
-        HPManager.instance.updateHP(3);
+        GameEvents.OnHPChange(3);  // Initialize HP display via event
     }
 
 

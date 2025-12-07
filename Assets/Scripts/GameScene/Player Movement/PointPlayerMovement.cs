@@ -23,6 +23,22 @@ public class PointPlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
     }
 
+    void OnEnable()
+    {
+        GameEvents.onHPGain += HandleHPGain;
+    }
+
+    void OnDisable()
+    {
+        GameEvents.onHPGain -= HandleHPGain;
+    }
+
+    private void HandleHPGain(int amount)
+    {
+        HP += amount;
+        Debug.Log("[Player] HP gained! Now at: " + HP);
+    }
+
     void Update()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

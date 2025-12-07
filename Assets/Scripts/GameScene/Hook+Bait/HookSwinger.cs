@@ -211,12 +211,12 @@ public class HookSwing : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (baitEaten || caughtFish) 
+        if (baitEaten || caughtFish)
             return;
         if (immunityTimer <= 0f)
         {
             _player.HP -= 1;
-            HPManager.instance.updateHP(_player.HP);
+            GameEvents.OnHPLoss(1);  // Fire HP loss event - HPBehavior handles display + blink
             Debug.Log("HP: "+_player.HP);
             if (_player.HP <= 0)
             {
@@ -229,7 +229,6 @@ public class HookSwing : MonoBehaviour
                 SoundManager.PlaySound(SoundName.SUS, .5f);
                 immunityTimer = immunityDuration;
                 StartCoroutine(BlinkDuringImmunity());
-                HPManager.instance.blink();
             }
         }
     }

@@ -1,11 +1,10 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class AutoSwim : MonoBehaviour
 {
     private int direction = 0;
     private float speed = 0.5f;
-    
+    [SerializeField] private int hpValue = 1;  // How much HP this fish gives
 
     public void initalize(string dir, int height)
     {
@@ -23,7 +22,6 @@ public class AutoSwim : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         Vector3 currentPos = transform.position;
@@ -33,8 +31,8 @@ public class AutoSwim : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Destroy(this.gameObject);
-        HPManager.instance.updateHP(1);
-        //GameEvents.onHPChange(1);
+        // Fire the HP gain event - any subscriber will handle it
+        GameEvents.OnHPGain(hpValue);
+        Destroy(gameObject);
     }
 }

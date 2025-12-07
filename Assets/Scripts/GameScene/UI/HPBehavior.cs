@@ -5,6 +5,7 @@ public class HPBehavior : SingletonNoPersist<HPBehavior>
 {
     public TMP_Text hpValue;
     private float blinkDuration = 1.5f;
+    private int currentHP = 0;
 
     protected override void Awake()
     {
@@ -17,9 +18,47 @@ public class HPBehavior : SingletonNoPersist<HPBehavior>
         hpValue.text = "0";
     }
 
-    public void updateHP(int hp)
+    void OnEnable()
     {
-        hpValue.text = hp.ToString();
+        // Subscribe to HP events
+        GameEvents.onHPGain += HandleHPGain;
+        GameEvents.onHPLoss += HandleHPLoss;
+        GameEvents.onHPChange += HandleHPChange;
+    }
+
+    void OnDisable()
+    {
+        // Unsubscribe to prevent memory leaks
+        GameEvents.onHPGain -= HandleHPGain;
+        GameEvents.onHPLoss -= HandleHPLoss;
+        GameEvents.onHPChange -= HandleHPChange;
+    }
+
+    private void HandleHPGain(int amount)
+    {
+        currentHP += amount;
+        UpdateDisplay();
+        // Could add a heal blink effect here if desired
+    }
+
+    private void HandleHPLoss(int amount)
+    {
+        currentHP -= amount;
+        if (currentHP < 0) currentHP = 0;
+        UpdateDisplay();
+        blink();  // Blink on damage
+    }
+
+    private void HandleHPChange(int newHP)
+    {
+        currentHP = newHP;
+        UpdateDisplay();
+    }
+
+    private void UpdateDisplay()
+    {
+        if (hpValue != null)
+            hpValue.text = currentHP.ToString();
     }
 
     public void blink()
@@ -39,7 +78,7 @@ public class HPBehavior : SingletonNoPersist<HPBehavior>
             if (hpValue != null)
                 hpValue.enabled = visible;
 
-            yield return new WaitForSeconds(0.1f); 
+            yield return new WaitForSeconds(0.1f);
             elapsed += 0.1f;
         }
 

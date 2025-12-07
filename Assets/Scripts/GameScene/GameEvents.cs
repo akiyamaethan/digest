@@ -27,4 +27,18 @@ public class GameEvents : MonoBehaviour
     {
         onHPChange?.Invoke(newHP);
     }
+
+    // Fired when HP is gained (healing from HeartFish, etc.)
+    public static event Action<int> onHPGain;
+    public static void OnHPGain(int amount)
+    {
+        onHPGain?.Invoke(amount);
+    }
+
+    // Fired when HP is lost (damage, hunger, etc.)
+    public static event Action<int> onHPLoss;
+    public static void OnHPLoss(int amount)
+    {
+        onHPLoss?.Invoke(amount);
+    }
 }
