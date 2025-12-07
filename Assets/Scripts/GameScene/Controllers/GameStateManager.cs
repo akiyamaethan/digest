@@ -7,7 +7,7 @@ public enum GameState
     GameOver
 }
 
-public class GameStateManager : Singleton<GameStateManager>
+public class GameStateManager : SingletonNoPersist<GameStateManager>
 {
     private GameState currentState = GameState.Playing;
     private GameState previousState = GameState.Playing;
