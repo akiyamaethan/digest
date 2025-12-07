@@ -86,6 +86,12 @@ public class HookManagerScript : SingletonNoPersist<HookManagerScript>
             currentHookScript.baitEaten = true;
     }
 
+    public int getRoundNumber()
+    {
+        return roundNumber;
+    }
+
+
     public IEnumerator waitThenSpawn(float seconds)
     {
         yield return new WaitForSeconds(seconds);

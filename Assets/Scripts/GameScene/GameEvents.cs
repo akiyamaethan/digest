@@ -14,4 +14,17 @@ public class GameEvents : MonoBehaviour
     {
         onScoreGain?.Invoke(amount);
     }
+
+    public static event Action<int> onRoundChange;
+
+    public static void OnRoundChange(int newRound)
+    {
+        onRoundChange?.Invoke(newRound);
+    }
+
+    public static event Action<int> onHPChange;
+    public static void OnHPChange(int newHP)
+    {
+        onHPChange?.Invoke(newHP);
+    }
 }
