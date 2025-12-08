@@ -3,9 +3,9 @@ using System;
 
 /// <summary>
 /// Manages high score persistence using PlayerPrefs.
-/// Persists across scenes using DontDestroyOnLoad.
+/// Data persists via PlayerPrefs, not DontDestroyOnLoad.
 /// </summary>
-public class HighScoreManager : Singleton<HighScoreManager>
+public class HighScoreManager : SingletonNoPersist<HighScoreManager>
 {
     private const string HIGH_SCORE_KEY = "highScore";
 

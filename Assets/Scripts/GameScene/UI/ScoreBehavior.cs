@@ -21,6 +21,7 @@ public class ScoreBehavior : SingletonNoPersist<ScoreBehavior>
 
     public void updateScore(int score)
     {
-        scoreValue.text = "Score: " + score.ToString();
+        if (scoreValue != null)
+            scoreValue.text = "Score: " + score.ToString();
     }
 }

@@ -111,6 +111,7 @@ public class SingletonNoPersist<T> : MonoBehaviour where T : MonoBehaviour
     {
         get
         {
+            // Check if existing instance was destroyed (scene reload)
             if (_instance == null)
             {
                 _instance = (T)FindFirstObjectByType(typeof(T));
@@ -126,24 +127,26 @@ public class SingletonNoPersist<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual void Awake()
     {
-        // If this is the first instance, keep it
-        if (_instance == null)
-        {
-            _instance = this as T;
-        }
-        // If another instance already exists, destroy this one
-        else if (_instance != this)
-        {
-            Debug.LogWarning($"[Singleton] Another instance of {typeof(T)} already exists. Destroying duplicate on {gameObject.name}");
-            Destroy(gameObject);
-        }
+        // Simply take over as the new instance - don't destroy anything
+        // Unity will clean up old scene objects naturally
+        // Just clear the old reference and set ourselves as the new instance
+        _instance = this as T;
     }
 
     protected virtual void OnDestroy()
     {
+        // Only clear if this is the current instance
         if (_instance == this)
         {
             _instance = null;
         }
+    }
+
+    /// <summary>
+    /// Call this to manually clear the singleton instance (useful before scene reload)
+    /// </summary>
+    public static void ClearInstance()
+    {
+        _instance = null;
     }
 }

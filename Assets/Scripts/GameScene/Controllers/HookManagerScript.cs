@@ -22,6 +22,7 @@ public class HookManagerScript : SingletonNoPersist<HookManagerScript>
     {
         base.Awake();  // Handle singleton logic
     }
+
     void Start()
     {
         spawnNewHook();

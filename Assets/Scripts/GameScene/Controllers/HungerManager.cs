@@ -45,13 +45,16 @@ public class HungerManager : SingletonNoPersist<HungerManager>
         else
             if (hungerLevel >= 0f)
                 hungerLevel += amount;
-        hungerBar.setHunger(hungerLevel);
+
+        if (hungerBar != null)
+            hungerBar.setHunger(hungerLevel);
     }
 
     public void setHunger(float amount)
     {
         hungerLevel = amount;
-        hungerBar.setHunger(hungerLevel);
+        if (hungerBar != null)
+            hungerBar.setHunger(hungerLevel);
     }
 
     public float getHunger()

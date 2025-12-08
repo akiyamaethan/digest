@@ -71,7 +71,9 @@ public class HPBehavior : SingletonNoPersist<HPBehavior>
         float elapsed = 0f;
         bool visible = true;
 
-        hpValue.color = Color.red;
+        if (hpValue != null)
+            hpValue.color = Color.red;
+
         while (elapsed < blinkDuration)
         {
             visible = !visible;
@@ -83,7 +85,9 @@ public class HPBehavior : SingletonNoPersist<HPBehavior>
         }
 
         if (hpValue != null)
+        {
             hpValue.enabled = true;
-        hpValue.color = Color.white;
+            hpValue.color = Color.white;
+        }
     }
 }

@@ -1,22 +1,13 @@
 using UnityEngine;
 
-public class PauseControl : MonoBehaviour
+public class PauseControl : SingletonNoPersist<PauseControl>
 {
-    public static PauseControl instance;
     public bool isPaused = false;
     public GameObject pauseMenu;
 
-    void Awake()
+    protected override void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        base.Awake();
     }
     void Update()
     {

@@ -16,18 +16,29 @@ public class PowerUpManager : MonoBehaviour
     void Update()
     {
         round = hookManager.getRoundNumber();
-        if (round % 6 == 0 && round != 0)
-        {
-            spawnNewHeartFish();
-        }
+        spawnManager();
     }
 
-    public void spawnNewHeartFish()
+    public void spawnManager()
     {
         if (lastSpawnedRound == round)
         {
             return;
         }
+        else
+        {
+            if (round % 10 == 0 && round != 0)
+            {
+                spawnNewHeartFish();
+            }
+        }
+       
+
+    }
+
+    public void spawnNewHeartFish()
+    {
+        
 
         GameObject newFish = Instantiate(heartFishPrefab);
         AutoSwim currentFishScript = newFish.GetComponent<AutoSwim>();
@@ -42,7 +53,7 @@ public class PowerUpManager : MonoBehaviour
         {
             currentFishScript.initalize("right", height);
         }
-
         lastSpawnedRound = round;
+        
     }
 }
