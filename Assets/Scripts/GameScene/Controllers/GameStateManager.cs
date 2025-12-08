@@ -7,23 +7,64 @@ public enum GameState
     GameOver
 }
 
-public class GameStateManager : SingletonNoPersist<GameStateManager>
+/// <summary>
+/// Manages game state (Playing/Paused/GameOver) and time scale.
+/// Listens to request events and broadcasts state changes.
+/// Other systems should subscribe to onGameStateChanged rather than polling.
+/// </summary>
+public class GameStateManager : MonoBehaviour
 {
-    private GameState currentState = GameState.Playing;
-    private GameState previousState = GameState.Playing;
+    private static GameState currentState = GameState.Playing;
+    private static GameState previousState = GameState.Playing;
 
-    // Properties to check current state
-    public static bool IsPlaying => instance != null && instance.currentState == GameState.Playing;
-    public static bool IsPaused => instance != null && instance.currentState == GameState.Paused;
-    public static bool IsGameOver => instance != null && instance.currentState == GameState.GameOver;
+    // Properties to check current state (for systems that cache state via events)
+    public static bool IsPlaying => currentState == GameState.Playing;
+    public static bool IsPaused => currentState == GameState.Paused;
+    public static bool IsGameOver => currentState == GameState.GameOver;
 
-    protected override void Awake()
+    void Awake()
     {
-        base.Awake();  // Handle singleton logic
+        // Subscribe to request events
+        GameEvents.onPauseRequested += HandlePauseRequested;
+        GameEvents.onResumeRequested += HandleResumeRequested;
+        GameEvents.onResetStateRequested += HandleResetStateRequested;
+        GameEvents.onGameOver += HandleGameOver;
 
         // Ensure we start with normal time scale
         Time.timeScale = 1f;
         currentState = GameState.Playing;
+    }
+
+    void OnDestroy()
+    {
+        // Unsubscribe from events
+        GameEvents.onPauseRequested -= HandlePauseRequested;
+        GameEvents.onResumeRequested -= HandleResumeRequested;
+        GameEvents.onResetStateRequested -= HandleResetStateRequested;
+        GameEvents.onGameOver -= HandleGameOver;
+
+        // Ensure time scale is reset
+        Time.timeScale = 1f;
+    }
+
+    private void HandlePauseRequested()
+    {
+        SetPaused();
+    }
+
+    private void HandleResumeRequested()
+    {
+        Resume();
+    }
+
+    private void HandleResetStateRequested()
+    {
+        ResetState();
+    }
+
+    private void HandleGameOver()
+    {
+        SetGameOver();
     }
 
     /// <summary>
@@ -31,11 +72,10 @@ public class GameStateManager : SingletonNoPersist<GameStateManager>
     /// </summary>
     public static void SetPlaying()
     {
-        if (instance == null) return;
-
-        instance.previousState = instance.currentState;
-        instance.currentState = GameState.Playing;
+        previousState = currentState;
+        currentState = GameState.Playing;
         Time.timeScale = 1f;
+        GameEvents.OnGameStateChanged(GameState.Playing);
         Debug.Log("GameState: Playing (timeScale = 1)");
     }
 
@@ -45,18 +85,17 @@ public class GameStateManager : SingletonNoPersist<GameStateManager>
     /// </summary>
     public static void SetPaused()
     {
-        if (instance == null) return;
-
         // Don't allow pausing during game over
-        if (instance.currentState == GameState.GameOver)
+        if (currentState == GameState.GameOver)
         {
             Debug.Log("Cannot pause during game over state");
             return;
         }
 
-        instance.previousState = instance.currentState;
-        instance.currentState = GameState.Paused;
+        previousState = currentState;
+        currentState = GameState.Paused;
         Time.timeScale = 0f;
+        GameEvents.OnGameStateChanged(GameState.Paused);
         Debug.Log("GameState: Paused (timeScale = 0)");
     }
 
@@ -65,11 +104,10 @@ public class GameStateManager : SingletonNoPersist<GameStateManager>
     /// </summary>
     public static void SetGameOver()
     {
-        if (instance == null) return;
-
-        instance.previousState = instance.currentState;
-        instance.currentState = GameState.GameOver;
+        previousState = currentState;
+        currentState = GameState.GameOver;
         Time.timeScale = 0f;
+        GameEvents.OnGameStateChanged(GameState.GameOver);
         Debug.Log("GameState: GameOver (timeScale = 0)");
     }
 
@@ -79,15 +117,13 @@ public class GameStateManager : SingletonNoPersist<GameStateManager>
     /// </summary>
     public static void TogglePause()
     {
-        if (instance == null) return;
-
-        if (instance.currentState == GameState.GameOver)
+        if (currentState == GameState.GameOver)
         {
             Debug.Log("Cannot toggle pause during game over state");
             return;
         }
 
-        if (instance.currentState == GameState.Paused)
+        if (currentState == GameState.Paused)
         {
             SetPlaying();
         }
@@ -102,9 +138,7 @@ public class GameStateManager : SingletonNoPersist<GameStateManager>
     /// </summary>
     public static void Resume()
     {
-        if (instance == null) return;
-
-        if (instance.currentState == GameState.Paused)
+        if (currentState == GameState.Paused)
         {
             SetPlaying();
         }
@@ -115,11 +149,10 @@ public class GameStateManager : SingletonNoPersist<GameStateManager>
     /// </summary>
     public static void ResetState()
     {
-        if (instance == null) return;
-
-        instance.currentState = GameState.Playing;
-        instance.previousState = GameState.Playing;
+        currentState = GameState.Playing;
+        previousState = GameState.Playing;
         Time.timeScale = 1f;
+        GameEvents.OnGameStateChanged(GameState.Playing);
         Debug.Log("GameState: Reset to Playing (timeScale = 1)");
     }
 
@@ -128,8 +161,7 @@ public class GameStateManager : SingletonNoPersist<GameStateManager>
     /// </summary>
     public static GameState GetCurrentState()
     {
-        if (instance == null) return GameState.Playing;
-        return instance.currentState;
+        return currentState;
     }
 
     /// <summary>
@@ -139,15 +171,5 @@ public class GameStateManager : SingletonNoPersist<GameStateManager>
     {
         Time.timeScale = scale;
         Debug.LogWarning($"Time.timeScale force set to {scale} outside of state management");
-    }
-
-    protected override void OnDestroy()
-    {
-        // Ensure time scale is reset if manager is destroyed
-        if (instance == this)
-        {
-            Time.timeScale = 1f;
-        }
-        base.OnDestroy();  // Clean up singleton reference
     }
 }

@@ -1,50 +1,42 @@
 using UnityEngine;
 
+/// <summary>
+/// Manages power-up spawning based on round progression.
+/// Subscribes to round change events - no singleton access required.
+/// </summary>
 public class PowerUpManager : MonoBehaviour
 {
-    HookManagerScript hookManager;
     [SerializeField] private GameObject heartFishPrefab;
-    private int round;
-    private int lastSpawnedRound;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private int lastSpawnedRound = 0;
+
+    void Awake()
     {
-        hookManager = HookManagerScript.instance;
+        GameEvents.onRoundChange += HandleRoundChange;
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnDestroy()
     {
-        round = hookManager.getRoundNumber();
-        spawnManager();
+        GameEvents.onRoundChange -= HandleRoundChange;
     }
 
-    public void spawnManager()
+    private void HandleRoundChange(int newRound)
     {
-        if (lastSpawnedRound == round)
+        // Spawn heart fish every 10 rounds
+        if (newRound % 10 == 0 && newRound != 0 && lastSpawnedRound != newRound)
         {
-            return;
+            SpawnNewHeartFish();
+            lastSpawnedRound = newRound;
         }
-        else
-        {
-            if (round % 10 == 0 && round != 0)
-            {
-                spawnNewHeartFish();
-            }
-        }
-       
-
     }
 
-    public void spawnNewHeartFish()
+    private void SpawnNewHeartFish()
     {
-        
-
         GameObject newFish = Instantiate(heartFishPrefab);
         AutoSwim currentFishScript = newFish.GetComponent<AutoSwim>();
         int coinToss = Random.Range(0, 2);
-        float height = Random.Range(-2f, 2f); // (inclusive, exclusive)
+        float height = Random.Range(-2f, 2f);
         Debug.Log("Spawning heart fish at height: " + height.ToString());
+
         if (coinToss == 0)
         {
             currentFishScript.initalize("left", height);
@@ -53,7 +45,5 @@ public class PowerUpManager : MonoBehaviour
         {
             currentFishScript.initalize("right", height);
         }
-        lastSpawnedRound = round;
-        
     }
 }

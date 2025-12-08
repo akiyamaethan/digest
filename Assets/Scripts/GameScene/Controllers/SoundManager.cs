@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 public enum SoundName
 {
     SUS,
@@ -8,24 +7,34 @@ public enum SoundName
     SPLASH,
     SPLASH2
 }
-public class SoundManager : SingletonNoPersist<SoundManager>
+
+/// <summary>
+/// Handles audio playback for the game.
+/// Listens to play sound events - no singleton access required.
+/// </summary>
+public class SoundManager : MonoBehaviour
 {
     private AudioSource audioSource;
     [SerializeField] private AudioClip[] soundList;
 
-    protected override void Awake()
+    void Awake()
     {
-        base.Awake();  // Handle singleton logic
         audioSource = GetComponent<AudioSource>();
+        GameEvents.onPlaySound += HandlePlaySound;
     }
 
-    public static void PlaySound(SoundName sound, float volume = 1f)
+    void OnDestroy()
     {
-        if (instance != null && instance.audioSource != null && instance.soundList != null)
+        GameEvents.onPlaySound -= HandlePlaySound;
+    }
+
+    private void HandlePlaySound(SoundName sound, float volume)
+    {
+        if (audioSource != null && soundList != null)
         {
-            if ((int)sound < instance.soundList.Length)
+            if ((int)sound < soundList.Length)
             {
-                instance.audioSource.PlayOneShot(instance.soundList[(int)sound], volume);
+                audioSource.PlayOneShot(soundList[(int)sound], volume);
             }
             else
             {
@@ -34,7 +43,7 @@ public class SoundManager : SingletonNoPersist<SoundManager>
         }
         else
         {
-            Debug.LogWarning("[SoundManager] Instance or components not properly initialized!");
+            Debug.LogWarning("[SoundManager] AudioSource or soundList not properly initialized!");
         }
     }
 }

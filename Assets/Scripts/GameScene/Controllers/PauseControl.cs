@@ -1,21 +1,34 @@
 using UnityEngine;
 
-public class PauseControl : SingletonNoPersist<PauseControl>
+/// <summary>
+/// Handles pause menu toggling via Escape key.
+/// Uses events for state changes - no singleton access required.
+/// </summary>
+public class PauseControl : MonoBehaviour
 {
     public bool isPaused = false;
     public GameObject pauseMenu;
+    private bool isGameOver = false;
 
-    protected override void Awake()
+    void Awake()
     {
-        base.Awake();
+        GameEvents.onGameStateChanged += HandleGameStateChanged;
     }
+
+    void OnDestroy()
+    {
+        GameEvents.onGameStateChanged -= HandleGameStateChanged;
+    }
+
+    private void HandleGameStateChanged(GameState newState)
+    {
+        isGameOver = (newState == GameState.GameOver);
+    }
+
     void Update()
     {
         // Only allow pause toggle if not in game over state
-        // Check if GameStateManager exists, if not, allow pause anyway
-        bool canPause = (GameStateManager.instance == null) || !GameStateManager.IsGameOver;
-
-        if (Input.GetKeyDown(KeyCode.Escape) && canPause)
+        if (Input.GetKeyDown(KeyCode.Escape) && !isGameOver)
         {
             isPaused = !isPaused;
             if (isPaused)
@@ -33,33 +46,13 @@ public class PauseControl : SingletonNoPersist<PauseControl>
     {
         pauseMenu.SetActive(true);
         isPaused = true;
-
-        // Try to use GameStateManager if it exists, otherwise fall back to direct Time.timeScale
-        if (GameStateManager.instance != null)
-        {
-            GameStateManager.SetPaused();
-        }
-        else
-        {
-            Time.timeScale = 0f;
-            Debug.LogWarning("GameStateManager not found in scene - using direct Time.timeScale manipulation. Add GameStateManager to the scene for proper state management.");
-        }
+        GameEvents.OnPauseRequested();
     }
 
     public void Unpause()
     {
         pauseMenu.SetActive(false);
         isPaused = false;
-
-        // Try to use GameStateManager if it exists, otherwise fall back to direct Time.timeScale
-        if (GameStateManager.instance != null)
-        {
-            GameStateManager.Resume();
-        }
-        else
-        {
-            Time.timeScale = 1f;
-            Debug.LogWarning("GameStateManager not found in scene - using direct Time.timeScale manipulation. Add GameStateManager to the scene for proper state management.");
-        }
+        GameEvents.OnResumeRequested();
     }
 }

@@ -1,16 +1,22 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
 
-
-public class ScoreBehavior : SingletonNoPersist<ScoreBehavior>
+/// <summary>
+/// UI component that displays the current score.
+/// Subscribes to score update events - no singleton access required.
+/// </summary>
+public class ScoreBehavior : MonoBehaviour
 {
-    public TMP_Text scoreValue;
+    private TMP_Text scoreValue;
 
-    protected override void Awake()
+    void Awake()
     {
-        base.Awake();  // Handle singleton logic
+        GameEvents.onScoreUpdated += HandleScoreUpdated;
+    }
+
+    void OnDestroy()
+    {
+        GameEvents.onScoreUpdated -= HandleScoreUpdated;
     }
 
     void Start()
@@ -19,9 +25,9 @@ public class ScoreBehavior : SingletonNoPersist<ScoreBehavior>
         scoreValue.text = "Score: 0";
     }
 
-    public void updateScore(int score)
+    private void HandleScoreUpdated(int totalScore)
     {
         if (scoreValue != null)
-            scoreValue.text = "Score: " + score.ToString();
+            scoreValue.text = "Score: " + totalScore.ToString();
     }
 }

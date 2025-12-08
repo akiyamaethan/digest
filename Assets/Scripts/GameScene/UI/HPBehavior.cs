@@ -1,15 +1,29 @@
 using TMPro;
 using UnityEngine;
+using System.Collections;
 
-public class HPBehavior : SingletonNoPersist<HPBehavior>
+/// <summary>
+/// UI component that displays player HP with blink effects.
+/// Subscribes to HP events - no singleton access required.
+/// </summary>
+public class HPBehavior : MonoBehaviour
 {
-    public TMP_Text hpValue;
+    private TMP_Text hpValue;
     private float blinkDuration = 1.5f;
     private int currentHP = 0;
 
-    protected override void Awake()
+    void Awake()
     {
-        base.Awake();  // Handle singleton logic
+        GameEvents.onHPGain += HandleHPGain;
+        GameEvents.onHPLoss += HandleHPLoss;
+        GameEvents.onHPChange += HandleHPChange;
+    }
+
+    void OnDestroy()
+    {
+        GameEvents.onHPGain -= HandleHPGain;
+        GameEvents.onHPLoss -= HandleHPLoss;
+        GameEvents.onHPChange -= HandleHPChange;
     }
 
     void Start()
@@ -18,27 +32,10 @@ public class HPBehavior : SingletonNoPersist<HPBehavior>
         hpValue.text = "0";
     }
 
-    void OnEnable()
-    {
-        // Subscribe to HP events
-        GameEvents.onHPGain += HandleHPGain;
-        GameEvents.onHPLoss += HandleHPLoss;
-        GameEvents.onHPChange += HandleHPChange;
-    }
-
-    void OnDisable()
-    {
-        // Unsubscribe to prevent memory leaks
-        GameEvents.onHPGain -= HandleHPGain;
-        GameEvents.onHPLoss -= HandleHPLoss;
-        GameEvents.onHPChange -= HandleHPChange;
-    }
-
     private void HandleHPGain(int amount)
     {
         currentHP += amount;
         UpdateDisplay();
-        // Could add a heal blink effect here if desired
     }
 
     private void HandleHPLoss(int amount)
@@ -46,7 +43,7 @@ public class HPBehavior : SingletonNoPersist<HPBehavior>
         currentHP -= amount;
         if (currentHP < 0) currentHP = 0;
         UpdateDisplay();
-        blink();  // Blink on damage
+        Blink();
     }
 
     private void HandleHPChange(int newHP)
@@ -61,12 +58,12 @@ public class HPBehavior : SingletonNoPersist<HPBehavior>
             hpValue.text = currentHP.ToString();
     }
 
-    public void blink()
+    private void Blink()
     {
-        StartCoroutine(blinkHP());
+        StartCoroutine(BlinkHP());
     }
 
-    private System.Collections.IEnumerator blinkHP()
+    private IEnumerator BlinkHP()
     {
         float elapsed = 0f;
         bool visible = true;

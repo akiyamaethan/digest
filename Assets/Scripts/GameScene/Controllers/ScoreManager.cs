@@ -1,43 +1,35 @@
 using UnityEngine;
 
-public class ScoreManager : SingletonNoPersist<ScoreManager>
+/// <summary>
+/// Manages the current score for the game session.
+/// Listens to score gain events and broadcasts score updates.
+/// No singleton access required - all communication via events.
+/// </summary>
+public class ScoreManager : MonoBehaviour
 {
     private int _score = 0;
 
-    public static int CurrentScore => instance != null ? instance._score : 0;
-
-    protected override void Awake()
+    void Awake()
     {
-        base.Awake();  // Handle singleton logic
-        GameEvents.onScoreGain += updateScore;
+        GameEvents.onScoreGain += HandleScoreGain;
+        GameEvents.onCheckHighScore += HandleCheckHighScore;
     }
 
-    protected override void OnDestroy()
+    void OnDestroy()
     {
-        GameEvents.onScoreGain -= updateScore;
-        base.OnDestroy();  // Clean up singleton reference
+        GameEvents.onScoreGain -= HandleScoreGain;
+        GameEvents.onCheckHighScore -= HandleCheckHighScore;
     }
 
-    public void updateScore(int score)
+    private void HandleScoreGain(int amount)
     {
-        _score += score;
-        if (ScoreBehavior.instance != null)
-        {
-            ScoreBehavior.instance.updateScore(_score);
-        }
-        else
-        {
-            Debug.LogWarning("[ScoreManager] ScoreBehavior instance not found!");
-        }
+        _score += amount;
+        // Broadcast updated total score for UI
+        GameEvents.OnScoreUpdated(_score);
     }
 
-    /// <summary>
-    /// Checks current score against high score and updates if higher.
-    /// Call this at game over.
-    /// </summary>
-    public static void CheckAndUpdateHighScore()
+    private void HandleCheckHighScore()
     {
-        if (instance == null) return;
-        HighScoreManager.TrySetHighScore(instance._score);
+        HighScoreManager.TrySetHighScore(_score);
     }
 }

@@ -1,39 +1,27 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Handles scene transitions between game scenes.
+/// Uses events for state reset - no singleton access required.
+/// </summary>
 public class SceneSwitch : MonoBehaviour
 {
     public void SwitchToGame()
     {
-        // Reset game state when starting a new game (if GameStateManager exists)
-        if (GameStateManager.instance != null)
-        {
-            GameStateManager.ResetState();
-        }
-        else
-        {
-            Time.timeScale = 1f;  // Fallback to ensure time scale is reset
-        }
+        // Reset game state via event and ensure time scale is reset
+        GameEvents.OnResetStateRequested();
+        Time.timeScale = 1f;  // Fallback to ensure time scale is reset
         SceneManager.LoadSceneAsync("GameScene", LoadSceneMode.Single);
     }
 
     public void SwitchToTitle()
     {
-        // Reset game state when returning to title (if GameStateManager exists)
-        if (GameStateManager.instance != null)
-        {
-            GameStateManager.ResetState();
-        }
-        else
-        {
-            Time.timeScale = 1f;  // Fallback to ensure time scale is reset
-        }
+        // Reset game state via event
+        GameEvents.OnResetStateRequested();
+        GameEvents.OnResumeRequested();  // Unpause if paused
+        Time.timeScale = 1f;  // Fallback to ensure time scale is reset
 
-        PauseControl pauseControl = FindFirstObjectByType<PauseControl>();
-        if (pauseControl != null)
-        {
-            pauseControl.Unpause();
-        }
         SceneManager.LoadSceneAsync("TitleScreen", LoadSceneMode.Single);
         GameObject gameController = GameObject.FindGameObjectWithTag("GameController");
         if (gameController != null)

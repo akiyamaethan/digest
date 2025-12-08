@@ -3,43 +3,27 @@ using System;
 
 /// <summary>
 /// Manages high score persistence using PlayerPrefs.
-/// Data persists via PlayerPrefs, not DontDestroyOnLoad.
+/// Data persists via PlayerPrefs. Uses static methods for simple access.
+/// No singleton pattern needed - all methods are static.
 /// </summary>
-public class HighScoreManager : SingletonNoPersist<HighScoreManager>
+public static class HighScoreManager
 {
     private const string HIGH_SCORE_KEY = "highScore";
-
-    private int _highScore;
-    private bool _hasLoaded = false;
+    private static int _highScore;
+    private static bool _hasLoaded = false;
 
     /// <summary>
     /// Event fired when high score is updated. Passes the new high score value.
     /// </summary>
     public static event Action<int> onHighScoreUpdated;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        LoadHighScore();
-    }
-
     /// <summary>
     /// Gets the current high score.
     /// </summary>
     public static int GetHighScore()
     {
-        // Accessing 'instance' will auto-create the singleton if needed
-        // Only return 0 if we truly can't get an instance (e.g., app quitting)
-        var inst = instance;
-        if (inst == null) return 0;
-
-        // Ensure score is loaded even if Awake hasn't run yet
-        if (!inst._hasLoaded)
-        {
-            inst.LoadHighScore();
-        }
-
-        return inst._highScore;
+        EnsureLoaded();
+        return _highScore;
     }
 
     /// <summary>
@@ -48,20 +32,20 @@ public class HighScoreManager : SingletonNoPersist<HighScoreManager>
     /// </summary>
     public static bool TrySetHighScore(int newScore)
     {
-        if (instance == null) return false;
+        EnsureLoaded();
 
-        if (newScore > instance._highScore)
+        if (newScore > _highScore)
         {
-            instance._highScore = newScore;
-            instance.SaveHighScore();
-            onHighScoreUpdated?.Invoke(instance._highScore);
-            Debug.Log($"[HighScoreManager] New high score: {instance._highScore}");
+            _highScore = newScore;
+            SaveHighScore();
+            onHighScoreUpdated?.Invoke(_highScore);
+            Debug.Log($"[HighScoreManager] New high score: {_highScore}");
             return true;
         }
         return false;
     }
 
-    private void LoadHighScore()
+    private static void EnsureLoaded()
     {
         if (_hasLoaded) return;
 
@@ -70,7 +54,7 @@ public class HighScoreManager : SingletonNoPersist<HighScoreManager>
         Debug.Log($"[HighScoreManager] Loaded high score: {_highScore}");
     }
 
-    private void SaveHighScore()
+    private static void SaveHighScore()
     {
         PlayerPrefs.SetInt(HIGH_SCORE_KEY, _highScore);
         PlayerPrefs.Save();
@@ -81,10 +65,8 @@ public class HighScoreManager : SingletonNoPersist<HighScoreManager>
     /// </summary>
     public static void ResetHighScore()
     {
-        if (instance == null) return;
-
-        instance._highScore = 0;
-        instance.SaveHighScore();
+        _highScore = 0;
+        SaveHighScore();
         onHighScoreUpdated?.Invoke(0);
         Debug.Log("[HighScoreManager] High score reset to 0");
     }

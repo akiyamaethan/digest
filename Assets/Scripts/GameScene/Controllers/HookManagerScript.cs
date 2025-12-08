@@ -3,7 +3,12 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public class HookManagerScript : SingletonNoPersist<HookManagerScript>
+/// <summary>
+/// Manages hook spawning and round progression.
+/// Listens to spawn request events and fires round change events.
+/// No singleton access required - all communication via events.
+/// </summary>
+public class HookManagerScript : MonoBehaviour
 {
     [SerializeField] private Canvas canvas;
     [SerializeField] private GameObject hookPrefab;
@@ -18,18 +23,22 @@ public class HookManagerScript : SingletonNoPersist<HookManagerScript>
     public List<GameObject> activeHooks { get; private set; } = new List<GameObject>();
     private int roundNumber = 0;
 
-    protected override void Awake()
+    void Awake()
     {
-        base.Awake();  // Handle singleton logic
+        GameEvents.onSpawnNextHookRequested += HandleSpawnNextHookRequested;
+    }
+
+    void OnDestroy()
+    {
+        GameEvents.onSpawnNextHookRequested -= HandleSpawnNextHookRequested;
     }
 
     void Start()
     {
-        spawnNewHook();
-        HungerManager.instance.setHunger(100f);
+        SpawnNewHook();
+        GameEvents.OnHungerSet(100f);  // Initialize hunger via event
         GameEvents.OnHPChange(3);  // Initialize HP display via event
     }
-
 
     private const int EASY_ROUND_MAX = 15;
     private const int MEDIUM_ROUND_MAX = 40;
@@ -37,29 +46,37 @@ public class HookManagerScript : SingletonNoPersist<HookManagerScript>
     private const int MEDIUM_ROUND_COIN_TOSS_MAX = 3;
     private const float SPAWN_DELAY = 2f;
 
-    public void spawnNextHook()
+    private void HandleSpawnNextHookRequested()
+    {
+        SpawnNextHook();
+    }
+
+    public void SpawnNextHook()
     {
         int coinToss = Random.Range(1, EASY_ROUND_COIN_TOSS_MAX);
         if (roundNumber < EASY_ROUND_MAX)
         {
-            spawnNewHook();
+            SpawnNewHook();
             if (coinToss == 1)
-                StartCoroutine(waitThenSpawn(SPAWN_DELAY));
+                StartCoroutine(WaitThenSpawn(SPAWN_DELAY));
             return;
         }
         if (EASY_ROUND_MAX <= roundNumber && roundNumber < MEDIUM_ROUND_MAX)
         {
-            spawnNewHook();
+            SpawnNewHook();
             if (coinToss < MEDIUM_ROUND_COIN_TOSS_MAX)
-                StartCoroutine(waitThenSpawn(SPAWN_DELAY));
+                StartCoroutine(WaitThenSpawn(SPAWN_DELAY));
             return;
         }
     }
 
-    public void spawnNewHook()
+    public void SpawnNewHook()
     {
         roundNumber++;
         Debug.Log("Round Number: " + roundNumber);
+
+        // Fire round change event for PowerUpManager and other listeners
+        GameEvents.OnRoundChange(roundNumber);
 
         GameObject newHook = Instantiate(hookPrefab);
         HookSwing currentHookScript = newHook.GetComponent<HookSwing>();
@@ -78,7 +95,7 @@ public class HookManagerScript : SingletonNoPersist<HookManagerScript>
         activeHooks.Add(newHook);
     }
 
-    public void setEaten(GameObject hook)
+    public void SetEaten(GameObject hook)
     {
         if (hook == null)
             return;
@@ -87,16 +104,9 @@ public class HookManagerScript : SingletonNoPersist<HookManagerScript>
             currentHookScript.baitEaten = true;
     }
 
-    public int getRoundNumber()
-    {
-        return roundNumber;
-    }
-
-
-    public IEnumerator waitThenSpawn(float seconds)
+    public IEnumerator WaitThenSpawn(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        spawnNewHook();
+        SpawnNewHook();
     }
-
 }
