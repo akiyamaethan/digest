@@ -4,18 +4,22 @@ public class PassiveEat : MonoBehaviour
 {
     private Ate food;
     private Animator animator;
+    private PointPlayerMovement playerMovement;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+        playerMovement = GetComponent<PointPlayerMovement>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (playerMovement != null && playerMovement.inputDisabled) return;
         food = collision.gameObject.GetComponent<Ate>();
         animator.SetBool("isEating", true);
     }
     void OnTriggerStay2D(Collider2D collision)
     {
+        if (playerMovement != null && playerMovement.inputDisabled) return;
         food = collision.gameObject.GetComponent<Ate>();
     }
 
@@ -27,6 +31,11 @@ public class PassiveEat : MonoBehaviour
 
     private void Update()
     {
+        if (playerMovement != null && playerMovement.inputDisabled)
+        {
+            animator.SetBool("isEating", false);
+            return;
+        }
         
             if (food != null)
             {

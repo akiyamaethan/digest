@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PointPlayerMovement : MonoBehaviour
 {
-    private const float DISABLED_VELOCITY = 2f;
+    private const float DISABLED_VELOCITY = 1.5f;
     [SerializeField] public float speed = 4f;
     [SerializeField] public float rotationSpeed = 20f;
     [SerializeField] public float inputDeadZone = 1.6f;
