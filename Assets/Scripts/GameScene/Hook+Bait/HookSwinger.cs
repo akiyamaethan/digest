@@ -228,7 +228,11 @@ public class HookSwing : MonoBehaviour
             }
             else
             {
-                GameEvents.OnPlaySound(SoundName.SUS, .5f);
+                int soundToPlay = Random.Range(0, 2);
+                if (soundToPlay == 1)
+                    GameEvents.OnPlaySound(SoundName.HOOK1, .5f);
+                else
+                    GameEvents.OnPlaySound(SoundName.HOOK2, .5f);
                 immunityTimer = immunityDuration;
                 StartCoroutine(BlinkDuringImmunity());
             }
@@ -259,6 +263,10 @@ public class HookSwing : MonoBehaviour
     public void OnBaitEaten()
     {
         baitEaten = true;
-        GameEvents.OnPlaySound(SoundName.HUH);
+        int soundToPlay = Random.Range(0, 2);
+        if (soundToPlay == 1)
+            GameEvents.OnPlaySound(SoundName.GRUNT1);
+        else
+            GameEvents.OnPlaySound(SoundName.GRUNT2);
     }
 }

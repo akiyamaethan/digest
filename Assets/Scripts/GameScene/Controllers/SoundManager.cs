@@ -2,8 +2,10 @@ using UnityEngine;
 
 public enum SoundName
 {
-    SUS,
-    HUH,
+    HOOK1,
+    HOOK2,
+    GRUNT1,
+    GRUNT2,
     SPLASH,
     SPLASH2
 }
