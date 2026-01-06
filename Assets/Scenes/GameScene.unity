@@ -4024,8 +4024,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundManager
   soundList:
-  - {fileID: 8300000, guid: c7596a4a470d19543ae93c1b0acace1a, type: 3}
-  - {fileID: 8300000, guid: 405ab5f42d43d2646af8df924d4ccedc, type: 3}
+  - {fileID: 8300000, guid: cfd5b06d9cf401e4a8a9f0ea56f194c7, type: 3}
+  - {fileID: 8300000, guid: 876e0719f01487548abe4d920141d038, type: 3}
+  - {fileID: 8300000, guid: f6e24be398f93a74990cf7e7b41bb5d5, type: 3}
+  - {fileID: 8300000, guid: cd6871d93fa69b849b3210dc980236e8, type: 3}
   - {fileID: 8300000, guid: f02e474934701d94496c27929178bfcc, type: 3}
   - {fileID: 8300000, guid: 79db994bd1b3af4419962a71953a8ece, type: 3}
 --- !u!82 &2137311081
