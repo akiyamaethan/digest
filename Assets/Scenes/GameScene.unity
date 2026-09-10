@@ -888,7 +888,6 @@ GameObject:
   m_Component:
   - component: {fileID: 349056855}
   - component: {fileID: 349056856}
-  - component: {fileID: 349056857}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -923,18 +922,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b1edac03947a4443b9e2a9ba5835bb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneSwitch
---- !u!114 &349056857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 349056854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cd3249d75b8ca04bb9311bb7b56b841, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BackToTitle
 --- !u!1 &434285928
 GameObject:
   m_ObjectHideFlags: 0
