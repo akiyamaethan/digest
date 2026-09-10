@@ -2,36 +2,68 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Handles scene transitions between game scenes.
-/// Uses events for state reset - no singleton access required.
+/// Unified scene management and navigation controller.
+/// Handles scene transitions, level reloads, time scale resetting, and optional escape-to-title shortcuts.
+/// Decoupled and event-driven via GameEvents.
 /// </summary>
 public class SceneSwitch : MonoBehaviour
 {
-    public void SwitchToGame()
-    {
-        // Reset game state via event and ensure time scale is reset
-        GameEvents.OnResetStateRequested();
-        Time.timeScale = 1f;  // Fallback to ensure time scale is reset
-        SceneManager.LoadSceneAsync("GameScene", LoadSceneMode.Single);
-    }
+    [Header("Shortcut Settings")]
+    [Tooltip("If true, pressing Escape will transition back to the Title Screen.")]
+    [SerializeField] private bool enableEscapeToTitle = false;
 
-    public void SwitchToTitle()
-    {
-        // Reset game state via event
-        GameEvents.OnResetStateRequested();
-        GameEvents.OnResumeRequested();  // Unpause if paused
-        Time.timeScale = 1f;  // Fallback to ensure time scale is reset
+    private const string GAME_SCENE = "GameScene";
+    private const string TITLE_SCENE = "TitleScreen";
+    private const string LORE_SCENE = "LoreScreen";
 
-        SceneManager.LoadSceneAsync("TitleScreen", LoadSceneMode.Single);
-        GameObject gameController = GameObject.FindGameObjectWithTag("GameController");
-        if (gameController != null)
+    private void Update()
+    {
+        if (enableEscapeToTitle && Input.GetKeyDown(KeyCode.Escape))
         {
-            Destroy(gameController);
+            SwitchToTitle();
         }
     }
 
+    /// <summary>
+    /// Starts/transitions to the main gameplay scene.
+    /// </summary>
+    public void SwitchToGame()
+    {
+        ResetStateAndTimescale();
+        SceneManager.LoadSceneAsync(GAME_SCENE, LoadSceneMode.Single);
+    }
+
+    /// <summary>
+    /// Transitions back to the Title Screen.
+    /// </summary>
+    public void SwitchToTitle()
+    {
+        ResetStateAndTimescale();
+        GameEvents.OnResumeRequested(); // Ensure unpaused
+        SceneManager.LoadSceneAsync(TITLE_SCENE, LoadSceneMode.Single);
+    }
+
+    /// <summary>
+    /// Transitions to the Lore / Instructions screen.
+    /// </summary>
     public void SwitchToLore()
     {
-        SceneManager.LoadSceneAsync("LoreScreen", LoadSceneMode.Single);
+        SceneManager.LoadSceneAsync(LORE_SCENE, LoadSceneMode.Single);
+    }
+
+    /// <summary>
+    /// Reloads the currently active scene (for game over / restart button).
+    /// </summary>
+    public void ReloadScene()
+    {
+        ResetStateAndTimescale();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void ResetStateAndTimescale()
+    {
+        GameEvents.OnResetStateRequested();
+        Time.timeScale = 1f;
     }
 }
+
