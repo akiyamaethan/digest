@@ -49,11 +49,20 @@ public static class GameEvents
     public static void OnSpawnNextHookRequested() => onSpawnNextHookRequested?.Invoke();
 
     // ============ GAME STATE EVENTS ============
+    public static GameOverCause lastGameOverCause { get; private set; } = GameOverCause.Caught;
+
     public static event Action<GameState> onGameStateChanged;
     public static void OnGameStateChanged(GameState newState) => onGameStateChanged?.Invoke(newState);
 
     public static event Action onGameOver;
-    public static void OnGameOver() => onGameOver?.Invoke();
+    public static event Action<GameOverCause> onGameOverWithCause;
+
+    public static void OnGameOver(GameOverCause cause = GameOverCause.Caught)
+    {
+        lastGameOverCause = cause;
+        onGameOverWithCause?.Invoke(cause);
+        onGameOver?.Invoke();
+    }
 
     // Request events for pause control
     public static event Action onPauseRequested;
@@ -88,9 +97,17 @@ public static class GameEvents
         onSpawnNextHookRequested = null;
         onGameStateChanged = null;
         onGameOver = null;
+        onGameOverWithCause = null;
+        lastGameOverCause = GameOverCause.Caught;
         onPauseRequested = null;
         onResumeRequested = null;
         onResetStateRequested = null;
         onPlaySound = null;
     }
+}
+
+public enum GameOverCause
+{
+    Caught,
+    Starved
 }

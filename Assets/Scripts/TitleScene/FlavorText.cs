@@ -37,5 +37,6 @@ public class FlavorText : MonoBehaviour
         {
             flavorText.text = "Why did the fish cross the ocean?";
         }
+
     }
 }
