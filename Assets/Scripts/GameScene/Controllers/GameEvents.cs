@@ -36,7 +36,6 @@ public static class GameEvents
     public static void OnSpawnNextHookRequested() => onSpawnNextHookRequested?.Invoke();
 
     // ============ GAME STATE EVENTS ============
-    public static GameOverCause lastGameOverCause { get; private set; } = GameOverCause.Caught;
 
     public static event Action<GameState> onGameStateChanged;
     public static void OnGameStateChanged(GameState newState) => onGameStateChanged?.Invoke(newState);
@@ -46,7 +45,6 @@ public static class GameEvents
 
     public static void OnGameOver(GameOverCause cause = GameOverCause.Caught)
     {
-        lastGameOverCause = cause;
         onGameOverWithCause?.Invoke(cause);
         onGameOver?.Invoke();
     }
@@ -80,7 +78,6 @@ public static class GameEvents
         onGameStateChanged = null;
         onGameOver = null;
         onGameOverWithCause = null;
-        lastGameOverCause = GameOverCause.Caught;
         onPauseRequested = null;
         onResumeRequested = null;
         onResetStateRequested = null;
