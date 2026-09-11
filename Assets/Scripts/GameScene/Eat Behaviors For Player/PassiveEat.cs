@@ -1,8 +1,9 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PassiveEat : MonoBehaviour
 {
-    private Ate food;
+    private readonly List<Ate> foodsInRange = new List<Ate>();
     private Animator animator;
     private PointPlayerMovement playerMovement;
     private Collider2D playerCollider;
@@ -19,22 +20,28 @@ public class PassiveEat : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (playerMovement != null && playerMovement.inputDisabled) return;
-        food = collision.gameObject.GetComponent<Ate>();
-        if (animator != null)
-            animator.SetBool(IsEatingHash, true);
-    }
 
-    void OnTriggerStay2D(Collider2D collision)
-    {
-        if (playerMovement != null && playerMovement.inputDisabled) return;
-        food = collision.gameObject.GetComponent<Ate>();
+        Ate food = collision.GetComponent<Ate>();
+        if (food != null && !foodsInRange.Contains(food))
+        {
+            foodsInRange.Add(food);
+            if (animator != null)
+                animator.SetBool(IsEatingHash, true);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        food = null;
-        if (animator != null)
+        Ate food = collision.GetComponent<Ate>();
+        if (food != null)
+        {
+            foodsInRange.Remove(food);
+        }
+
+        if (foodsInRange.Count == 0 && animator != null)
+        {
             animator.SetBool(IsEatingHash, false);
+        }
     }
 
     private void Update()
@@ -43,12 +50,27 @@ public class PassiveEat : MonoBehaviour
         {
             if (animator != null)
                 animator.SetBool(IsEatingHash, false);
+            foodsInRange.Clear();
             return;
         }
 
-        if (food != null && playerCollider != null)
+        if (playerCollider == null) return;
+
+        for (int i = foodsInRange.Count - 1; i >= 0; i--)
         {
+            Ate food = foodsInRange[i];
+            if (food == null || !food.gameObject.activeInHierarchy)
+            {
+                foodsInRange.RemoveAt(i);
+                continue;
+            }
+
             food.Cut(playerCollider);
+        }
+
+        if (animator != null)
+        {
+            animator.SetBool(IsEatingHash, foodsInRange.Count > 0);
         }
     }
 }
