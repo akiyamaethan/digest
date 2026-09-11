@@ -7,11 +7,10 @@ public enum GameState
     GameOver
 }
 
-/// <summary>
 /// Manages game state (Playing/Paused/GameOver) and time scale.
 /// Listens to request events and broadcasts state changes.
 /// Other systems should subscribe to onGameStateChanged rather than polling.
-/// </summary>
+
 public class GameStateManager : MonoBehaviour
 {
     private static GameState currentState = GameState.Playing;
@@ -67,9 +66,7 @@ public class GameStateManager : MonoBehaviour
         SetGameOver();
     }
 
-    /// <summary>
     /// Sets the game to playing state (timeScale = 1)
-    /// </summary>
     public static void SetPlaying()
     {
         previousState = currentState;
@@ -79,13 +76,10 @@ public class GameStateManager : MonoBehaviour
         Debug.Log("GameState: Playing (timeScale = 1)");
     }
 
-    /// <summary>
     /// Sets the game to paused state (timeScale = 0)
     /// Will not pause if game is already over
-    /// </summary>
     public static void SetPaused()
     {
-        // Don't allow pausing during game over
         if (currentState == GameState.GameOver)
         {
             Debug.Log("Cannot pause during game over state");
@@ -99,9 +93,7 @@ public class GameStateManager : MonoBehaviour
         Debug.Log("GameState: Paused (timeScale = 0)");
     }
 
-    /// <summary>
     /// Sets the game to game over state (timeScale = 0)
-    /// </summary>
     public static void SetGameOver()
     {
         previousState = currentState;
@@ -111,10 +103,8 @@ public class GameStateManager : MonoBehaviour
         Debug.Log("GameState: GameOver (timeScale = 0)");
     }
 
-    /// <summary>
     /// Toggles between paused and playing states
     /// Will not toggle if game is over
-    /// </summary>
     public static void TogglePause()
     {
         if (currentState == GameState.GameOver)
@@ -133,9 +123,7 @@ public class GameStateManager : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// Resumes from pause (returns to playing state)
-    /// </summary>
     public static void Resume()
     {
         if (currentState == GameState.Paused)
@@ -144,9 +132,7 @@ public class GameStateManager : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// Resets the game state to playing (used when restarting)
-    /// </summary>
     public static void ResetState()
     {
         currentState = GameState.Playing;
@@ -156,17 +142,13 @@ public class GameStateManager : MonoBehaviour
         Debug.Log("GameState: Reset to Playing (timeScale = 1)");
     }
 
-    /// <summary>
     /// Gets the current game state
-    /// </summary>
     public static GameState GetCurrentState()
     {
         return currentState;
     }
 
-    /// <summary>
-    /// Force sets time scale (use with caution, prefer state methods)
-    /// </summary>
+    /// Force sets time scale (for dev)
     public static void ForceTimeScale(float scale)
     {
         Time.timeScale = scale;

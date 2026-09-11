@@ -1,9 +1,6 @@
 using UnityEngine;
 
-/// <summary>
 /// Manages power-up spawning based on round progression.
-/// Subscribes to round change events - no singleton access required.
-/// </summary>
 public class PowerUpManager : MonoBehaviour
 {
     [SerializeField] private GameObject heartFishPrefab;

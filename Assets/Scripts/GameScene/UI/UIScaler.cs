@@ -1,10 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
 /// Ensures consistent UI scaling across all display types and resolutions.
 /// Attach this script to any Canvas GameObject - it will configure the CanvasScaler automatically.
-/// </summary>
 [RequireComponent(typeof(Canvas))]
 [RequireComponent(typeof(CanvasScaler))]
 public class UIScaler : MonoBehaviour

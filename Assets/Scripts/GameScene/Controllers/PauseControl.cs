@@ -1,9 +1,6 @@
 using UnityEngine;
 
-/// <summary>
 /// Handles pause menu toggling via Escape key.
-/// Uses events for state changes - no singleton access required.
-/// </summary>
 public class PauseControl : MonoBehaviour
 {
     public bool isPaused = false;

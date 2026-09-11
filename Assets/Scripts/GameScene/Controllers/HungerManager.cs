@@ -1,10 +1,7 @@
 using UnityEngine;
 
-/// <summary>
 /// Manages player hunger level with passive drain over time.
 /// Listens to hunger events and fires onHungerDepleted when starving.
-/// No singleton access required - all communication via events.
-/// </summary>
 public class HungerManager : MonoBehaviour
 {
     public HungerBar hungerBar;

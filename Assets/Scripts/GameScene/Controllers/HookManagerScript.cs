@@ -2,11 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-/// <summary>
 /// Manages hook spawning and round progression.
 /// Listens to spawn request events and fires round change events.
-/// Decoupled from UI and individual hook parameters.
-/// </summary>
 public class HookManagerScript : MonoBehaviour
 {
     [SerializeField] private GameObject hookPrefab;

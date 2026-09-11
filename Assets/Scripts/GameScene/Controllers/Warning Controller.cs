@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// Manages hook spawn warning indicators
+
 public class WarningController : MonoBehaviour
 {
     private float blinkDuration = 1f;

@@ -1,10 +1,7 @@
 using UnityEngine;
 
-/// <summary>
 /// Manages the current score for the game session.
 /// Listens to score gain events and broadcasts score updates.
-/// No singleton access required - all communication via events.
-/// </summary>
 public class ScoreManager : MonoBehaviour
 {
     private int _score = 0;

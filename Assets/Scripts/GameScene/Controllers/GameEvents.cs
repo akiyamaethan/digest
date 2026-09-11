@@ -1,10 +1,7 @@
 using System;
 using UnityEngine;
 
-/// <summary>
 /// Central event bus for decoupled cross-system communication.
-/// All systems communicate through events rather than direct singleton access.
-/// </summary>
 public static class GameEvents
 {
     // ============ HUNGER EVENTS ============
@@ -79,9 +76,7 @@ public static class GameEvents
     public static void OnPlaySound(SoundName sound, float volume = 1f) => onPlaySound?.Invoke(sound, volume);
 
     // ============ CLEANUP ============
-    /// <summary>
     /// Clears all event subscriptions. Call this on scene unload to prevent memory leaks.
-    /// </summary>
     public static void ClearAllEvents()
     {
         onHungerGain = null;

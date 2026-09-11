@@ -1,10 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-/// <summary>
 /// UI component that displays the current score.
-/// Subscribes to score update events - no singleton access required.
-/// </summary>
 public class ScoreBehavior : MonoBehaviour
 {
     private TMP_Text scoreValue;
