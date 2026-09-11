@@ -31,7 +31,6 @@ public class HookManagerScript : MonoBehaviour
     {
         SpawnNewHook();
         GameEvents.OnHungerSet(100f);  // Initialize hunger via event
-        GameEvents.OnHPChange(3);  // Initialize HP display via event
     }
 
     private void HandleSpawnNextHookRequested()

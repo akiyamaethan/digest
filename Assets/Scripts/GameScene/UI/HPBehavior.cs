@@ -7,52 +7,27 @@ public class HPBehavior : MonoBehaviour
 {
     private TMP_Text hpValue;
     private float blinkDuration = 1.5f;
-    private int currentHP = 0;
-
     void Awake()
     {
-        GameEvents.onHPGain += HandleHPGain;
-        GameEvents.onHPLoss += HandleHPLoss;
-        GameEvents.onHPChange += HandleHPChange;
+        hpValue = GetComponent<TMP_Text>();
+        GameEvents.onHPChanged += HandleHPChanged;
     }
 
     void OnDestroy()
     {
-        GameEvents.onHPGain -= HandleHPGain;
-        GameEvents.onHPLoss -= HandleHPLoss;
-        GameEvents.onHPChange -= HandleHPChange;
+        GameEvents.onHPChanged -= HandleHPChanged;
     }
 
-    void Start()
-    {
-        hpValue = GetComponent<TMP_Text>();
-        hpValue.text = "0";
-    }
-
-    private void HandleHPGain(int amount)
-    {
-        currentHP += amount;
-        UpdateDisplay();
-    }
-
-    private void HandleHPLoss(int amount)
-    {
-        currentHP -= amount;
-        if (currentHP < 0) currentHP = 0;
-        UpdateDisplay();
-        Blink();
-    }
-
-    private void HandleHPChange(int newHP)
-    {
-        currentHP = newHP;
-        UpdateDisplay();
-    }
-
-    private void UpdateDisplay()
+    private void HandleHPChanged(int newHP, int delta)
     {
         if (hpValue != null)
-            hpValue.text = currentHP.ToString();
+            hpValue.text = newHP.ToString();
+
+        // If HP decreased (damage taken), trigger the red blink effect
+        if (delta < 0)
+        {
+            Blink();
+        }
     }
 
     private void Blink()

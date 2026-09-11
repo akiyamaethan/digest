@@ -28,14 +28,8 @@ public static class GameEvents
     public static void OnCheckHighScore() => onCheckHighScore?.Invoke();
 
     // ============ HP EVENTS ============
-    public static event Action<int> onHPChange;
-    public static void OnHPChange(int newHP) => onHPChange?.Invoke(newHP);
-
-    public static event Action<int> onHPGain;
-    public static void OnHPGain(int amount) => onHPGain?.Invoke(amount);
-
-    public static event Action<int> onHPLoss;
-    public static void OnHPLoss(int amount) => onHPLoss?.Invoke(amount);
+    public static event Action<int, int> onHPChanged;
+    public static void OnHPChanged(int newHP, int delta = 0) => onHPChanged?.Invoke(newHP, delta);
 
     // ============ ROUND/HOOK EVENTS ============
     public static event Action<int> onRoundChange;
@@ -85,9 +79,7 @@ public static class GameEvents
         onScoreGain = null;
         onScoreUpdated = null;
         onCheckHighScore = null;
-        onHPChange = null;
-        onHPGain = null;
-        onHPLoss = null;
+        onHPChanged = null;
         onRoundChange = null;
         onSpawnNextHookRequested = null;
         onGameStateChanged = null;

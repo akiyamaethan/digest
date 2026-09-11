@@ -174,9 +174,7 @@ public class HookSwing : MonoBehaviour
 
         if (immunityTimer <= 0f)
         {
-            player.HP -= 1;
-            GameEvents.OnHPLoss(1);  // Fire HP loss event - HPBehavior handles display + blink
-            Debug.Log("HP: " + player.HP);
+            player.TakeDamage(1);
             if (player.HP <= 0)
             {
                 player.inputDisabled = true;

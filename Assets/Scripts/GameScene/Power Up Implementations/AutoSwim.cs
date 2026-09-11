@@ -8,15 +8,17 @@ public class AutoSwim : MonoBehaviour
     [SerializeField] private float spawnPadding = 1f;  // How far off-screen to spawn
 
     private SpriteRenderer sr;
+    private Camera cam;
 
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
+        cam = Camera.main;
     }
 
-    public void initalize(string dir, float height)
+    public void Initialize(string dir, float height)
     {
-        Camera cam = Camera.main;
+        if (cam == null) cam = Camera.main;
         Vector2 screenLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, 0));
         Vector2 screenRight = cam.ViewportToWorldPoint(new Vector3(1, 0, 0));
 
@@ -41,28 +43,37 @@ public class AutoSwim : MonoBehaviour
         transform.position = spawnPos;
     }
 
+    // Alias for backward compatibility
+    public void initalize(string dir, float height) => Initialize(dir, height);
+
     void FixedUpdate()
     {
         Vector3 currentPos = transform.position;
-        currentPos.x += direction * speed * Time.deltaTime;
+        currentPos.x += direction * speed * Time.fixedDeltaTime;
         transform.position = currentPos;
 
-        // Destroy if swam off the opposite side of screen
-        Camera cam = Camera.main;
-        Vector2 screenLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, 0));
-        Vector2 screenRight = cam.ViewportToWorldPoint(new Vector3(1, 0, 0));
-
-        if ((direction == -1 && currentPos.x < screenLeft.x - spawnPadding) ||
-            (direction == 1 && currentPos.x > screenRight.x + spawnPadding))
+        if (cam == null) cam = Camera.main;
+        if (cam != null)
         {
-            Destroy(gameObject);
+            Vector2 screenLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, 0));
+            Vector2 screenRight = cam.ViewportToWorldPoint(new Vector3(1, 0, 0));
+
+            if ((direction == -1 && currentPos.x < screenLeft.x - spawnPadding) ||
+                (direction == 1 && currentPos.x > screenRight.x + spawnPadding))
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Fire the HP gain event - any subscriber will handle it
-        GameEvents.OnHPGain(hpValue);
-        Destroy(gameObject);
+        PointPlayerMovement player = collision.GetComponent<PointPlayerMovement>();
+        if (player != null)
+        {
+            player.Heal(hpValue);
+            Destroy(gameObject);
+        }
     }
 }
+

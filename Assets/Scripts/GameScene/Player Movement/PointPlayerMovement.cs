@@ -40,20 +40,25 @@ public class PointPlayerMovement : MonoBehaviour
         maxBounds = topRight - Vector2.one * boundsPadding;
     }
 
-    void OnEnable()
+    void Start()
     {
-        GameEvents.onHPGain += HandleHPGain;
+        // Broadcast starting HP to UI
+        GameEvents.OnHPChanged(HP, 0);
     }
 
-    void OnDisable()
+    public void TakeDamage(int amount)
     {
-        GameEvents.onHPGain -= HandleHPGain;
+        HP -= amount;
+        if (HP < 0) HP = 0;
+        GameEvents.OnHPChanged(HP, -amount);
+        Debug.Log("[Player] Took damage! HP now: " + HP);
     }
 
-    private void HandleHPGain(int amount)
+    public void Heal(int amount)
     {
         HP += amount;
-        Debug.Log("[Player] HP gained! Now at: " + HP);
+        GameEvents.OnHPChanged(HP, amount);
+        Debug.Log("[Player] Healed! HP now: " + HP);
     }
 
     void Update()
