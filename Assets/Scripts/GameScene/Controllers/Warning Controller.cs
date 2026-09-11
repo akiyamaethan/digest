@@ -1,38 +1,52 @@
 using UnityEngine;
 using UnityEngine.UI;
-
-/// Manages hook spawn warning indicators
+using System.Collections;
 
 public class WarningController : MonoBehaviour
 {
     private float blinkDuration = 1f;
     private Image caution;
     private Transform parentHook;
-    void Start()
+    private Camera mainCam;
+
+    private static readonly WaitForSeconds BlinkWait = new WaitForSeconds(0.1f);
+
+    private void Awake()
     {
         caution = GetComponent<Image>();
-        StartCoroutine(blink());
+        mainCam = Camera.main;
     }
 
-    public void initialize(Transform parent)
+    private void Start()
+    {
+        StartCoroutine(Blink());
+    }
+
+    public void Initialize(Transform parent)
     {
         parentHook = parent;
     }
+
+    // Alias for backward compatibility
+    public void initialize(Transform parent) => Initialize(parent);
 
     private void Update()
     {
         if (parentHook != null)
         {
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(parentHook.position);
-            transform.position = new Vector3(screenPos.x, transform.position.y, transform.position.z);
+            if (mainCam == null) mainCam = Camera.main;
+            if (mainCam != null)
+            {
+                Vector3 screenPos = mainCam.WorldToScreenPoint(parentHook.position);
+                transform.position = new Vector3(screenPos.x, transform.position.y, transform.position.z);
+            }
         }
     }
 
-    private System.Collections.IEnumerator blink()
+    private IEnumerator Blink()
     {
         float elapsed = 0f;
         bool visible = true;
-
 
         while (elapsed < blinkDuration)
         {
@@ -40,11 +54,11 @@ public class WarningController : MonoBehaviour
             if (caution != null)
                 caution.enabled = visible;
 
-            yield return new WaitForSeconds(0.1f);
+            yield return BlinkWait;
             elapsed += 0.1f;
         }
 
         Destroy(gameObject);
     }
-
 }
+
