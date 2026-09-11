@@ -3,17 +3,26 @@ using UnityEngine.UI;
 
 public class HungerBar : MonoBehaviour
 {
-    public Slider slider;
+    [SerializeField] private Slider slider;
 
-    public void Awake()
+    private void Awake()
     {
-        slider = GetComponent<Slider>();
+        if (slider == null)
+            slider = GetComponent<Slider>();
+
+        GameEvents.onHungerUpdated += SetHunger;
     }
 
-    public void setHunger(float arg)
+    private void OnDestroy()
+    {
+        GameEvents.onHungerUpdated -= SetHunger;
+    }
+
+    public void SetHunger(float arg)
     {
         if (slider != null)
             slider.value = arg;
     }
 
+    public void setHunger(float arg) => SetHunger(arg);
 }

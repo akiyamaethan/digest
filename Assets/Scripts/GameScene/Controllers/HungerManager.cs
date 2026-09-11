@@ -4,7 +4,6 @@ using UnityEngine;
 /// Listens to hunger events and fires onHungerDepleted when starving.
 public class HungerManager : MonoBehaviour
 {
-    public HungerBar hungerBar;
     private float hungerLevel;
     private float hungerDrain = 0.3f;
     private float hungerDrainInterval = .05f;
@@ -38,8 +37,6 @@ public class HungerManager : MonoBehaviour
 
     private void AlterHunger(float amount)
     {
-        float previousHunger = hungerLevel;
-
         if (amount > 0)
         {
             if (hungerLevel <= 100f)
@@ -57,9 +54,8 @@ public class HungerManager : MonoBehaviour
         // Clamp hunger level
         hungerLevel = Mathf.Clamp(hungerLevel, 0f, 100f);
 
-        // Update UI
-        if (hungerBar != null)
-            hungerBar.setHunger(hungerLevel);
+        // Notify UI and listeners via event bus
+        GameEvents.OnHungerUpdated(hungerLevel);
 
         // Fire depleted event when hunger hits 0 (only once per depletion)
         if (hungerLevel <= 0f && !hasFiredDepleted)
@@ -73,7 +69,6 @@ public class HungerManager : MonoBehaviour
     {
         hungerLevel = Mathf.Clamp(amount, 0f, 100f);
         hasFiredDepleted = false;
-        if (hungerBar != null)
-            hungerBar.setHunger(hungerLevel);
+        GameEvents.OnHungerUpdated(hungerLevel);
     }
 }

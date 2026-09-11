@@ -11,6 +11,10 @@ public static class GameEvents
     public static event Action<float> onHungerSet;
     public static void OnHungerSet(float amount) => onHungerSet?.Invoke(amount);
 
+    // Fired when total hunger level is updated - for UI display
+    public static event Action<float> onHungerUpdated;
+    public static void OnHungerUpdated(float currentHunger) => onHungerUpdated?.Invoke(currentHunger);
+
     // Fired when hunger reaches 0 - triggers starvation game over
     public static event Action onHungerDepleted;
     public static void OnHungerDepleted() => onHungerDepleted?.Invoke();
@@ -75,6 +79,7 @@ public static class GameEvents
     {
         onHungerGain = null;
         onHungerSet = null;
+        onHungerUpdated = null;
         onHungerDepleted = null;
         onScoreGain = null;
         onScoreUpdated = null;
