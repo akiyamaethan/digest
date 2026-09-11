@@ -20,11 +20,6 @@ public class HighScoreDisplay : MonoBehaviour
         _text = GetComponent<TMP_Text>();
     }
 
-    private void Start()
-    {
-        UpdateDisplay();
-    }
-
     private void OnEnable()
     {
         HighScoreManager.onHighScoreUpdated += OnHighScoreUpdated;

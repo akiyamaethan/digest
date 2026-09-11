@@ -15,10 +15,6 @@ public static class GameEvents
     public static event Action<float> onHungerUpdated;
     public static void OnHungerUpdated(float currentHunger) => onHungerUpdated?.Invoke(currentHunger);
 
-    // Fired when hunger reaches 0 - triggers starvation game over
-    public static event Action onHungerDepleted;
-    public static void OnHungerDepleted() => onHungerDepleted?.Invoke();
-
     // ============ SCORE EVENTS ============
     public static event Action<int> onScoreGain;
     public static void OnScoreGain(int amount) => onScoreGain?.Invoke(amount);
@@ -26,10 +22,6 @@ public static class GameEvents
     // Fired when total score is updated - for UI display
     public static event Action<int> onScoreUpdated;
     public static void OnScoreUpdated(int totalScore) => onScoreUpdated?.Invoke(totalScore);
-
-    // Request to check and update high score (at game over)
-    public static event Action onCheckHighScore;
-    public static void OnCheckHighScore() => onCheckHighScore?.Invoke();
 
     // ============ HP EVENTS ============
     public static event Action<int, int> onHPChanged;
@@ -80,10 +72,8 @@ public static class GameEvents
         onHungerGain = null;
         onHungerSet = null;
         onHungerUpdated = null;
-        onHungerDepleted = null;
         onScoreGain = null;
         onScoreUpdated = null;
-        onCheckHighScore = null;
         onHPChanged = null;
         onRoundChange = null;
         onSpawnNextHookRequested = null;

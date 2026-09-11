@@ -9,13 +9,13 @@ public class ScoreManager : MonoBehaviour
     void Awake()
     {
         GameEvents.onScoreGain += HandleScoreGain;
-        GameEvents.onCheckHighScore += HandleCheckHighScore;
+        GameEvents.onGameOver += HandleGameOver;
     }
 
     void OnDestroy()
     {
         GameEvents.onScoreGain -= HandleScoreGain;
-        GameEvents.onCheckHighScore -= HandleCheckHighScore;
+        GameEvents.onGameOver -= HandleGameOver;
     }
 
     private void HandleScoreGain(int amount)
@@ -24,7 +24,7 @@ public class ScoreManager : MonoBehaviour
         GameEvents.OnScoreUpdated(_score);
     }
 
-    private void HandleCheckHighScore()
+    private void HandleGameOver()
     {
         HighScoreManager.TrySetHighScore(_score);
     }

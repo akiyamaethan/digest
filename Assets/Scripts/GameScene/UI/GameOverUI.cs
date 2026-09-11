@@ -18,20 +18,11 @@ public class GameOverUI : MonoBehaviour
     private void Awake()
     {
         GameEvents.onGameOverWithCause += HandleGameOverWithCause;
-        GameEvents.onHungerDepleted += HandleHungerDepleted;
     }
 
     private void OnDestroy()
     {
         GameEvents.onGameOverWithCause -= HandleGameOverWithCause;
-        GameEvents.onHungerDepleted -= HandleHungerDepleted;
-    }
-
-    private void HandleHungerDepleted()
-    {
-        // When hunger depletes, trigger high score check and game over
-        GameEvents.OnCheckHighScore();
-        GameEvents.OnGameOver(GameOverCause.Starved);
     }
 
     private void HandleGameOverWithCause(GameOverCause cause)

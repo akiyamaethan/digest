@@ -146,7 +146,6 @@ public class HookSwing : MonoBehaviour
                 caughtFishTimer -= Time.fixedDeltaTime;
                 if (caughtFishTimer <= 0f)
                 {
-                    GameEvents.OnCheckHighScore();
                     GameEvents.OnGameOver(GameOverCause.Caught);
                 }
             }
