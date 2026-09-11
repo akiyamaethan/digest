@@ -63,9 +63,13 @@ public class PointPlayerMovement : MonoBehaviour
 
     void Update()
     {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        direction = (mousePos - rb.position).normalized;
-        distance = Vector2.Distance(rb.position, mousePos);
+        if (mainCam == null) mainCam = Camera.main;
+        if (mainCam != null)
+        {
+            Vector2 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
+            direction = (mousePos - rb.position).normalized;
+            distance = Vector2.Distance(rb.position, mousePos);
+        }
     }
 
     void FixedUpdate()

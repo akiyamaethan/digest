@@ -397,7 +397,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HookSwinger
   cautionUI: {fileID: 2359031996622945529, guid: cb0ab18a9eee81f45bb1f7032889e5d6, type: 3}
-  mainCanvas: {fileID: 0}
   pivotPoint: {x: 0, y: 22}
   baitEaten: 0
   initialRopeLength: 0

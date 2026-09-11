@@ -17,6 +17,9 @@ public class HookSwing : MonoBehaviour
     private float immunityDuration = 1.5f;
     private SpriteRenderer playerSprite;
 
+    private static readonly WaitForSeconds BlinkWait = new WaitForSeconds(0.1f);
+    private static Canvas cachedCanvas;
+
     [Header("Spawn Settings")]
     private bool justSpawned = true;
     private float spawnTimer = 0f;
@@ -67,14 +70,16 @@ public class HookSwing : MonoBehaviour
 
         if (cautionUI != null)
         {
-            Canvas canvas = FindFirstObjectByType<Canvas>();
-            if (canvas != null)
+            if (cachedCanvas == null)
+                cachedCanvas = FindFirstObjectByType<Canvas>();
+
+            if (cachedCanvas != null)
             {
-                GameObject caution = Instantiate(cautionUI, canvas.transform);
+                GameObject caution = Instantiate(cautionUI, cachedCanvas.transform);
                 WarningController cautionScript = caution.GetComponent<WarningController>();
                 if (cautionScript != null)
                 {
-                    cautionScript.initialize(transform);
+                    cautionScript.Initialize(transform);
                 }
             }
         }
@@ -205,7 +210,7 @@ public class HookSwing : MonoBehaviour
             if (playerSprite != null)
                 playerSprite.enabled = visible;
 
-            yield return new WaitForSeconds(0.1f);
+            yield return BlinkWait;
             elapsed += 0.1f;
         }
 
