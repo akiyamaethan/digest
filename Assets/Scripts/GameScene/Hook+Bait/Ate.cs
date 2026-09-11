@@ -77,5 +77,12 @@ public class Ate : MonoBehaviour
         }
     }
 
-
+    private void OnDestroy()
+    {
+        if (dynamicTex != null)
+        {
+            Destroy(dynamicTex);
+        }
+    }
 }
+
