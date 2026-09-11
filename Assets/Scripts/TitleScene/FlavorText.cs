@@ -3,40 +3,37 @@ using TMPro;
 
 public class FlavorText : MonoBehaviour
 {
-    private TMP_Text flavorText;
-    void Start()
+    private static readonly string[] FlavorOptions =
     {
-        flavorText = GetComponent<TMP_Text>();
-        setFlavorText();
+        "Flavor Text",
+        "Catch me if you can!",
+        "Have we met before?",
+        "I'm lonely",
+        "What are you looking at?",
+        "Why did the fish cross the ocean?",
+        "What a nice day to go fishing!",
+        "Just keep swimming",
+        "Feed me worms"
+    };
+
+    [SerializeField] private TMP_Text flavorText;
+
+    private void Awake()
+    {
+        if (flavorText == null)
+            flavorText = GetComponent<TMP_Text>();
     }
 
-    void setFlavorText()
+    private void Start()
     {
-        int choice = Random.Range(0, 6);
-        if (choice == 0)
-        {
-            flavorText.text = "Flavor Text";
-        }
-        else if (choice == 1)
-        {
-            flavorText.text = "Catch me if you can!";
-        }
-        else if (choice == 2)
-        {
-            flavorText.text = "Have we met before?";
-        }
-        else if (choice == 3)
-        {
-            flavorText.text = "I'm lonely";
-        }
-        else if (choice == 4)
-        {
-            flavorText.text = "What are you looking at?";
-        }
-        else if (choice == 5)
-        {
-            flavorText.text = "Why did the fish cross the ocean?";
-        }
+        SetFlavorText();
+    }
 
+    public void SetFlavorText()
+    {
+        if (flavorText != null && FlavorOptions.Length > 0)
+        {
+            flavorText.text = FlavorOptions[Random.Range(0, FlavorOptions.Length)];
+        }
     }
 }
