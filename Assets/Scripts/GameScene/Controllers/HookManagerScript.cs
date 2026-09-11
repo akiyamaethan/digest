@@ -8,7 +8,6 @@ public class HookManagerScript : MonoBehaviour
 {
     [SerializeField] private GameObject hookPrefab;
 
-    public List<GameObject> activeHooks { get; private set; } = new List<GameObject>();
     private int roundNumber = 0;
 
     private const int EASY_ROUND_MAX = 15;
@@ -18,6 +17,8 @@ public class HookManagerScript : MonoBehaviour
     private const int MEDIUM_ROUND_COIN_TOSS_MAX = 3;
     private const int HARD_ROUND_COIN_TOSS_MAX = 2;
     private const float SPAWN_DELAY = 2f;
+
+    private static readonly WaitForSeconds SpawnWait = new WaitForSeconds(SPAWN_DELAY);
 
     void Awake()
     {
@@ -42,30 +43,19 @@ public class HookManagerScript : MonoBehaviour
 
     public void SpawnNextHook()
     {
-        int coinToss = Random.Range(1, EASY_ROUND_COIN_TOSS_MAX);
+        int coinTossMax;
         if (roundNumber < EASY_ROUND_MAX)
-        {
-            SpawnNewHook();
-            if (coinToss == 1)
-                StartCoroutine(WaitThenSpawn(SPAWN_DELAY));
-            return;
-        }
-        if (EASY_ROUND_MAX <= roundNumber && roundNumber < MEDIUM_ROUND_MAX)
-        {
-            coinToss = Random.Range(1, MEDIUM_ROUND_COIN_TOSS_MAX);
-            SpawnNewHook();
-            if (coinToss == 1)
-                StartCoroutine(WaitThenSpawn(SPAWN_DELAY));
-            return;
-        }
-        if (MEDIUM_ROUND_MAX <= roundNumber && roundNumber < HARD_ROUND_MAX)
-        {
-            coinToss = Random.Range(1, HARD_ROUND_COIN_TOSS_MAX);
-            SpawnNewHook();
-            if (coinToss == 1)
-                StartCoroutine(WaitThenSpawn(SPAWN_DELAY));
-            return;
-        }
+            coinTossMax = EASY_ROUND_COIN_TOSS_MAX;
+        else if (roundNumber < MEDIUM_ROUND_MAX)
+            coinTossMax = MEDIUM_ROUND_COIN_TOSS_MAX;
+        else
+            coinTossMax = HARD_ROUND_COIN_TOSS_MAX;
+
+        SpawnNewHook();
+
+        int coinToss = Random.Range(1, coinTossMax);
+        if (coinToss == 1)
+            StartCoroutine(WaitThenSpawn());
     }
 
     public void SpawnNewHook()
@@ -76,22 +66,16 @@ public class HookManagerScript : MonoBehaviour
         // Fire round change event for PowerUpManager and other listeners
         GameEvents.OnRoundChange(roundNumber);
 
-        GameObject newHook = Instantiate(hookPrefab);
-        activeHooks.Add(newHook);
+        Instantiate(hookPrefab);
     }
 
-    public void SetEaten(GameObject hook)
+    public IEnumerator WaitThenSpawn(float seconds = SPAWN_DELAY)
     {
-        if (hook == null)
-            return;
-        HookSwing currentHookScript = hook.GetComponent<HookSwing>();
-        if (currentHookScript != null)
-            currentHookScript.baitEaten = true;
-    }
+        if (Mathf.Approximately(seconds, SPAWN_DELAY))
+            yield return SpawnWait;
+        else
+            yield return new WaitForSeconds(seconds);
 
-    public IEnumerator WaitThenSpawn(float seconds)
-    {
-        yield return new WaitForSeconds(seconds);
         SpawnNewHook();
     }
 }
