@@ -1,11 +1,12 @@
 using UnityEngine;
 
-/// Handles pause menu toggling via Escape key.
+/// Handles pause menu toggling via Escape key and synchronizes UI with GameStateManager.
 public class PauseControl : MonoBehaviour
 {
-    public bool isPaused = false;
-    public GameObject pauseMenu;
+    [SerializeField] private GameObject pauseMenu;
     private bool isGameOver = false;
+
+    public bool isPaused => GameStateManager.IsPaused;
 
     void Awake()
     {
@@ -20,6 +21,10 @@ public class PauseControl : MonoBehaviour
     private void HandleGameStateChanged(GameState newState)
     {
         isGameOver = (newState == GameState.GameOver);
+        if (pauseMenu != null)
+        {
+            pauseMenu.SetActive(newState == GameState.Paused);
+        }
     }
 
     void Update()
@@ -27,29 +32,24 @@ public class PauseControl : MonoBehaviour
         // Only allow pause toggle if not in game over state
         if (Input.GetKeyDown(KeyCode.Escape) && !isGameOver)
         {
-            isPaused = !isPaused;
-            if (isPaused)
+            if (GameStateManager.IsPaused)
             {
-                Pause();
+                Unpause();
             }
             else
             {
-                Unpause();
+                Pause();
             }
         }
     }
 
     public void Pause()
     {
-        pauseMenu.SetActive(true);
-        isPaused = true;
         GameEvents.OnPauseRequested();
     }
 
     public void Unpause()
     {
-        pauseMenu.SetActive(false);
-        isPaused = false;
         GameEvents.OnResumeRequested();
     }
 }
