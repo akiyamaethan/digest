@@ -1,5 +1,11 @@
 using UnityEngine;
 
+public enum SwimDirection
+{
+    Left,
+    Right
+}
+
 public class AutoSwim : MonoBehaviour
 {
     private int direction = 0;
@@ -9,6 +15,7 @@ public class AutoSwim : MonoBehaviour
 
     private SpriteRenderer sr;
     private Camera cam;
+    private float destroyBoundaryX;
 
     void Awake()
     {
@@ -16,31 +23,42 @@ public class AutoSwim : MonoBehaviour
         cam = Camera.main;
     }
 
-    public void Initialize(string dir, float height)
+    public void Initialize(SwimDirection dir, float height)
     {
         if (cam == null) cam = Camera.main;
-        Vector2 screenLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, 0));
-        Vector2 screenRight = cam.ViewportToWorldPoint(new Vector3(1, 0, 0));
-
-        Vector3 spawnPos = transform.position;
-        spawnPos.y = height;
-
-        if (dir == "left")
+        if (cam != null)
         {
-            // Swimming left: start on RIGHT side, face left
-            direction = -1;
-            spawnPos.x = screenRight.x + spawnPadding;
-            if (sr != null) sr.flipX = true;
-        }
-        else if (dir == "right")
-        {
-            // Swimming right: start on LEFT side, face right
-            direction = 1;
-            spawnPos.x = screenLeft.x - spawnPadding;
-            if (sr != null) sr.flipX = false;
-        }
+            Vector2 screenLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, 0));
+            Vector2 screenRight = cam.ViewportToWorldPoint(new Vector3(1, 0, 0));
 
-        transform.position = spawnPos;
+            Vector3 spawnPos = transform.position;
+            spawnPos.y = height;
+
+            if (dir == SwimDirection.Left)
+            {
+                // Swimming left: start on RIGHT side, face left
+                direction = -1;
+                spawnPos.x = screenRight.x + spawnPadding;
+                destroyBoundaryX = screenLeft.x - spawnPadding;
+                if (sr != null) sr.flipX = true;
+            }
+            else
+            {
+                // Swimming right: start on LEFT side, face right
+                direction = 1;
+                spawnPos.x = screenLeft.x - spawnPadding;
+                destroyBoundaryX = screenRight.x + spawnPadding;
+                if (sr != null) sr.flipX = false;
+            }
+
+            transform.position = spawnPos;
+        }
+    }
+
+    public void Initialize(string dir, float height)
+    {
+        SwimDirection swimDir = (dir == "left") ? SwimDirection.Left : SwimDirection.Right;
+        Initialize(swimDir, height);
     }
 
     // Alias for backward compatibility
@@ -52,17 +70,10 @@ public class AutoSwim : MonoBehaviour
         currentPos.x += direction * speed * Time.fixedDeltaTime;
         transform.position = currentPos;
 
-        if (cam == null) cam = Camera.main;
-        if (cam != null)
+        if ((direction == -1 && currentPos.x < destroyBoundaryX) ||
+            (direction == 1 && currentPos.x > destroyBoundaryX))
         {
-            Vector2 screenLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, 0));
-            Vector2 screenRight = cam.ViewportToWorldPoint(new Vector3(1, 0, 0));
-
-            if ((direction == -1 && currentPos.x < screenLeft.x - spawnPadding) ||
-                (direction == 1 && currentPos.x > screenRight.x + spawnPadding))
-            {
-                Destroy(gameObject);
-            }
+            Destroy(gameObject);
         }
     }
 

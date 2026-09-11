@@ -30,17 +30,12 @@ public class PowerUpManager : MonoBehaviour
     {
         GameObject newFish = Instantiate(heartFishPrefab);
         AutoSwim currentFishScript = newFish.GetComponent<AutoSwim>();
-        int coinToss = Random.Range(0, 2);
-        float height = Random.Range(-2f, 2f);
-        Debug.Log("Spawning heart fish at height: " + height.ToString());
-
-        if (coinToss == 0)
+        if (currentFishScript != null)
         {
-            currentFishScript.initalize("left", height);
-        }
-        else
-        {
-            currentFishScript.initalize("right", height);
+            SwimDirection dir = (Random.Range(0, 2) == 0) ? SwimDirection.Left : SwimDirection.Right;
+            float height = Random.Range(-2f, 2f);
+            Debug.Log($"Spawning heart fish moving {dir} at height: {height}");
+            currentFishScript.Initialize(dir, height);
         }
     }
 }
