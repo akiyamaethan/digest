@@ -51,13 +51,4 @@ public static class HighScoreManager
         PlayerPrefs.SetInt(HIGH_SCORE_KEY, _highScore);
         PlayerPrefs.Save();
     }
-
-    /// Resets the high score to 0. Use for debugging or player request.
-    public static void ResetHighScore()
-    {
-        _highScore = 0;
-        SaveHighScore();
-        onHighScoreUpdated?.Invoke(0);
-        Debug.Log("[HighScoreManager] High score reset to 0");
-    }
 }

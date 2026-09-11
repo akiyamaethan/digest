@@ -9,12 +9,10 @@ public enum GameState
 
 /// Manages game state (Playing/Paused/GameOver) and time scale.
 /// Listens to request events and broadcasts state changes.
-/// Other systems should subscribe to onGameStateChanged rather than polling.
 
 public class GameStateManager : MonoBehaviour
 {
     private static GameState currentState = GameState.Playing;
-    private static GameState previousState = GameState.Playing;
 
     // Properties to check current state (for systems that cache state via events)
     public static bool IsPlaying => currentState == GameState.Playing;
@@ -69,7 +67,6 @@ public class GameStateManager : MonoBehaviour
     /// Sets the game to playing state (timeScale = 1)
     public static void SetPlaying()
     {
-        previousState = currentState;
         currentState = GameState.Playing;
         Time.timeScale = 1f;
         GameEvents.OnGameStateChanged(GameState.Playing);
@@ -85,8 +82,6 @@ public class GameStateManager : MonoBehaviour
             Debug.Log("Cannot pause during game over state");
             return;
         }
-
-        previousState = currentState;
         currentState = GameState.Paused;
         Time.timeScale = 0f;
         GameEvents.OnGameStateChanged(GameState.Paused);
@@ -96,7 +91,6 @@ public class GameStateManager : MonoBehaviour
     /// Sets the game to game over state (timeScale = 0)
     public static void SetGameOver()
     {
-        previousState = currentState;
         currentState = GameState.GameOver;
         Time.timeScale = 0f;
         GameEvents.OnGameStateChanged(GameState.GameOver);
@@ -136,7 +130,6 @@ public class GameStateManager : MonoBehaviour
     public static void ResetState()
     {
         currentState = GameState.Playing;
-        previousState = GameState.Playing;
         Time.timeScale = 1f;
         GameEvents.OnGameStateChanged(GameState.Playing);
         Debug.Log("GameState: Reset to Playing (timeScale = 1)");

@@ -21,7 +21,6 @@ public class ScoreManager : MonoBehaviour
     private void HandleScoreGain(int amount)
     {
         _score += amount;
-        // Broadcast updated total score for UI
         GameEvents.OnScoreUpdated(_score);
     }
 

@@ -8,23 +8,22 @@ public class GameOverUI : MonoBehaviour
     [SerializeField] private TMP_Text gameOverTitle;
     [SerializeField] private TMP_Text youStarvedText;
     [SerializeField] private TMP_Text youGotCaughtText;
+    [SerializeField] private GameObject gameOverHighScore;
 
-    [Header("Buttons & Details")]
+    [Header("Buttons")]
     [SerializeField] private GameObject restartButton;
     [SerializeField] private GameObject titleButton;
-    [SerializeField] private GameObject gameOverHighScore;
+    
 
     private void Awake()
     {
         GameEvents.onGameOverWithCause += HandleGameOverWithCause;
-        GameEvents.onGameOver += HandleGameOverGeneric;
         GameEvents.onHungerDepleted += HandleHungerDepleted;
     }
 
     private void OnDestroy()
     {
         GameEvents.onGameOverWithCause -= HandleGameOverWithCause;
-        GameEvents.onGameOver -= HandleGameOverGeneric;
         GameEvents.onHungerDepleted -= HandleHungerDepleted;
     }
 
@@ -33,11 +32,6 @@ public class GameOverUI : MonoBehaviour
         // When hunger depletes, trigger high score check and game over
         GameEvents.OnCheckHighScore();
         GameEvents.OnGameOver(GameOverCause.Starved);
-    }
-
-    private void HandleGameOverGeneric()
-    {
-        ShowGameOver(GameEvents.lastGameOverCause);
     }
 
     private void HandleGameOverWithCause(GameOverCause cause)

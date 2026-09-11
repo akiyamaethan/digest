@@ -5,6 +5,7 @@ using UnityEngine;
 public class HungerManager : MonoBehaviour
 {
     private float hungerLevel;
+    private float maxHunger = 100f;
     private float hungerDrain = 0.3f;
     private float hungerDrainInterval = .05f;
     private float hungerDrainTimer = 0;
@@ -39,7 +40,7 @@ public class HungerManager : MonoBehaviour
     {
         if (amount > 0)
         {
-            if (hungerLevel <= 100f)
+            if (hungerLevel <= maxHunger)
             {
                 hungerLevel += amount;
                 hasFiredDepleted = false; // Reset flag when hunger restored
@@ -52,7 +53,7 @@ public class HungerManager : MonoBehaviour
         }
 
         // Clamp hunger level
-        hungerLevel = Mathf.Clamp(hungerLevel, 0f, 100f);
+        hungerLevel = Mathf.Clamp(hungerLevel, 0f, maxHunger);
 
         // Notify UI and listeners via event bus
         GameEvents.OnHungerUpdated(hungerLevel);
@@ -67,7 +68,7 @@ public class HungerManager : MonoBehaviour
 
     private void SetHunger(float amount)
     {
-        hungerLevel = Mathf.Clamp(amount, 0f, 100f);
+        hungerLevel = Mathf.Clamp(amount, 0f, maxHunger);
         hasFiredDepleted = false;
         GameEvents.OnHungerUpdated(hungerLevel);
     }

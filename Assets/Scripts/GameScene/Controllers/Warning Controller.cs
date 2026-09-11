@@ -35,11 +35,9 @@ public class WarningController : MonoBehaviour
         if (parentHook != null)
         {
             if (mainCam == null) mainCam = Camera.main;
-            if (mainCam != null)
-            {
-                Vector3 screenPos = mainCam.WorldToScreenPoint(parentHook.position);
-                transform.position = new Vector3(screenPos.x, transform.position.y, transform.position.z);
-            }
+            Vector3 screenPos = mainCam.WorldToScreenPoint(parentHook.position);
+            transform.position = new Vector3(screenPos.x, transform.position.y, transform.position.z);
+            
         }
     }
 

@@ -23,6 +23,4 @@ public class HungerBar : MonoBehaviour
         if (slider != null)
             slider.value = arg;
     }
-
-    public void setHunger(float arg) => SetHunger(arg);
 }
