@@ -4,14 +4,8 @@ using UnityEngine;
 // of the player's mouse cursor for a rich menu / screen parallax effect.
 public class MouseParallax : MonoBehaviour
 {
-    [Header("Parallax Settings")]
-    [Tooltip("Maximum pixel or world unit offset from the initial origin")]
     [SerializeField] private Vector2 maxOffset = new Vector2(30f, 20f);
-
-    [Tooltip("Smoothing speed for background movement")]
     [SerializeField] private float smoothSpeed = 4f;
-
-    [Tooltip("Optional subtle idle floating/sway when mouse is still")]
     [SerializeField] private bool enableIdleSway = true;
     [SerializeField] private Vector2 idleSwayAmount = new Vector2(5f, 5f);
     [SerializeField] private float idleSwaySpeed = 1f;

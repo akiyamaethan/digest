@@ -4,19 +4,9 @@ using UnityEngine;
 
 public class BackgroundParallax : MonoBehaviour
 {
-    [Header("Target Reference")]
-    [Tooltip("Target to track for parallax. If null, will automatically find PointPlayerMovement in the scene.")]
     [SerializeField] private Transform playerTransform;
-
-    [Header("Parallax Settings")]
-    [Tooltip("How strongly the background shifts opposite to player position (e.g. 0.05 to 0.15)")]
-    [Range(0.01f, 0.5f)]
     [SerializeField] private float parallaxFactor = 0.08f;
-
-    [Tooltip("Maximum distance in world units the background is allowed to pan from its origin")]
     [SerializeField] private float maxOffset = 1.0f;
-
-    [Tooltip("Smoothing speed for background movement")]
     [SerializeField] private float smoothSpeed = 3.0f;
 
     private Vector3 initialPosition;
