@@ -1,11 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// Unified scene management and navigation controller.
-/// Handles scene transitions, level reloads, time scale resetting, and optional escape-to-title shortcuts.
-/// Decoupled and event-driven via GameEvents.
-/// </summary>
+// Unified scene management and navigation controller.
+// Handles scene transitions, level reloads, time scale resetting, and optional escape-to-title shortcuts.
+// Decoupled and event-driven via GameEvents.
 public class SceneSwitch : MonoBehaviour
 {
     [Header("Shortcut Settings")]
@@ -24,18 +22,14 @@ public class SceneSwitch : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Starts/transitions to the main gameplay scene.
-    /// </summary>
+    // Starts/transitions to the main gameplay scene.
     public void SwitchToGame()
     {
         ResetStateAndTimescale();
         SceneManager.LoadSceneAsync(GAME_SCENE, LoadSceneMode.Single);
     }
 
-    /// <summary>
-    /// Transitions back to the Title Screen.
-    /// </summary>
+    // Transitions back to the Title Screen.
     public void SwitchToTitle()
     {
         ResetStateAndTimescale();
@@ -43,17 +37,13 @@ public class SceneSwitch : MonoBehaviour
         SceneManager.LoadSceneAsync(TITLE_SCENE, LoadSceneMode.Single);
     }
 
-    /// <summary>
-    /// Transitions to the Lore / Instructions screen.
-    /// </summary>
+    // Transitions to the Lore / Instructions screen.
     public void SwitchToLore()
     {
         SceneManager.LoadSceneAsync(LORE_SCENE, LoadSceneMode.Single);
     }
 
-    /// <summary>
-    /// Reloads the currently active scene (for game over / restart button).
-    /// </summary>
+    // Reloads the currently active scene (for game over / restart button).
     public void ReloadScene()
     {
         ResetStateAndTimescale();

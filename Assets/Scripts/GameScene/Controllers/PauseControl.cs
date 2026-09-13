@@ -1,6 +1,6 @@
 using UnityEngine;
 
-/// Handles pause menu toggling via Escape key and synchronizes UI with GameStateManager.
+// Handles pause menu toggling via Escape key and synchronizes UI with GameStateManager.
 public class PauseControl : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenu;

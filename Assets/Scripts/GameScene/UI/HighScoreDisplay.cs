@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-/// Displays the high score on a TMP_Text component.
+// Displays the high score on a TMP_Text component.
 [RequireComponent(typeof(TMP_Text))]
 public class HighScoreDisplay : MonoBehaviour
 {

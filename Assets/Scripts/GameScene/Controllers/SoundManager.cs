@@ -9,7 +9,7 @@ public enum SoundName
     SPLASH,
     SPLASH2
 }
-/// Handles audio playback for the game.
+// Handles audio playback for the game.
 public class SoundManager : MonoBehaviour
 {
     private AudioSource audioSource;

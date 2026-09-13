@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-/// Controls individual hook behavior - swinging, spawning animation, and player collision.
+// Controls individual hook behavior - swinging, spawning animation, and player collision.
 public class HookSwing : MonoBehaviour
 {
     [SerializeField] private GameObject cautionUI;

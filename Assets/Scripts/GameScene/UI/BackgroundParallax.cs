@@ -1,6 +1,6 @@
 using UnityEngine;
 
-/// Smoothly pans the background in the opposite direction of the player's movement/position
+// Smoothly pans the background in the opposite direction of the player's movement/position
 
 public class BackgroundParallax : MonoBehaviour
 {

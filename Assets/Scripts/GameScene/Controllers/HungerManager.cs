@@ -1,7 +1,7 @@
 using UnityEngine;
 
-/// Manages player hunger level with passive drain over time.
-/// Listens to hunger events and triggers GameOver (Starved) when hunger is depleted.
+// Manages player hunger level with passive drain over time.
+// Listens to hunger events and triggers GameOver (Starved) when hunger is depleted.
 public class HungerManager : MonoBehaviour
 {
     private float hungerLevel;

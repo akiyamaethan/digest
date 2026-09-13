@@ -1,7 +1,6 @@
 using System;
-using UnityEngine;
 
-/// Central event bus for decoupled cross-system communication.
+// Central event bus for decoupled cross-system communication.
 public static class GameEvents
 {
     // ============ HUNGER EVENTS ============
@@ -15,6 +14,7 @@ public static class GameEvents
     public static event Action<float> onHungerUpdated;
     public static void OnHungerUpdated(float currentHunger) => onHungerUpdated?.Invoke(currentHunger);
 
+
     // ============ SCORE EVENTS ============
     public static event Action<int> onScoreGain;
     public static void OnScoreGain(int amount) => onScoreGain?.Invoke(amount);
@@ -23,9 +23,11 @@ public static class GameEvents
     public static event Action<int> onScoreUpdated;
     public static void OnScoreUpdated(int totalScore) => onScoreUpdated?.Invoke(totalScore);
 
+
     // ============ HP EVENTS ============
     public static event Action<int, int> onHPChanged;
     public static void OnHPChanged(int newHP, int delta = 0) => onHPChanged?.Invoke(newHP, delta);
+
 
     // ============ ROUND/HOOK EVENTS ============
     public static event Action<int> onRoundChange;
@@ -34,6 +36,7 @@ public static class GameEvents
     // Request to spawn the next hook
     public static event Action onSpawnNextHookRequested;
     public static void OnSpawnNextHookRequested() => onSpawnNextHookRequested?.Invoke();
+
 
     // ============ GAME STATE EVENTS ============
 
@@ -59,12 +62,14 @@ public static class GameEvents
     public static event Action onResetStateRequested;
     public static void OnResetStateRequested() => onResetStateRequested?.Invoke();
 
+
     // ============ SOUND EVENTS ============
     public static event Action<SoundName, float> onPlaySound;
     public static void OnPlaySound(SoundName sound, float volume = 1f) => onPlaySound?.Invoke(sound, volume);
 
+
     // ============ CLEANUP ============
-    /// Clears all event subscriptions. Call this on scene unload to prevent memory leaks.
+    // Clears all event subscriptions. Call this on scene unload to prevent memory leaks.
     public static void ClearAllEvents()
     {
         onHungerGain = null;

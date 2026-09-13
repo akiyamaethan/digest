@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using System.Collections;
 
-/// UI component that displays player HP with blink effects.
+// UI component that displays player HP with blink effects.
 public class HPBehavior : MonoBehaviour
 {
     private TMP_Text hpValue;

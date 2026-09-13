@@ -2,26 +2,26 @@ using UnityEngine;
 using System;
 
 
-/// Manages high score persistence using PlayerPrefs.
-/// Data persists via PlayerPrefs. Uses static methods for simple access.
+// Manages high score persistence using PlayerPrefs.
+// Data persists via PlayerPrefs. Uses static methods for simple access.
 public static class HighScoreManager
 {
     private const string HIGH_SCORE_KEY = "highScore";
     private static int _highScore;
     private static bool _hasLoaded = false;
 
-    /// Event fired when high score is updated. Passes the new high score value.
+    // Event fired when high score is updated. Passes the new high score value.
     public static event Action<int> onHighScoreUpdated;
 
-    /// Gets the current high score.
+    // Gets the current high score.
     public static int GetHighScore()
     {
         EnsureLoaded();
         return _highScore;
     }
 
-    /// Attempts to update the high score. Only updates if newScore is higher.
-    /// Returns true if a new high score was set.
+    // Attempts to update the high score. Only updates if newScore is higher.
+    // Returns true if a new high score was set.
     public static bool TrySetHighScore(int newScore)
     {
         EnsureLoaded();

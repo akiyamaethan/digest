@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-/// UI component that displays the current score.
+// UI component that displays the current score.
 public class ScoreBehavior : MonoBehaviour
 {
     private TMP_Text scoreValue;

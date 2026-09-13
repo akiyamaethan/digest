@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-/// Controls the Game Over screen presentation and displays the appropriate cause of death (starvation vs caught).
+// Controls the Game Over screen presentation and displays the appropriate cause of death (starvation vs caught).
 public class GameOverUI : MonoBehaviour
 {
     [Header("Game Over Displays")]

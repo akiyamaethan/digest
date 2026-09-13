@@ -7,8 +7,8 @@ public enum GameState
     GameOver
 }
 
-/// Manages game state (Playing/Paused/GameOver) and time scale.
-/// Listens to request events and broadcasts state changes.
+// Manages game state (Playing/Paused/GameOver) and time scale.
+// Listens to request events and broadcasts state changes.
 
 public class GameStateManager : MonoBehaviour
 {
@@ -64,7 +64,7 @@ public class GameStateManager : MonoBehaviour
         SetGameOver();
     }
 
-    /// Sets the game to playing state (timeScale = 1)
+    // Sets the game to playing state (timeScale = 1)
     public static void SetPlaying()
     {
         currentState = GameState.Playing;
@@ -73,8 +73,8 @@ public class GameStateManager : MonoBehaviour
         Debug.Log("GameState: Playing (timeScale = 1)");
     }
 
-    /// Sets the game to paused state (timeScale = 0)
-    /// Will not pause if game is already over
+    // Sets the game to paused state (timeScale = 0)
+    // Will not pause if game is already over
     public static void SetPaused()
     {
         if (currentState == GameState.GameOver)
@@ -88,7 +88,7 @@ public class GameStateManager : MonoBehaviour
         Debug.Log("GameState: Paused (timeScale = 0)");
     }
 
-    /// Sets the game to game over state (timeScale = 0)
+    // Sets the game to game over state (timeScale = 0)
     public static void SetGameOver()
     {
         currentState = GameState.GameOver;
@@ -97,8 +97,8 @@ public class GameStateManager : MonoBehaviour
         Debug.Log("GameState: GameOver (timeScale = 0)");
     }
 
-    /// Toggles between paused and playing states
-    /// Will not toggle if game is over
+    // Toggles between paused and playing states
+    // Will not toggle if game is over
     public static void TogglePause()
     {
         if (currentState == GameState.GameOver)
@@ -117,7 +117,7 @@ public class GameStateManager : MonoBehaviour
         }
     }
 
-    /// Resumes from pause (returns to playing state)
+    // Resumes from pause (returns to playing state)
     public static void Resume()
     {
         if (currentState == GameState.Paused)
@@ -126,7 +126,7 @@ public class GameStateManager : MonoBehaviour
         }
     }
 
-    /// Resets the game state to playing (used when restarting)
+    // Resets the game state to playing (used when restarting)
     public static void ResetState()
     {
         currentState = GameState.Playing;
@@ -135,13 +135,13 @@ public class GameStateManager : MonoBehaviour
         Debug.Log("GameState: Reset to Playing (timeScale = 1)");
     }
 
-    /// Gets the current game state
+    // Gets the current game state
     public static GameState GetCurrentState()
     {
         return currentState;
     }
 
-    /// Force sets time scale (for dev)
+    // Force sets time scale (for dev)
     public static void ForceTimeScale(float scale)
     {
         Time.timeScale = scale;

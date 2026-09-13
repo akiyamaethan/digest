@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-/// Ensures consistent UI scaling across all display types and resolutions.
-/// Attach this script to any Canvas GameObject - it will configure the CanvasScaler automatically.
+// Ensures consistent UI scaling across all display types and resolutions.
+// Attach this script to any Canvas GameObject - it will configure the CanvasScaler automatically.
 [RequireComponent(typeof(Canvas))]
 [RequireComponent(typeof(CanvasScaler))]
 public class UIScaler : MonoBehaviour
@@ -49,26 +49,20 @@ public class UIScaler : MonoBehaviour
         canvasScaler.referencePixelsPerUnit = referencePixelsPerUnit;
     }
 
-    /// <summary>
-    /// Call this if you need to reconfigure the scaler at runtime
-    /// </summary>
+    // Call this if you need to reconfigure the scaler at runtime
     public void RefreshScaling()
     {
         ConfigureCanvasScaler();
     }
 
-    /// <summary>
-    /// Set reference resolution at runtime (useful for different UI layouts)
-    /// </summary>
+    // Set reference resolution at runtime (useful for different UI layouts)
     public void SetReferenceResolution(Vector2 resolution)
     {
         referenceResolution = resolution;
         ConfigureCanvasScaler();
     }
 
-    /// <summary>
-    /// Adjust the width/height match ratio at runtime
-    /// </summary>
+    // Adjust the width/height match ratio at runtime
     public void SetMatchWidthOrHeight(float value)
     {
         matchWidthOrHeight = Mathf.Clamp01(value);

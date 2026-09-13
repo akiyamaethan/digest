@@ -1,6 +1,6 @@
 using UnityEngine;
 
-/// Manages power-up spawning based on round progression.
+// Manages power-up spawning based on round progression.
 public class PowerUpManager : MonoBehaviour
 {
     [SerializeField] private GameObject heartFishPrefab;

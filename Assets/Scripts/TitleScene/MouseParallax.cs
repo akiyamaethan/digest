@@ -1,7 +1,7 @@
 using UnityEngine;
 
-/// Smoothly shifts a UI RectTransform or world Transform in the opposite direction
-/// of the player's mouse cursor for a rich menu / screen parallax effect.
+// Smoothly shifts a UI RectTransform or world Transform in the opposite direction
+// of the player's mouse cursor for a rich menu / screen parallax effect.
 public class MouseParallax : MonoBehaviour
 {
     [Header("Parallax Settings")]
