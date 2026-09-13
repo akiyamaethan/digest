@@ -167,7 +167,7 @@ public class HookSwing : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (baitEaten || caughtFish)
+        if (caughtFish)
             return;
 
         PointPlayerMovement player = collision.GetComponent<PointPlayerMovement>();
