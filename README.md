@@ -29,3 +29,8 @@
 1. Clone or download the repository.
 2. Open the project in **Unity 6000.2.8f1** (or compatible Unity 6 release).
 3. Open `Assets/Scenes/TitleScreen.unity` or `Assets/Scenes/GameScene.unity` and hit **Play**.
+
+---
+
+## Primary Mechanic Diagram
+[Figma](https://www.figma.com/design/AivfI1jKyMc3IhikngS5aF/Untitled?node-id=0-1&t=xVxGBr4RSNbDKT40-1)
