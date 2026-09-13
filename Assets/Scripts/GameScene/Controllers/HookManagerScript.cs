@@ -12,10 +12,9 @@ public class HookManagerScript : MonoBehaviour
 
     private const int EASY_ROUND_MAX = 15;
     private const int MEDIUM_ROUND_MAX = 40;
-    private const int HARD_ROUND_MAX = 75;
-    private const int EASY_ROUND_COIN_TOSS_MAX = 4;
-    private const int MEDIUM_ROUND_COIN_TOSS_MAX = 3;
-    private const int HARD_ROUND_COIN_TOSS_MAX = 2;
+    private const int EASY_ROUND_COIN_TOSS_MAX = 5;
+    private const int MEDIUM_ROUND_COIN_TOSS_MAX = 4;
+    private const int HARD_ROUND_COIN_TOSS_MAX = 3;
     private const float SPAWN_DELAY = 2f;
 
     private static readonly WaitForSeconds SpawnWait = new WaitForSeconds(SPAWN_DELAY);
