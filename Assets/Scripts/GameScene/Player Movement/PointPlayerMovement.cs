@@ -1,6 +1,8 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
+
+// Controls Player movement via mouse pointer as well as player HP
 public class PointPlayerMovement : MonoBehaviour
 {
     private const float DISABLED_VELOCITY = 1.5f;
@@ -10,8 +12,6 @@ public class PointPlayerMovement : MonoBehaviour
     [SerializeField] public float boundsPadding = 0.5f;
     public bool inputDisabled = false;
     public int HP = 3;
-    private Vector2 direction = Vector2.zero;
-    private float distance = 0f;
 
     private Rigidbody2D rb;
     private SpriteRenderer sr;
@@ -64,45 +64,38 @@ public class PointPlayerMovement : MonoBehaviour
     void Update()
     {
         if (mainCam == null) mainCam = Camera.main;
-        if (mainCam != null)
-        {
-            Vector2 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
-            direction = (mousePos - rb.position).normalized;
-            distance = Vector2.Distance(rb.position, mousePos);
-        }
-    }
+        if (mainCam == null) return;
 
-    void FixedUpdate()
-    {
         if (inputDisabled)
         {
             rb.linearVelocity = Vector2.up * DISABLED_VELOCITY;
             return;
         }
 
+        Vector2 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 toMouse = mousePos - rb.position;
+        float distance = toMouse.magnitude;
+        Vector2 direction = toMouse.normalized;
         sr.flipY = direction.x < 0;
 
-        rb.linearVelocity = direction * speed;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        rb.MoveRotation(Mathf.LerpAngle(rb.rotation, angle, rotationSpeed * Time.fixedDeltaTime));
-
-        //Deadzone for mouse, fish wont move if mouse is on fish
+        // Movement/deadzone
         if (distance < inputDeadZone)
         {
             rb.linearVelocity = Vector2.zero;
-            return;
         }
-    }
+        else
+        {
+            rb.linearVelocity = direction * speed;
+        }
 
-    void LateUpdate()
-    {
-        // Skip clamping when input is disabled (game over) so fish can be reeled off screen
-        if (inputDisabled) return;
+        // Smooth rotation
+        float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        rb.rotation = Mathf.LerpAngle(rb.rotation, targetAngle, rotationSpeed * Time.deltaTime);
 
-        // Clamp position to stay within screen bounds
-        Vector3 clampedPos = transform.position;
+        // Keep fish on screen
+        Vector2 clampedPos = rb.position;
         clampedPos.x = Mathf.Clamp(clampedPos.x, minBounds.x, maxBounds.x);
         clampedPos.y = Mathf.Clamp(clampedPos.y, minBounds.y, maxBounds.y);
-        transform.position = clampedPos;
+        rb.position = clampedPos;
     }
 }
