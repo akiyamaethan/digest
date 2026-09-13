@@ -55,19 +55,10 @@ public class AutoSwim : MonoBehaviour
         }
     }
 
-    public void Initialize(string dir, float height)
-    {
-        SwimDirection swimDir = (dir == "left") ? SwimDirection.Left : SwimDirection.Right;
-        Initialize(swimDir, height);
-    }
-
-    // Alias for backward compatibility
-    public void initalize(string dir, float height) => Initialize(dir, height);
-
-    void FixedUpdate()
+    void Update()
     {
         Vector3 currentPos = transform.position;
-        currentPos.x += direction * speed * Time.fixedDeltaTime;
+        currentPos.x += direction * speed * Time.deltaTime;
         transform.position = currentPos;
 
         if ((direction == -1 && currentPos.x < destroyBoundaryX) ||
