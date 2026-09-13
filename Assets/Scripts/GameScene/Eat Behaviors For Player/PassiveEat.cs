@@ -25,8 +25,6 @@ public class PassiveEat : MonoBehaviour
         if (food != null && !foodsInRange.Contains(food))
         {
             foodsInRange.Add(food);
-            if (animator != null)
-                animator.SetBool(IsEatingHash, true);
         }
     }
 
@@ -36,11 +34,6 @@ public class PassiveEat : MonoBehaviour
         if (food != null)
         {
             foodsInRange.Remove(food);
-        }
-
-        if (foodsInRange.Count == 0 && animator != null)
-        {
-            animator.SetBool(IsEatingHash, false);
         }
     }
 
@@ -56,15 +49,8 @@ public class PassiveEat : MonoBehaviour
 
         if (playerCollider == null) return;
 
-        for (int i = foodsInRange.Count - 1; i >= 0; i--)
+        foreach (Ate food in foodsInRange)
         {
-            Ate food = foodsInRange[i];
-            if (food == null || !food.gameObject.activeInHierarchy)
-            {
-                foodsInRange.RemoveAt(i);
-                continue;
-            }
-
             food.Cut(playerCollider);
         }
 

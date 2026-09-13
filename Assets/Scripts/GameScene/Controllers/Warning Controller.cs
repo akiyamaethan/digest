@@ -27,9 +27,6 @@ public class WarningController : MonoBehaviour
         parentHook = parent;
     }
 
-    // Alias for backward compatibility
-    public void initialize(Transform parent) => Initialize(parent);
-
     private void Update()
     {
         if (parentHook != null)
@@ -37,7 +34,6 @@ public class WarningController : MonoBehaviour
             if (mainCam == null) mainCam = Camera.main;
             Vector3 screenPos = mainCam.WorldToScreenPoint(parentHook.position);
             transform.position = new Vector3(screenPos.x, transform.position.y, transform.position.z);
-            
         }
     }
 
