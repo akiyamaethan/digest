@@ -13,14 +13,19 @@ public class HungerManager : MonoBehaviour
 
     void Awake()
     {
+        hungerLevel = maxHunger;
         GameEvents.onHungerGain += AlterHunger;
-        GameEvents.onHungerSet += SetHunger;
+    }
+
+    void Start()
+    {
+        // Broadcast initial hunger to UI
+        GameEvents.OnHungerUpdated(hungerLevel);
     }
 
     void OnDestroy()
     {
         GameEvents.onHungerGain -= AlterHunger;
-        GameEvents.onHungerSet -= SetHunger;
     }
 
     void FixedUpdate()
@@ -64,12 +69,5 @@ public class HungerManager : MonoBehaviour
             hasFiredDepleted = true;
             GameEvents.OnGameOver(GameOverCause.Starved);
         }
-    }
-
-    private void SetHunger(float amount)
-    {
-        hungerLevel = Mathf.Clamp(amount, 0f, maxHunger);
-        hasFiredDepleted = false;
-        GameEvents.OnHungerUpdated(hungerLevel);
     }
 }

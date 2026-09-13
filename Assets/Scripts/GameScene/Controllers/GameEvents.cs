@@ -7,9 +7,6 @@ public static class GameEvents
     public static event Action<float> onHungerGain;
     public static void OnHungerGain(float amount) => onHungerGain?.Invoke(amount);
 
-    public static event Action<float> onHungerSet;
-    public static void OnHungerSet(float amount) => onHungerSet?.Invoke(amount);
-
     // Fired when total hunger level is updated - for UI display
     public static event Action<float> onHungerUpdated;
     public static void OnHungerUpdated(float currentHunger) => onHungerUpdated?.Invoke(currentHunger);
@@ -33,7 +30,6 @@ public static class GameEvents
     public static event Action<int> onRoundChange;
     public static void OnRoundChange(int newRound) => onRoundChange?.Invoke(newRound);
 
-    // Request to spawn the next hook
     public static event Action onSpawnNextHookRequested;
     public static void OnSpawnNextHookRequested() => onSpawnNextHookRequested?.Invoke();
 
@@ -66,28 +62,6 @@ public static class GameEvents
     // ============ SOUND EVENTS ============
     public static event Action<SoundName, float> onPlaySound;
     public static void OnPlaySound(SoundName sound, float volume = 1f) => onPlaySound?.Invoke(sound, volume);
-
-
-    // ============ CLEANUP ============
-    // Clears all event subscriptions. Call this on scene unload to prevent memory leaks.
-    public static void ClearAllEvents()
-    {
-        onHungerGain = null;
-        onHungerSet = null;
-        onHungerUpdated = null;
-        onScoreGain = null;
-        onScoreUpdated = null;
-        onHPChanged = null;
-        onRoundChange = null;
-        onSpawnNextHookRequested = null;
-        onGameStateChanged = null;
-        onGameOver = null;
-        onGameOverWithCause = null;
-        onPauseRequested = null;
-        onResumeRequested = null;
-        onResetStateRequested = null;
-        onPlaySound = null;
-    }
 }
 
 public enum GameOverCause

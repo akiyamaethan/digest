@@ -33,7 +33,6 @@ public class HookManagerScript : MonoBehaviour
     void Start()
     {
         SpawnNewHook();
-        GameEvents.OnHungerSet(100f);  // Initialize hunger via event
     }
 
     private void HandleSpawnNextHookRequested()
