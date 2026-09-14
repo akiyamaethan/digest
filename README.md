@@ -33,4 +33,4 @@
 ---
 
 ## Primary Mechanic Diagram
-[Figma](https://www.figma.com/design/AivfI1jKyMc3IhikngS5aF/Untitled?node-id=0-1&t=xVxGBr4RSNbDKT40-1)
+[Google Slide](https://docs.google.com/presentation/d/1mOtv1KcTik-yaAXVXSPd2HL5FItBt-9MUeyWv77rWN4/edit?usp=sharing)
