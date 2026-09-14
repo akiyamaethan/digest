@@ -16,6 +16,7 @@ public class HookSwing : MonoBehaviour
     private float immunityTimer = 0f;
     private float immunityDuration = 1.5f;
     private SpriteRenderer playerSprite;
+    private Collider2D hookCollider;
 
     private static readonly WaitForSeconds BlinkWait = new WaitForSeconds(0.1f);
     private static Canvas cachedCanvas;
@@ -44,6 +45,8 @@ public class HookSwing : MonoBehaviour
 
     void Awake()
     {
+        hookCollider = GetComponent<Collider2D>();
+        if (hookCollider != null) hookCollider.enabled = false;
         randomOffset = Random.Range(0f, 100f);
         ropeLength = initialRopeLength;
 
@@ -110,6 +113,7 @@ public class HookSwing : MonoBehaviour
                 if (!spawnSoundPlayed)
                 {
                     spawnSoundPlayed = true;
+                    if (hookCollider != null) hookCollider.enabled = true;
                     int soundToPlay = Random.Range(0, 2);
                     if (soundToPlay == 1)
                         GameEvents.OnPlaySound(SoundName.SPLASH);
