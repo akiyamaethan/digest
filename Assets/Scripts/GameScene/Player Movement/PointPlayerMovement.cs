@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody2D))]
 
@@ -18,6 +19,7 @@ public class PointPlayerMovement : MonoBehaviour
     private Camera mainCam;
     private Vector2 minBounds;
     private Vector2 maxBounds;
+    private Coroutine gameOverCoroutine;
 
     void Awake()
     {
@@ -48,14 +50,30 @@ public class PointPlayerMovement : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
+        if (HP <= 0) return;
+
         HP -= amount;
         if (HP < 0) HP = 0;
         GameEvents.OnHPChanged(HP, -amount);
         Debug.Log("[Player] Took damage! HP now: " + HP);
+
+        if (HP <= 0 && gameOverCoroutine == null)
+        {
+            inputDisabled = true;
+            gameOverCoroutine = StartCoroutine(CaughtGameOverSequence());
+        }
+    }
+
+    private IEnumerator CaughtGameOverSequence()
+    {
+        yield return new WaitForSeconds(1.5f);
+        GameEvents.OnGameOver(GameOverCause.Caught);
     }
 
     public void Heal(int amount)
     {
+        if (HP <= 0) return;
+
         HP += amount;
         GameEvents.OnHPChanged(HP, amount);
         Debug.Log("[Player] Healed! HP now: " + HP);

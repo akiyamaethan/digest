@@ -30,6 +30,9 @@ public class HungerManager : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (GameStateManager.IsGameOver || GameStateManager.IsPaused)
+            return;
+
         if (hungerDrainTimer >= hungerDrainInterval)
         {
             hungerDrainTimer = 0f;
@@ -43,6 +46,9 @@ public class HungerManager : MonoBehaviour
 
     private void AlterHunger(float amount)
     {
+        if (GameStateManager.IsGameOver)
+            return;
+
         if (amount > 0)
         {
             if (hungerLevel <= maxHunger)
@@ -64,8 +70,12 @@ public class HungerManager : MonoBehaviour
         GameEvents.OnHungerUpdated(hungerLevel);
 
         // Trigger game over when hunger hits 0 (only once per depletion)
-        if (hungerLevel <= 0f && !hasFiredDepleted)
+        if (hungerLevel <= 0f && !hasFiredDepleted && !GameStateManager.IsGameOver)
         {
+            PointPlayerMovement player = FindFirstObjectByType<PointPlayerMovement>();
+            if (player != null && player.HP <= 0)
+                return;
+
             hasFiredDepleted = true;
             GameEvents.OnGameOver(GameOverCause.Starved);
         }

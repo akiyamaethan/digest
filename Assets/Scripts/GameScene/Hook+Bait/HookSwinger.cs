@@ -11,7 +11,6 @@ public class HookSwing : MonoBehaviour
     private float caughtHookOffsetY = 0f;
     public bool baitEaten = false;
 
-    private float caughtFishTimer = 4f;
     private float baitReelTimer = 4f;
     private float immunityTimer = 0f;
     private float immunityDuration = 1.5f;
@@ -127,6 +126,7 @@ public class HookSwing : MonoBehaviour
             {
                 justSpawned = false;
                 ropeLength = 20f;
+                if (hookCollider != null) hookCollider.enabled = true;
             }
         }
 
@@ -145,15 +145,8 @@ public class HookSwing : MonoBehaviour
         {
             caughtHookOffsetY += .03f;
             pos.y += caughtHookOffsetY;
-            if (caughtFish)
-            {
-                caughtFishTimer -= Time.fixedDeltaTime;
-                if (caughtFishTimer <= 0f)
-                {
-                    GameEvents.OnGameOver(GameOverCause.Caught);
-                }
-            }
-            if (baitEaten)
+
+            if (baitEaten && !caughtFish)
             {
                 baitReelTimer -= Time.fixedDeltaTime;
                 if (baitReelTimer <= 0f)
@@ -175,7 +168,7 @@ public class HookSwing : MonoBehaviour
             return;
 
         PointPlayerMovement player = collision.GetComponent<PointPlayerMovement>();
-        if (player == null)
+        if (player == null || player.HP <= 0)
             return;
 
         playerSprite = player.GetComponent<SpriteRenderer>();
@@ -185,7 +178,6 @@ public class HookSwing : MonoBehaviour
             player.TakeDamage(1);
             if (player.HP <= 0)
             {
-                player.inputDisabled = true;
                 caughtFish = true;
                 Debug.Log("caught");
             }
