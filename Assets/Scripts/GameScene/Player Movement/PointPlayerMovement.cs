@@ -81,6 +81,8 @@ public class PointPlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0f) return;
+
         if (mainCam == null) mainCam = Camera.main;
         if (mainCam == null) return;
 
